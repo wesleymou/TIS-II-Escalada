@@ -3,6 +3,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class Evento {
 	private String nome;
 	private LocalDateTime dataInicio;
@@ -16,11 +18,28 @@ public class Evento {
 	private int convenio[];
 	//private Inscricoes = new Inscricao[];
 	private String status;
+	
 		public Evento(String nome, String local, LocalDateTime inicio, LocalDateTime termino){
 			this.setNome(nome);
 			this.setLocal(local);
 			this.setDataInicio(inicio);
 			this.setDataTermino(termino);
+		}
+		
+		public JSONObject toJson(){
+			JSONObject eventojson = new JSONObject();
+			eventojson.put("nome", this.nome);
+			eventojson.put("dataInicio", this.dataInicio);
+			eventojson.put("dataTermino", this.dataTermino);
+			eventojson.put("local", this.local);
+			eventojson.put("capacidade", this.capacidade);
+			eventojson.put("quorum", this.quorum);
+			eventojson.put("orcamentoPrevio", this.orcamentoPrevio);
+			eventojson.put("valorIngresso", this.valorIngresso);
+			eventojson.put("cronograma", cronograma);
+			eventojson.put("convenio", convenio);
+			eventojson.put("status", this.status);
+			return eventojson;
 		}
 		
 		public String getNome() {
@@ -71,7 +90,6 @@ public class Evento {
 		public void setValorIngresso(double valorIngresso) {
 			this.valorIngresso = valorIngresso;
 		}
-		
 		public int[] getConvenio() {
 			return convenio;
 		}
@@ -84,12 +102,11 @@ public class Evento {
 		public void setStatus(String status) {
 			this.status = status;
 		}
-
 		public Map <Array,Array> getCronograma() {
 			return cronograma;
 		}
-
 		public void setCronograma(Map <Array,Array> cronograma) {
 			this.cronograma = cronograma;
 		}
+		
 }
