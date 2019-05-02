@@ -1,32 +1,54 @@
+import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
 
 class ClienteService {
-	public String add(Request request) {
+	
+	private static final String CPF = "cpf";
+	private static final String NOME = "nome";
+	private static final String NUNFONE1 = "telRes";
+	private static final String NUNFONE2 = "telCel";
+	private static final String ENDERECO = "endereco";
+	private static final String EMAIL = "email";
+//	private static final String EVENTOS = "eventosInscritos";
+	
+	
+	private ListaClientes listaDeClientes;
+	
+	public JSONObject add(Request request) {
 		Query query = request.getQuery();
+
+		int cpf = query.getInteger(CPF);
+		String nome = query.get(NOME);
+		int nunFone1 = query.getInteger(NUNFONE1);
+		int nunFone2 = query.getInteger(NUNFONE2);
+		String endereco = query.get(ENDERECO);
+		String email = query.get(EMAIL);
 		
-		return null;
+		Cliente cliente = new Cliente(cpf, nome, nunFone1);
+		cliente.setNunFone2(nunFone2);
+		cliente.setEndereco(endereco);
+		cliente.setEmail(email);
+		
+		this.listaDeClientes.create(cliente);
+		
+		return cliente.toJson();
 	}
 	
-	public String get(Request request) {
-		Query query = request.getQuery();
-		String id = query.get("");
-		
-		return null;
+	public JSONObject get(Request request) {
+		int cpf = request.getQuery().getInteger(CPF);
+		return this.listaDeClientes.read(cpf).toJson();
 		
 	}
 	
-	public String update(Request request) {
-		Query query = request.getQuery();
-		
-		return null;
-		
+	//TODO terminar metodo
+	public JSONObject update(Request request) {
+		int cpf = request.getQuery().getInteger(CPF);
+		return this.listaDeClientes.read(cpf).toJson();
 	}
 	
-	public String remove (Request request) {
-		Query query = request.getQuery();
-		String id = query.get("");
-		
-		return null;	
+	public JSONObject remove (Request request) {
+		int cpf = request.getQuery().getInteger(CPF);
+		return 	this.listaDeClientes.delete(cpf).toJson();
 	}
 }

@@ -1,9 +1,19 @@
 
 public class CelulaCliente {
-	private Evento item;
-	private CelulaCliente proximo;
-	public CelulaEvento(Evento item){
+	Cliente item;
+	CelulaCliente proximo;
+
+	CelulaCliente(Cliente cliente) {
+		this.item = cliente;
+		this.proximo = null;
 	}
-	
-	
+
+	CelulaCliente(Cliente cliente, CelulaCliente proximo) {
+		this.item = cliente;
+		this.proximo = proximo;
+	}
+
+	CelulaCliente() {
+
+	}
 }
