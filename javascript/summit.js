@@ -27,21 +27,29 @@ function habilitaFormEvento(status, funcao) {
     let btnAcao = document.getElementsByClassName("btnAcao")[0];
     if (status == true) {
         btnAcao.style.display = "";
-        btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
+        btnAcao.setAttribute("onclick", "executaEvento('"+funcao+"')");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.setAttribute("formaction", serverAddress+"/cadastrarEvento");
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+                if(form[i].style.display == "none") {
+                    jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = ""
+                    form[i].style.display = "";
+                }
             }
         }
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
             btnAcao.setAttribute("formaction", serverAddress+"/consultarEvento");
-            for (i = 5; i < form.length; i++) {
+            form[5].value = "";
+            form[5].disabled = false;
+            for (i = 6; i < form.length; i++) {
                 form[i].value = "";
-                form[i].disabled = false;
+                form[i].disabled = true;
+                jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = "none"
+                form[i].style.display = "none";
             }
         }
         else if (funcao == "update") {
@@ -50,6 +58,10 @@ function habilitaFormEvento(status, funcao) {
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+                if(form[i].style.display == "none") {
+                    jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = ""
+                    form[i].style.display = "";
+                }
             }
         }
         else if (funcao == "delete") {
@@ -58,6 +70,10 @@ function habilitaFormEvento(status, funcao) {
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+                if(form[i].style.display == "none") {
+                    jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = ""
+                    form[i].style.display = "";
+                }
             }
         }
     }
@@ -68,21 +84,31 @@ function habilitaFormCliente(status, funcao) {
     let btnAcao = document.getElementsByClassName("btnAcao")[1];
     if (status == true) {
         btnAcao.style.display = "";
-        btnAcao.setAttribute("onclick", "executaCliente('" + funcao + "')");
+        btnAcao.setAttribute("onclick", "executaCliente('"+funcao+"')");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.setAttribute("formaction", serverAddress+"/cadastrarCliente");
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+                if(form[i].style.display == "none") {
+                    jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = ""
+                    form[i].style.display = "";
+                }
             }
         }
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
             btnAcao.setAttribute("formaction", serverAddress+"/consultarCliente");
-            for (i = 5; i < form.length; i++) {
+            for (i = 5; i < 7; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+            }
+            for (i = 7; i < form.length; i++) {
+                form[i].value = "";
+                form[i].disabled = true;
+                jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = "none"
+                form[i].style.display = "none";
             }
         }
         else if (funcao == "update") {
@@ -91,6 +117,10 @@ function habilitaFormCliente(status, funcao) {
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+                if(form[i].style.display == "none") {
+                    jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = ""
+                    form[i].style.display = "";
+                }
             }
         }
         else if (funcao == "delete") {
@@ -99,6 +129,10 @@ function habilitaFormCliente(status, funcao) {
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
+                if(form[i].style.display == "none") {
+                    jQuery("label[for="+form[i].getAttribute("id")+"]")[0].style.display = ""
+                    form[i].style.display = "";
+                }
             }
         }
     }

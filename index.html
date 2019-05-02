@@ -17,52 +17,52 @@
     <div id="evento" style="display:none">
         <form id="formEvento">
             <h2>Evento</h2>
-            <input id="formEventoCreate" type="radio" onchange="habilitaFormEvento(this.checked, 'create')">
+            <input id="formEventoCreate" type="radio" name="funcao" value="create" onchange="habilitaFormEvento(this.checked, 'create')">
             <label for="formEventoCreate">Cadastrar</label>
-            <input id="formEventoRead" type="radio" onchange="habilitaFormEvento(this.checked, 'read')">
+            <input id="formEventoRead" type="radio" name="funcao" value="read" onchange="habilitaFormEvento(this.checked, 'read')">
             <label for="formEventoRead">Consultar</label>
-            <input id="formEventoUpdate" type="radio" onchange="habilitaFormEvento(this.checked, 'update')">
+            <input id="formEventoUpdate" type="radio" name="funcao" value="update" onchange="habilitaFormEvento(this.checked, 'update')">
             <label for="formEventoUpdate">Atualizar</label>
-            <input id="formEventoDelete" type="radio" onchange="habilitaFormEvento(this.checked, 'delete')">
+            <input id="formEventoDelete" type="radio" name="funcao" value="delete" onchange="habilitaFormEvento(this.checked, 'delete')">
             <label for="formEventoDelete">Excluir</label>
             <button class="btnAcao" formmethod="POST" style="display:none"></button>
             <br>
             <label for="formEventoNome">Nome do evento:</label><br>
-            <input id="formEventoNome" type="text" disabled="true"><br>
+            <input id="formEventoNome" name="nome" type="text" disabled="true"><br>
             <label for="formEventoStatus">Status:</label><br>
-            <input id="formEventoStatus" type="text" disabled="true"><br>
+            <input id="formEventoStatus" name="status" type="text" disabled="true"><br>
             <label for="formEventoLocal">Local:</label><br>
-            <input id="formEventoLocal" type="text" disabled="true"><br>
+            <input id="formEventoLocal" name="Local" type="text" disabled="true"><br>
             <label for="formEventoDataInicio">Data de início:</label><br>
-            <input id="formEventoDataInicio" type="datetime-local" disabled="true"><br>
+            <input id="formEventoDataInicio" name="dataInicio" type="datetime-local" disabled="true"><br>
             <label for="formEventoDataFim">Data de término:</label><br>
-            <input id="formEventoDataFim" type="datetime-local" disabled="true"><br>
+            <input id="formEventoDataFim" name="dataFim" type="datetime-local" disabled="true"><br>
             <label for="formEventoCapacidade">Capacidade:</label><br>
-            <input id="formEventoCapacidade" type="number" disabled="true"><br>
+            <input id="formEventoCapacidade" name="capacidade" type="number" disabled="true"><br>
             <label for="formEventoMinimo">Número mínimo de participantes:</label><br>
-            <input id="formEventoMinimo" type="number" disabled="true"><br>
+            <input id="formEventoMinimo" name="minimo" type="number" disabled="true"><br>
             <label for="formEventoOrcamento">Orçamento prévio:</label><br>
-            <input id="formEventoOrcamento" type="number" disabled="true"><br>
+            <input id="formEventoOrcamento" name="orcamento" type="number" disabled="true"><br>
             <label for="formEventoIngresso">Valor do ingresso:</label><br>
-            <input id="formEventoIngresso" type="number" disabled="true"><br>
+            <input id="formEventoIngresso" name="ingresso" type="number" disabled="true"><br>
             <label for="formEventoCronograma">Cronograma:</label><br>
-            <textarea id="formEventoCronograma" cols="100" rows="5" disabled="true"></textarea><br>
+            <textarea id="formEventoCronograma" name="cronograma" cols="100" rows="5" disabled="true"></textarea><br>
             <label for="formEventoConvenios">Convênios:</label><br>
-            <textarea id="formEventoConvenios" cols="100" rows="5" disabled="true"></textarea><br>
+            <textarea id="formEventoConvenios" name="convenios" cols="100" rows="5" disabled="true"></textarea><br>
             <label for="formEventoParticipantes">Participantes:</label><br>
-            <textarea id="formEventoParticipantes" cols="100" rows="5" disabled="true"></textarea><br>
+            <textarea id="formEventoParticipantes" name="participantes" cols="100" rows="5" disabled="true"></textarea><br>
         </form>
     </div>
     <div id="cliente" style="display:none">
         <form id="formCliente">
             <h2>Cliente</h2>
-            <input id="formClienteCreate" type="radio" onchange="habilitaFormCliente(this.checked, 'create')">
+            <input id="formClienteCreate" type="radio" name="funcao" value="create" onchange="habilitaFormCliente(this.checked, 'create')">
             <label for="formClienteCreate">Cadastrar</label>
-            <input id="formClienteRead" type="radio" onchange="habilitaFormCliente(this.checked, 'read')">
+            <input id="formClienteRead" type="radio" name="funcao" value="read" onchange="habilitaFormCliente(this.checked, 'read')">
             <label for="formClienteRead">Consultar</label>
-            <input id="formClienteUpdate" type="radio" onchange="habilitaFormCliente(this.checked, 'update')">
+            <input id="formClienteUpdate" type="radio" name="funcao" value="update" onchange="habilitaFormCliente(this.checked, 'update')">
             <label for="formClienteUpdate">Atualizar</label>
-            <input id="formClienteDelete" type="radio" onchange="habilitaFormCliente(this.checked, 'delete')">
+            <input id="formClienteDelete" type="radio" name="funcao" value="delete" onchange="habilitaFormCliente(this.checked, 'delete')">
             <label for="formClienteDelete">Excluir</label>
             <button class="btnAcao" formmethod="POST" style="display:none"></button>
             <br>
