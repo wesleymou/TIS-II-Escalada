@@ -1,46 +1,54 @@
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
 
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
 
 public final class EventoService {
+	private final static String NOME = "nome";
+//	private final static String DATAINICIO = "dataInicio";
+//	private final static String DATATERMINO = "dataFim";
+	private final static String LOCAL = "local";
+	private final static String CAPACIDADE = "capacidade";
+	private final static String QUORUM = "minimo";
+	private final static String ORCAMENTOPREVIO = "orcamento";
+	private final static String VALORINGRESSO = "ingresso";
+//	private final static String CRONOGRAMA = "cronograma";
+//	private final static String CONVENIO = "convenios";
+	private final static String STATUS = "status";
+	
+	
 	private ListaEvento listaDeEventos;
 
 	public String add(Request request) {
 		Query query = request.getQuery();
 
-		String nome = query.get("nome");
-		//		LocalDateTime dataInicio = query.get(key);
-		//		LocalDateTime dataTermino = query.get(key);
-		String local = query.get("local");
-		int capacidade = query.getInteger("capacidade");
-		int quorum = query.getInteger("quorum");
-		double orcamentoPrevio = query.getFloat("orcamentoPrevio");
-		double valorIngresso = query.getFloat("valorIngresso");
-		//		Map <Array,Array> cronograma = new HashMap<Array,Array>() = query.get(key);
-		//		int convenio[] = query.get(key);
-		//		Inscricoes = new Inscricao[] = query.get(key);
-		String status = query.get("status");
+		String nome = query.get(NOME);
+		//		LocalDateTime dataInicio = query.get(DATAINICIO);
+		//		LocalDateTime dataTermino = query.get(DATATERMINO);
+		String local = query.get(LOCAL);
+		int capacidade = query.getInteger(CAPACIDADE);
+		int quorum = query.getInteger(QUORUM);
+		double orcamentoPrevio = query.getFloat(ORCAMENTOPREVIO);
+		double valorIngresso = query.getFloat(VALORINGRESSO);
+		String status = query.get(STATUS);
 
+		LocalDateTime dataInicio = null, dataTermino=null;//RETIRAR DEPOIS
 		Evento evento = new Evento(nome, local, dataInicio, dataTermino);
 		evento.setCapacidade(capacidade);
 		evento.setQuorum(quorum);
 		evento.setOrcamentoPrevio(orcamentoPrevio);
 		evento.setValorIngresso(valorIngresso);
-		evento.setCronograma(cronograma);
-		evento.setConvenio(convenio);
 		evento.setStatus(status);
 
-		listaDeEventos.create(evento);
+		this.listaDeEventos.create(evento);
 		return evento.toString();
 	}
 
 	public JSONObject get(Request request) {
-		Evento evento = listaDeEventos.read(request.getQuery().get("nome"));
+		Evento evento = listaDeEventos.read(request.getQuery().get(NOME));
 		if ((evento) != null)
 			return evento.toJson();
 		return null;
@@ -48,14 +56,14 @@ public final class EventoService {
 
 	//TODO - Terminar o metodo de update
 	public String update(Request request) {
-		String nome = request.getQuery().get("nome");
+		String nome = request.getQuery().get(NOME);
 		listaDeEventos.update(nome);
 		return null;
 
 	}
 
 	public JSONObject remove (Request request) {
-		Evento evento = listaDeEventos.delete(request.getQuery().get("nome"));
+		Evento evento = listaDeEventos.delete(request.getQuery().get(NOME));
 		if (evento != null)
 			return evento.toJson();
 		return null;
