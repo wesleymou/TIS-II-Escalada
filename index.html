@@ -1,16 +1,91 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Excursão - SUMMIT Ginásio de Escalada</title>
 </head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <body>
-    
+    <div id="botoes">
+        <button id="btnEvento" onclick="evento()">Eventos</button>
+        <button id="btnCliente" onclick="cliente()">Clientes</button>
+    </div>
+
+    <div id="evento" style="display:none">
+        <form id="formEvento">
+            <h2>Evento</h2>
+            <input id="formEventoCreate" type="radio" onchange="habilitaFormEvento(this.checked, 'create')">
+            <label for="formEventoCreate">Cadastrar</label>
+            <input id="formEventoRead" type="radio" onchange="habilitaFormEvento(this.checked, 'read')">
+            <label for="formEventoRead">Consultar</label>
+            <input id="formEventoUpdate" type="radio" onchange="habilitaFormEvento(this.checked, 'update')">
+            <label for="formEventoUpdate">Atualizar</label>
+            <input id="formEventoDelete" type="radio" onchange="habilitaFormEvento(this.checked, 'delete')">
+            <label for="formEventoDelete">Excluir</label>
+            <button class="btnAcao" formmethod="POST" style="display:none"></button>
+            <br>
+            <label for="formEventoNome">Nome do evento:</label><br>
+            <input id="formEventoNome" type="text" disabled="true"><br>
+            <label for="formEventoStatus">Status:</label><br>
+            <input id="formEventoStatus" type="text" disabled="true"><br>
+            <label for="formEventoLocal">Local:</label><br>
+            <input id="formEventoLocal" type="text" disabled="true"><br>
+            <label for="formEventoDataInicio">Data de início:</label><br>
+            <input id="formEventoDataInicio" type="datetime-local" disabled="true"><br>
+            <label for="formEventoDataFim">Data de término:</label><br>
+            <input id="formEventoDataFim" type="datetime-local" disabled="true"><br>
+            <label for="formEventoCapacidade">Capacidade:</label><br>
+            <input id="formEventoCapacidade" type="number" disabled="true"><br>
+            <label for="formEventoMinimo">Número mínimo de participantes:</label><br>
+            <input id="formEventoMinimo" type="number" disabled="true"><br>
+            <label for="formEventoOrcamento">Orçamento prévio:</label><br>
+            <input id="formEventoOrcamento" type="number" disabled="true"><br>
+            <label for="formEventoIngresso">Valor do ingresso:</label><br>
+            <input id="formEventoIngresso" type="number" disabled="true"><br>
+            <label for="formEventoCronograma">Cronograma:</label><br>
+            <textarea id="formEventoCronograma" cols="100" rows="5" disabled="true"></textarea><br>
+            <label for="formEventoConvenios">Convênios:</label><br>
+            <textarea id="formEventoConvenios" cols="100" rows="5" disabled="true"></textarea><br>
+            <label for="formEventoParticipantes">Participantes:</label><br>
+            <textarea id="formEventoParticipantes" cols="100" rows="5" disabled="true"></textarea><br>
+        </form>
+    </div>
+    <div id="cliente" style="display:none">
+        <form id="formCliente">
+            <h2>Cliente</h2>
+            <input id="formClienteCreate" type="radio" onchange="habilitaFormCliente(this.checked, 'create')">
+            <label for="formClienteCreate">Cadastrar</label>
+            <input id="formClienteRead" type="radio" onchange="habilitaFormCliente(this.checked, 'read')">
+            <label for="formClienteRead">Consultar</label>
+            <input id="formClienteUpdate" type="radio" onchange="habilitaFormCliente(this.checked, 'update')">
+            <label for="formClienteUpdate">Atualizar</label>
+            <input id="formClienteDelete" type="radio" onchange="habilitaFormCliente(this.checked, 'delete')">
+            <label for="formClienteDelete">Excluir</label>
+            <button class="btnAcao" formmethod="POST" style="display:none"></button>
+            <br>
+            <label for="formClienteNome">Nome:</label><br>
+            <input id="formClienteNome" name="nome" type="text" disabled="true"><br>
+            <label for="formClienteCPF">CPF:</label><br>
+            <input id="formClienteCPF" name="cpf" type="text" disabled="true"><br>
+            <label for="formClienteEndereco">Endereço:</label><br>
+            <input id="formClienteEndereco" name="endereco" type="text" disabled="true"><br>
+            <label for="formClienteEmail">E-mail:</label><br>
+            <input id="formClienteEmail" name="email" type="email" disabled="true"><br>
+            <label for="formClienteFone1">Telefone residencial:</label><br>
+            <input id="formClienteFone1" name="telRes" type="tel" disabled="true"><br>
+            <label for="formClienteFone2">Telefone Celular:</label><br>
+            <input id="formClienteFone2" name="telCel" type="tel" disabled="true"><br>
+            <label for="formClienteEventos">Eventos inscritos:</label><br>
+            <textarea id="formClienteEventos" name="eventosInscritos" cols="100" rows="5" disabled="true"></textarea><br>
+        </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="javascript/summit.js"></script>
+
 </body>
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+
 </html>
