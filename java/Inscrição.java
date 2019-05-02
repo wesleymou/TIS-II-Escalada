@@ -13,16 +13,19 @@ public class Inscrição {
 	public Inscrição(int qtdAdulto, int qtdInfantil) {
 		
 	}
-	public double simularValor{
+	public double simularValor(){
+		return valorTotal;
 		
 	}
 	public void geraRecibo() {
 		
 	}
 	public boolean inscricaoConfirmada() {
+		return status;
 		
 	}
 	public boolean pagouTotal() {
+		return status;
 		
 	}
 	public int getQtdAdulto() {
