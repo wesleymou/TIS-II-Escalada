@@ -22,7 +22,7 @@ public final class EventoService {
 	
 	private ListaEvento listaDeEventos;
 
-	public String add(Request request) {
+	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 
 		String nome = query.get(NOME);
@@ -44,7 +44,7 @@ public final class EventoService {
 		evento.setStatus(status);
 
 		this.listaDeEventos.create(evento);
-		return evento.toString();
+		return evento.toJson();
 	}
 
 	public JSONObject get(Request request) {
@@ -55,7 +55,7 @@ public final class EventoService {
 	}
 
 	//TODO - Terminar o metodo de update
-	public String update(Request request) {
+	public JSONObject update(Request request) {
 		String nome = request.getQuery().get(NOME);
 		listaDeEventos.update(nome);
 		return null;

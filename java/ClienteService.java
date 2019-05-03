@@ -37,14 +37,19 @@ class ClienteService {
 	
 	public JSONObject get(Request request) {
 		int cpf = request.getQuery().getInteger(CPF);
-		return this.listaDeClientes.read(cpf).toJson();
-		
+		Cliente cliente = listaDeClientes.read(cpf);
+		if (cliente != null)
+			return cliente.toJson();
+		return null;
 	}
 	
 	//TODO terminar metodo
 	public JSONObject update(Request request) {
 		int cpf = request.getQuery().getInteger(CPF);
-		return this.listaDeClientes.read(cpf).toJson();
+		Cliente cliente = listaDeClientes.read(cpf);
+		if (cliente != null)
+			return cliente.toJson();
+		return null;
 	}
 	
 	public JSONObject remove (Request request) {
