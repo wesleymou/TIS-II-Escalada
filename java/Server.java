@@ -34,6 +34,17 @@ public class Server implements Container {
 				
 			} else if (path.startsWith("/removerProduto") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
+			} else if (path.startsWith("/cadastrarCliente") && "POST".equals(method)) {
+				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
+				
+			} else if (path.startsWith("/consultarCliente") && "GET".equals(method)) {
+				this.enviaResposta(Status.OK, response, clienteService.get(request));
+				
+			} else if (path.startsWith("/atualizarCliente") && "GET".equals(method)) {
+				this.enviaResposta(Status.OK, response, clienteService.update(request));
+				
+			} else if (path.startsWith("/excluirCliente") && "GET".equals(method)) {
+				this.enviaResposta(Status.OK, response, clienteService.remove(request));
 			} else {
 				this.naoEncontrado(response, path);
 			}
@@ -81,6 +92,6 @@ public class Server implements Container {
 		servidor.stop();
 		System.out.println("Servidor terminado.");
 	}
-
+	
 }
 
