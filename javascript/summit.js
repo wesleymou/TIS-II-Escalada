@@ -46,6 +46,7 @@ function habilitaFormEvento(status, funcao) {
     if (status == true) {
         btnAcao.style.display = "";
         btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
+        btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.setAttribute("formaction", serverAddress + "/cadastrarEvento");
@@ -65,6 +66,7 @@ function habilitaFormEvento(status, funcao) {
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
             btnAcao.setAttribute("formaction", serverAddress + "/consultarEvento");
+            btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
             for (i = 6; i < form.length; i++) {
@@ -77,6 +79,7 @@ function habilitaFormEvento(status, funcao) {
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";
             btnAcao.setAttribute("formaction", serverAddress + "/atualizarEvento");
+            btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -87,6 +90,7 @@ function habilitaFormEvento(status, funcao) {
         else if (funcao == "delete") {
             btnAcao.textContent = "Excluir";
             btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
+            btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
             for (i = 6; i < form.length; i++) {
@@ -108,6 +112,7 @@ function habilitaFormCliente(status, funcao) {
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
+            btnAcao.setAttribute("formmethod", "POST");
             for (i = 5; i < form.length; i++) {
                 if (i < form.length - 1) {
                     form[i].value = "";
@@ -124,6 +129,7 @@ function habilitaFormCliente(status, funcao) {
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
             btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
+            btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < 7; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -138,6 +144,7 @@ function habilitaFormCliente(status, funcao) {
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";
             btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
+            btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -148,6 +155,7 @@ function habilitaFormCliente(status, funcao) {
         else if (funcao == "delete") {
             btnAcao.textContent = "Excluir";
             btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
+            btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < 7; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
