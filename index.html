@@ -25,7 +25,7 @@
             <label for="formEventoUpdate">Atualizar</label>
             <input id="formEventoDelete" type="radio" name="funcao" value="delete" onchange="habilitaFormEvento(this.checked, 'delete')">
             <label for="formEventoDelete">Excluir</label>
-            <button class="btnAcao" formmethod="POST" style="display:none"></button>
+            <button class="btnAcao" formmethod="GET" style="display:none"></button>
             <br>
             <label for="formEventoNome">Nome do evento:</label><br>
             <input id="formEventoNome" name="nome" type="text" disabled="true" required><br>
@@ -67,7 +67,7 @@
             <label for="formClienteUpdate">Atualizar</label>
             <input id="formClienteDelete" type="radio" name="funcao" value="delete" onchange="habilitaFormCliente(this.checked, 'delete')">
             <label for="formClienteDelete">Excluir</label>
-            <button class="btnAcao" formmethod="POST" style="display:none"></button>
+            <button class="btnAcao" formmethod="GET" style="display:none"></button>
             <br>
             <label for="formClienteNome">Nome:</label><br>
             <input id="formClienteNome" name="nome" type="text" disabled="true" required><br>
