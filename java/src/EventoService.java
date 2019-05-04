@@ -8,8 +8,8 @@ import org.simpleframework.http.Request;
 
 public final class EventoService {
 	private final static String NOME = "nome";
-//	private final static String DATAINICIO = "dataInicio";
-//	private final static String DATATERMINO = "dataFim";
+	private final static String DATAINICIO = "dataInicio";
+	private final static String DATATERMINO = "dataFim";
 	private final static String LOCAL = "local";
 	private final static String CAPACIDADE = "capacidade";
 	private final static String QUORUM = "minimo";
@@ -25,8 +25,8 @@ public final class EventoService {
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 		String nome = query.get(NOME);
-		//		LocalDateTime dataInicio = query.get(DATAINICIO);
-		//		LocalDateTime dataTermino = query.get(DATATERMINO);
+		LocalDateTime dataInicio = LocalDateTime.parse(query.get(DATAINICIO));
+		LocalDateTime dataTermino = LocalDateTime.parse(query.get(DATATERMINO));
 		String local = query.get(LOCAL);
 		int capacidade = query.getInteger(CAPACIDADE);
 		int quorum = query.getInteger(QUORUM);
@@ -34,7 +34,6 @@ public final class EventoService {
 		double valorIngresso = query.getFloat(VALORINGRESSO);
 		String status = query.get(STATUS);
 
-		LocalDateTime dataInicio = null, dataTermino=null;//RETIRAR DEPOIS
 		Evento evento = new Evento(nome, local, dataInicio, dataTermino);
 		evento.setCapacidade(capacidade);
 		evento.setQuorum(quorum);

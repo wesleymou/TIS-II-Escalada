@@ -1,8 +1,10 @@
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URI;
+import java.util.Scanner;
 
 import org.json.JSONObject;
 import org.simpleframework.http.Request;
@@ -14,10 +16,10 @@ import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
 
 public class Server implements Container {
-	
+
 	static EventoService eventoService = new EventoService();
 	static ClienteService clienteService  = new ClienteService();
-	
+
 	public void handle(Request request, Response response) {
 		try {
 			String path = request.getPath().getPath();
@@ -25,24 +27,24 @@ public class Server implements Container {
 
 			if (path.startsWith("/cadastrarEvento") && "POST".equals(method)) {
 				this.enviaResposta(Status.CREATED, response, eventoService.add(request));
-				
+
 			} else if (path.startsWith("/consultarEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.get(request));
-				
+
 			} else if (path.startsWith("/atualizarEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
-				
+
 			} else if (path.startsWith("/removerProduto") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
 			} else if (path.startsWith("/cadastrarCliente") && "POST".equals(method)) {
 				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
-				
+
 			} else if (path.startsWith("/consultarCliente") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, clienteService.get(request));
-				
+
 			} else if (path.startsWith("/atualizarCliente") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, clienteService.update(request));
-				
+
 			} else if (path.startsWith("/excluirCliente") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, clienteService.remove(request));
 			} else {
@@ -63,7 +65,7 @@ public class Server implements Container {
 	private void enviaResposta(Status status, Response response, JSONObject JSON) throws Exception {
 		PrintStream body = response.getPrintStream();
 		long time = System.currentTimeMillis();
-		
+
 		response.setValue("Content-Type", "application/json");
 		response.setValue("Server", "");
 		response.setDate("Date", time);
@@ -74,7 +76,7 @@ public class Server implements Container {
 	}
 
 	public static void main(String[] list) throws Exception {
-		
+
 		int porta = 880;
 
 		// Configura uma conex√£o soquete para o servidor HTTP.
@@ -86,12 +88,21 @@ public class Server implements Container {
 
 		Desktop.getDesktop().browse(new URI("http://127.0.0.1:" + porta));
 		System.out.println("Interromper o servidor? (y/n)");
-		while (System.in.read() != 'y') {
+
+		Scanner ler = new Scanner(System.in);
+		String a = "";
+		while (!a.equals("y")) {
+			a = ler.next();
+			if (a.equals("n"))
+				System.out.println("Ent„o n„o.");
+			else if (!a.equals("y") && !a.equals("n"))
+				System.out.println("Sem tempo irm„o.");
 		}
+		ler.close();
 		conexao.close();
 		servidor.stop();
 		System.out.println("Servidor terminado.");
 	}
-	
+
 }
 
