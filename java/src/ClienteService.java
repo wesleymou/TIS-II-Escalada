@@ -18,10 +18,10 @@ class ClienteService {
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 
-		int cpf = query.getInteger(CPF);
+		float cpf = query.getFloat(CPF);
 		String nome = query.get(NOME);
-		int nunFone1 = query.getInteger(NUNFONE1);
-		int nunFone2 = query.getInteger(NUNFONE2);
+		float nunFone1 = query.getFloat(NUNFONE1);
+		float nunFone2 = query.getFloat(NUNFONE2);
 		String endereco = query.get(ENDERECO);
 		String email = query.get(EMAIL);
 		
@@ -36,7 +36,7 @@ class ClienteService {
 	}
 	
 	public JSONObject get(Request request) {
-		int cpf = request.getQuery().getInteger(CPF);
+		float cpf = request.getQuery().getFloat(CPF);
 		Cliente cliente = listaDeClientes.read(cpf);
 		if (cliente != null)
 			return cliente.toJson();
@@ -45,7 +45,7 @@ class ClienteService {
 	
 	//TODO terminar metodo
 	public JSONObject update(Request request) {
-		int cpf = request.getQuery().getInteger(CPF);
+		float cpf = request.getQuery().getFloat(CPF);
 		Cliente cliente = listaDeClientes.read(cpf);
 		if (cliente != null)
 			return cliente.toJson();
@@ -53,7 +53,7 @@ class ClienteService {
 	}
 	
 	public JSONObject remove (Request request) {
-		int cpf = request.getQuery().getInteger(CPF);
+		float cpf = request.getQuery().getFloat(CPF);
 		return 	this.listaDeClientes.delete(cpf).toJson();
 	}
 

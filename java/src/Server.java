@@ -32,8 +32,9 @@ public class Server implements Container {
 			} else if (path.startsWith("/atualizarEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
 				
-			} else if (path.startsWith("/removerProduto") && "GET".equals(method)) {
+			} else if (path.startsWith("/excluirEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
+
 			} else if (path.startsWith("/cadastrarCliente") && "POST".equals(method)) {
 				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
 				

@@ -38,7 +38,7 @@ public class ListaClientes {
         ultimo = ultimo.proximo;
     }
 
-    public Cliente read(int cpf) {
+    public Cliente read(float cpf) {
         CelulaCliente aux = primeiro.proximo;
         while (aux != null) {
             if (aux.item.getCpf() == cpf) {
@@ -51,12 +51,12 @@ public class ListaClientes {
     }
 
     //TODO - Terminar o metodo de update
-    public Cliente update(int cpf) {
+    public Cliente update(float cpf) {
     	Cliente cliente = read(cpf);
     	return cliente;
     }
 
-    public Cliente delete(int cpf) {
+    public Cliente delete(float cpf) {
         CelulaCliente aux = primeiro.proximo, sombra = primeiro;
         while (aux != null) {
             if (aux.item.getCpf() == cpf) {
