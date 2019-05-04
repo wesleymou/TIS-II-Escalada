@@ -33,9 +33,10 @@ public class Server implements Container {
 
 			} else if (path.startsWith("/atualizarEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
-
-			} else if (path.startsWith("/removerProduto") && "GET".equals(method)) {
+				
+			} else if (path.startsWith("/excluirEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
+
 			} else if (path.startsWith("/cadastrarCliente") && "POST".equals(method)) {
 				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
 
@@ -57,7 +58,7 @@ public class Server implements Container {
 
 	private void naoEncontrado(Response response, String path) throws Exception {
 		JSONObject error = new JSONObject();
-		error.put("error", "Não encontrado.");
+		error.put("error", "Nï¿½o encontrado.");
 		error.put("path", path);
 		enviaResposta(Status.OK, response, error);
 	}
@@ -94,9 +95,9 @@ public class Server implements Container {
 		while (!a.equals("y")) {
 			a = ler.next();
 			if (a.equals("n"))
-				System.out.println("Então não.");
+				System.out.println("Entï¿½o nï¿½o.");
 			else if (!a.equals("y") && !a.equals("n"))
-				System.out.println("Sem tempo irmão.");
+				System.out.println("Sem tempo irmï¿½o.");
 		}
 		ler.close();
 		conexao.close();
