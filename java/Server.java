@@ -13,11 +13,10 @@ import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
 
-//TO DO
 public class Server implements Container {
 	
-	static EventoService eventoService;
-	static ClienteService clienteService;
+	static EventoService eventoService = new EventoService();
+	static ClienteService clienteService  = new ClienteService();
 	
 	public void handle(Request request, Response response) {
 		try {
@@ -64,6 +63,7 @@ public class Server implements Container {
 	}
 
 	public static void main(String[] list) throws Exception {
+		
 		int porta = 880;
 
 		// Configura uma conexão soquete para o servidor HTTP.

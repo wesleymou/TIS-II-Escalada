@@ -24,7 +24,6 @@ public final class EventoService {
 
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
-
 		String nome = query.get(NOME);
 		//		LocalDateTime dataInicio = query.get(DATAINICIO);
 		//		LocalDateTime dataTermino = query.get(DATATERMINO);
@@ -67,5 +66,9 @@ public final class EventoService {
 		if (evento != null)
 			return evento.toJson();
 		return null;
+	}
+	
+	public EventoService() {
+		listaDeEventos = new ListaEvento();
 	}
 }

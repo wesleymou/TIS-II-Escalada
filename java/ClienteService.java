@@ -56,4 +56,8 @@ class ClienteService {
 		int cpf = request.getQuery().getInteger(CPF);
 		return 	this.listaDeClientes.delete(cpf).toJson();
 	}
+
+	public ClienteService() {
+		listaDeClientes = new ListaClientes();
+	}
 }
