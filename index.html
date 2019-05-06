@@ -8,105 +8,271 @@
 
     <title>Excursão - SUMMIT Ginásio de Escalada</title>
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css">
 
     <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css"> -->
 
     <!-- Custom styles for this template -->
     <link href="css/freelancer.css" rel="stylesheet">
-
-    <!-- Javascript interno -->
-    <script src="javascript/summit.js"></script>
 </head>
 
 <body>
-    <div id="botoes">
-        <button id="btnEvento" onclick="evento()">Eventos</button>
-        <button id="btnCliente" onclick="cliente()">Clientes</button>
+    <div class="container  text-center ">
+        <div class="row my-3">
+            <div class="col">
+                <button id="btnEvento" type="button" class="btn btn-secondary" onclick="evento()">Eventos</button>
+                <button id="btnCliente" type="button" class="btn btn-secondary" onclick="cliente()">Clientes</button>
+            </div>
+        </div>
+        <div id="evento" style="display:none">
+            <form id="formEvento" class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <h2>Evento</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input id="formEventoCreate" type="radio" name="funcao" value="create"
+                            onchange="habilitaFormEvento(this.checked, 'create')">
+                        <label for="formEventoCreate">Cadastrar</label>
+                        <input id="formEventoRead" type="radio" name="funcao" value="read"
+                            onchange="habilitaFormEvento(this.checked, 'read')">
+                        <label for="formEventoRead">Consultar</label>
+                        <input id="formEventoUpdate" type="radio" name="funcao" value="update"
+                            onchange="habilitaFormEvento(this.checked, 'update')">
+                        <label for="formEventoUpdate">Atualizar</label>
+                        <input id="formEventoDelete" type="radio" name="funcao" value="delete"
+                            onchange="habilitaFormEvento(this.checked, 'delete')">
+                        <label for="formEventoDelete">Excluir</label>
+                    </div>
+                    <div class="col">
+                        <button class="btnAcao btn" formmethod="GET" style="display:none"></button>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoNome">Nome do evento</label><br>
+                            <input id="formEventoNome" class="form-control" name="nome" type="text" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoStatus">Status</label><br>
+                            <input id="formEventoStatus" class="form-control" name="status" type="text" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoLocal">Local</label><br>
+                            <input id="formEventoLocal" class="form-control" name="local" type="text" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoDataInicio">Data de início</label><br>
+                            <input id="formEventoDataInicio" class="form-control" name="dataInicio"
+                                type="datetime-local" disabled="true" required><br>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoDataFim">Data de término</label><br>
+                            <input id="formEventoDataFim" class="form-control" name="dataFim" type="datetime-local"
+                                disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoCapacidade">Capacidade</label><br>
+                            <input id="formEventoCapacidade" class="form-control" name="capacidade" type="number"
+                                disabled="true" required min="1"><br>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoMinimo">Número mínimo de participantes:</label><br>
+                            <input id="formEventoMinimo" class="form-control" name="minimo" type="number"
+                                disabled="true" required min="1"><br>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoOrcamento">Orçamento prévio:</label><br>
+                            <input id="formEventoOrcamento" class="form-control" name="orcamento" type="number"
+                                disabled="true" required min="0.01" step="0.01"><br>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoIngresso">Valor do ingresso:</label><br>
+                            <input id="formEventoIngresso" class="form-control" name="ingresso" type="number"
+                                disabled="true" required min="0.01" step="0.01"><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoCronograma">Cronograma</label><br>
+                            <textarea id="formEventoCronograma" class="form-control" name="cronograma" cols="100"
+                                rows="5" disabled="true" required>
+                            </textarea><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formEventoNovoNome" style="display:none">Novo nome do evento:</label><br>
+                            <input id="formEventoNovoNome" style="display:none" class="form-control" name="novoNome"
+                                type="text" disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<label for="formEventoConvenios">Convênios:</label><br>
+                <textarea id="formEventoConvenios" name="convenios" cols="100" rows="5" disabled="true"></textarea><br>
+                            <label for="formEventoParticipantes">Participantes:</label><br>
+                            <textarea id="formEventoParticipantes" name="participantes" cols="100" rows="5"
+                                disabled="true"></textarea><br>-->
+
+            </form>
+        </div>
+
+        <div id="cliente" style="display:none">
+            <form id="formCliente" class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <h2>Cliente</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input id="formClienteCreate" type="radio" name="funcao" value="create"
+                            onchange="habilitaFormCliente(this.checked, 'create')">
+                        <label for="formClienteCreate">Cadastrar</label>
+                        <input id="formClienteRead" type="radio" name="funcao" value="read"
+                            onchange="habilitaFormCliente(this.checked, 'read')">
+                        <label for="formClienteRead">Consultar</label>
+                        <input id="formClienteUpdate" type="radio" name="funcao" value="update"
+                            onchange="habilitaFormCliente(this.checked, 'update')">
+                        <label for="formClienteUpdate">Atualizar</label>
+                        <input id="formClienteDelete" type="radio" name="funcao" value="delete"
+                            onchange="habilitaFormCliente(this.checked, 'delete')">
+                        <label for="formClienteDelete">Excluir</label>
+                    </div>
+                    <div class="col">
+                        <button class="btnAcao btn" formmethod="GET" style="display:none"></button>
+                    </div>
+                </div><br>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteNome">Nome</label><br>
+                            <input id="formClienteNome" class="form-control" name="nome" type="text" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteCPF">CPF</label><br>
+                            <input id="formClienteCPF" class="form-control" name="cpf" type="text" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteEndereco">Endereço</label><br>
+                            <input id="formClienteEndereco" class="form-control" name="endereco" type="text"
+                                disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteEmail">E-mail:</label><br>
+                            <input id="formClienteEmail" class="form-control" name="email" type="email" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteFone1">Telefone residencial:</label><br>
+                            <input id="formClienteFone1" class="form-control" name="telRes" type="text" minlength="10"
+                                maxlength="11" disabled="true" required><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteFone2">Telefone Celular:</label><br>
+                            <input id="formClienteFone2" class="form-control" name="telCel" type="tel" minlength="10"
+                                maxlength="11" disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteEventos">Eventos inscritos:</label><br>
+                            <textarea id="formClienteEventos" class="form-control" name="eventosInscritos" cols="100"
+                                rows="5" disabled="true" required></textarea><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteNovoNome" style="display:none">Novo nome do cliente:</label><br>
+                            <input id="formClienteNovoNome" style="display:none" class="form-control" name="novoNome"
+                                type="text" disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div id="evento" style="display:none">
-        <form id="formEvento">
-            <h2>Evento</h2>
-            <input id="formEventoCreate" type="radio" name="funcao" value="create" onchange="habilitaFormEvento(this.checked, 'create')">
-            <label for="formEventoCreate">Cadastrar</label>
-            <input id="formEventoRead" type="radio" name="funcao" value="read" onchange="habilitaFormEvento(this.checked, 'read')">
-            <label for="formEventoRead">Consultar</label>
-            <input id="formEventoUpdate" type="radio" name="funcao" value="update" onchange="habilitaFormEvento(this.checked, 'update')">
-            <label for="formEventoUpdate">Atualizar</label>
-            <input id="formEventoDelete" type="radio" name="funcao" value="delete" onchange="habilitaFormEvento(this.checked, 'delete')">
-            <label for="formEventoDelete">Excluir</label>
-            <button class="btnAcao" formmethod="GET" style="display:none"></button>
-            <br>
-            <label for="formEventoNome">Nome do evento:</label><br>
-            <input id="formEventoNome" name="nome" type="text" disabled="true" required><br>
-            <label for="formEventoStatus">Status:</label><br>
-            <input id="formEventoStatus" name="status" type="text" disabled="true" required><br>
-            <label for="formEventoLocal">Local:</label><br>
-            <input id="formEventoLocal" name="local" type="text" disabled="true" required><br>
-            <label for="formEventoDataInicio">Data de início:</label><br>
-            <input id="formEventoDataInicio" name="dataInicio" type="datetime-local" disabled="true" required><br>
-            <label for="formEventoDataFim">Data de término:</label><br>
-            <input id="formEventoDataFim" name="dataFim" type="datetime-local" disabled="true" required><br>
-            <label for="formEventoCapacidade">Capacidade:</label><br>
-            <input id="formEventoCapacidade" name="capacidade" type="number" disabled="true" required min="1"><br>
-            <label for="formEventoMinimo">Número mínimo de participantes:</label><br>
-            <input id="formEventoMinimo" name="minimo" type="number" disabled="true" required min="1"><br>
-            <label for="formEventoOrcamento">Orçamento prévio:</label><br>
-            <input id="formEventoOrcamento" name="orcamento" type="number" disabled="true" required min="0.01" step="0.01"><br>
-            <label for="formEventoIngresso">Valor do ingresso:</label><br>
-            <input id="formEventoIngresso" name="ingresso" type="number" disabled="true" required min="0.01" step="0.01"><br>
-            <label for="formEventoCronograma">Cronograma:</label><br>
-            <textarea id="formEventoCronograma" name="cronograma" cols="100" rows="5" disabled="true"></textarea><br>
-            <label for="formEventoNovoNome" style="display:none">Novo nome do evento:</label><br>
-            <input id="formEventoNovoNome" style="display:none" name="novoNome" type="text" disabled="true"><br>
-<!--            <label for="formEventoConvenios">Convênios:</label><br>
-            <textarea id="formEventoConvenios" name="convenios" cols="100" rows="5" disabled="true"></textarea><br>
-            <label for="formEventoParticipantes">Participantes:</label><br>
-            <textarea id="formEventoParticipantes" name="participantes" cols="100" rows="5" disabled="true"></textarea><br>
--->
-        </form>
-    </div>
-    <div id="cliente" style="display:none">
-        <form id="formCliente">
-            <h2>Cliente</h2>
-            <input id="formClienteCreate" type="radio" name="funcao" value="create" onchange="habilitaFormCliente(this.checked, 'create')">
-            <label for="formClienteCreate">Cadastrar</label>
-            <input id="formClienteRead" type="radio" name="funcao" value="read" onchange="habilitaFormCliente(this.checked, 'read')">
-            <label for="formClienteRead">Consultar</label>
-            <input id="formClienteUpdate" type="radio" name="funcao" value="update" onchange="habilitaFormCliente(this.checked, 'update')">
-            <label for="formClienteUpdate">Atualizar</label>
-            <input id="formClienteDelete" type="radio" name="funcao" value="delete" onchange="habilitaFormCliente(this.checked, 'delete')">
-            <label for="formClienteDelete">Excluir</label>
-            <button class="btnAcao" formmethod="GET" style="display:none"></button>
-            <br>
-            <label for="formClienteNome">Nome:</label><br>
-            <input id="formClienteNome" name="nome" type="text" disabled="true" required><br>
-            <label for="formClienteCPF">CPF:</label><br>
-            <input id="formClienteCPF" name="cpf" type="text" disabled="true" required><br>
-            <label for="formClienteEndereco">Endereço:</label><br>
-            <input id="formClienteEndereco" name="endereco" type="text" disabled="true" required><br>
-            <label for="formClienteEmail">E-mail:</label><br>
-            <input id="formClienteEmail" name="email" type="email" disabled="true" required><br>
-            <label for="formClienteFone1">Telefone residencial:</label><br>
-            <input id="formClienteFone1" name="telRes" type="number" disabled="true" required><br>
-            <label for="formClienteFone2">Telefone Celular:</label><br>
-            <input id="formClienteFone2" name="telCel" type="number" disabled="true"><br>
-            <label for="formClienteEventos">Eventos inscritos:</label><br>
-            <textarea id="formClienteEventos" name="eventosInscritos" cols="100" rows="5" disabled="true"></textarea><br>
-            <label for="formClienteNovoNome" style="display:none">Novo nome do cliente:</label><br>
-            <input id="formClienteNovoNome" style="display:none" name="novoNome" type="text" disabled="true"><br>
-        </form>
-    </div>
+    <!-- Javascript interno -->
+    <script src="javascript/summit.js"></script>
+
+    <!-- Javascript do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="javascript/summit.js"></script>
 
 </body>
 

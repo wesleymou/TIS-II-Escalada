@@ -1,5 +1,6 @@
 
-public class Inscrição {
+public class Inscricao {
+	
 	private int qtdAdulto;
 	private int qtdInfantil;
 	private double valorTotal;
@@ -10,7 +11,7 @@ public class Inscrição {
 	private String tipoPagamento;
 	private boolean status;
 	
-	public Inscrição(int qtdAdulto, int qtdInfantil) {
+	public Inscricao(int qtdAdulto, int qtdInfantil) {
 		
 	}
 	
