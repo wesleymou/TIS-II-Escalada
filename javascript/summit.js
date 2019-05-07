@@ -191,8 +191,9 @@ function executaEvento(funcao) {
         xmlhttp.ontimeout = function (e) {
             console.log("// XMLHttpRequest timed out.");
         }
-        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-        xmlhttp.send(encodeURI(location.href));
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send($('#formEvento').serialize());
+        console.log($('#formEvento').serialize()); 
         console.log("apos o open e send");
 
         xmlhttp.onreadystatechange = function (e) {
@@ -200,7 +201,7 @@ function executaEvento(funcao) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. " + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response)
-                    location = "";
+                    //location = "";
                 } else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);
                 }
@@ -209,11 +210,11 @@ function executaEvento(funcao) {
 
         console.log("apos o onreadystatechange");
 
-        xmlhttp.onerror = function (e) {
+            xmlhttp.onerror = function (e) {
             console.error(xmlhttp.statusText);
+            }
         }
-    }
-}
+    } 
 
 function executaCliente(funcao) {
     let form = document.querySelector("#formCliente");

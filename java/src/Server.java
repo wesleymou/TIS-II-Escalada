@@ -25,7 +25,9 @@ public class Server implements Container {
 			String method = request.getMethod();
 
 			if (path.startsWith("/cadastrarEvento") && "POST".equals(method)) {
-				this.enviaResposta(Status.CREATED, response, eventoService.add(request));
+				JSONObject j = eventoService.add(request);
+				System.out.println(request.getQuery().toString() + "\n" + j.toString());
+				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.get(request));
