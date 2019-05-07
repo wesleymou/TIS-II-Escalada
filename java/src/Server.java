@@ -24,31 +24,32 @@ public class Server implements Container {
 			String path = request.getPath().getPath();
 			String method = request.getMethod();
 
-			if (path.startsWith("/cadastrarEvento") && "POST".equals(method)) {
+			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
 				JSONObject j = eventoService.add(request);
 				System.out.println(request.getQuery().toString() + "\n" + j.toString());
 				this.enviaResposta(Status.CREATED, response, j);
 
-			} else if (path.startsWith("/consultarEvento") && "GET".equals(method)) {
+			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, eventoService.get(request));
 
-			} else if (path.startsWith("/atualizarEvento") && "GET".equals(method)) {
+			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
 
-			} else if (path.startsWith("/excluirEvento") && "GET".equals(method)) {
+			} else if (path.startsWith("/excluirEvento")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
 
-			} else if (path.startsWith("/cadastrarCliente") && "POST".equals(method)) {
+			} else if (path.startsWith("/cadastrarCliente")/* && "POST".equals(method)*/) {
 				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
 
-			} else if (path.startsWith("/consultarCliente") && "GET".equals(method)) {
+			} else if (path.startsWith("/consultarCliente")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, clienteService.get(request));
 
-			} else if (path.startsWith("/atualizarCliente") && "GET".equals(method)) {
+			} else if (path.startsWith("/atualizarCliente")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, clienteService.update(request));
 
-			} else if (path.startsWith("/excluirCliente") && "GET".equals(method)) {
+			} else if (path.startsWith("/excluirCliente")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, clienteService.remove(request));
+
 			} else {
 				this.naoEncontrado(response, path);
 			}

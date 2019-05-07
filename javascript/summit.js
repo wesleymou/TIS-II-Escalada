@@ -176,24 +176,32 @@ function habilitaFormCliente(status, funcao) {
 
 function executaEvento(funcao) {
     let form = document.querySelector("#formEvento");
-    if (funcao == "update") {
+    let path;
+    if (funcao == "create")
+        path = "/cadastrarEvento";
+    else if (funcao == "read")
+        path = "/consultarEvento";
+    else if (funcao == "update") {
+        path = "atualizarEvento";
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
     }
+    else if (funcao == "delete")
+        path = "excluirEvento";
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
         var xmlhttp = new XMLHttpRequest();
         console.log("antes do open e send");
-        xmlhttp.open("POST", serverAddress + "/cadastrarEvento", true);
+        xmlhttp.open("POST", serverAddress + path, true);
         xmlhttp.timeout = 1000;
         xmlhttp.ontimeout = function (e) {
             console.log("// XMLHttpRequest timed out.");
         }
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send($('#formEvento').serialize());
-        console.log($('#formEvento').serialize()); 
+        console.log($('#formEvento').serialize());
         console.log("apos o open e send");
 
         xmlhttp.onreadystatechange = function (e) {
@@ -201,20 +209,43 @@ function executaEvento(funcao) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. " + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response)
-                    //location = "";
-                } else {
+                    if (funcao == "read") {
+                        consultarEvento();
+                    }
+                    else if (funcao == "create" || funcao == "update" || funcao == "delete")
+                        editarEvento(funcao);
+                }
+                //location = "";
+                else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);
                 }
             }
         }
+    }
+    console.log("apos o onreadystatechange");
 
-        console.log("apos o onreadystatechange");
+    xmlhttp.onerror = function (e) {
+        console.error(xmlhttp.statusText);
+    }
+}
 
-            xmlhttp.onerror = function (e) {
-            console.error(xmlhttp.statusText);
-            }
-        }
-    } 
+function editarEvento(funcao) {
+    $("#formEvento")[0].reset();
+    document.getElementById('evento').style.display = "none";
+    if (funcao == "create")
+        alert("Evento cadastrado com sucesso!");
+    else if (funcao == "update")
+        alert("Evento atualizado com sucesso!");
+    else
+        alert("Evento excluído com sucesso!");
+}
+
+function consultarEvento() {
+    let form = document.querySelector("#formEvento");
+    form.reset();
+    evento();
+    habilitaFormEvento(true, "update");
+}
 
 function executaCliente(funcao) {
     let form = document.querySelector("#formCliente");
