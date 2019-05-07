@@ -25,8 +25,8 @@ public final class EventoService {
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 		String nome = query.get(NOME);
-		LocalDateTime dataInicio = LocalDateTime.parse(query.get(DATAINICIO));
-		LocalDateTime dataTermino = LocalDateTime.parse(query.get(DATATERMINO));
+		// LocalDateTime dataInicio = LocalDateTime.parse(query.get(DATAINICIO));
+		// LocalDateTime dataTermino = LocalDateTime.parse(query.get(DATATERMINO));
 		String local = query.get(LOCAL);
 		int capacidade = query.getInteger(CAPACIDADE);
 		int quorum = query.getInteger(QUORUM);
@@ -34,6 +34,7 @@ public final class EventoService {
 		double valorIngresso = query.getFloat(VALORINGRESSO);
 		String status = query.get(STATUS);
 
+		LocalDateTime dataInicio = null, dataTermino = null;
 		Evento evento = new Evento(nome, local, dataInicio, dataTermino);
 		evento.setCapacidade(capacidade);
 		evento.setQuorum(quorum);

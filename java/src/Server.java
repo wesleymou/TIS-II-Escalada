@@ -17,7 +17,7 @@ import org.simpleframework.transport.connect.SocketConnection;
 public class Server implements Container {
 
 	static EventoService eventoService = new EventoService();
-	static ClienteService clienteService  = new ClienteService();
+	static ClienteService clienteService = new ClienteService();
 
 	public void handle(Request request, Response response) {
 		try {
@@ -32,7 +32,7 @@ public class Server implements Container {
 
 			} else if (path.startsWith("/atualizarEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
-				
+
 			} else if (path.startsWith("/excluirEvento") && "GET".equals(method)) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
 
@@ -65,7 +65,7 @@ public class Server implements Container {
 	private void enviaResposta(Status status, Response response, JSONObject JSON) throws Exception {
 		PrintStream body = response.getPrintStream();
 		long time = System.currentTimeMillis();
-
+		response.setValue("Access-Control-Allow-Origin", "*");
 		response.setValue("Content-Type", "application/json");
 		response.setValue("Server", "");
 		response.setDate("Date", time);
@@ -86,7 +86,7 @@ public class Server implements Container {
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
 
-		Desktop.getDesktop().browse(new URI("http://127.0.0.1:" + porta));
+		Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
 		System.out.println("Interromper o servidor? (y/n)");
 
 		Scanner ler = new Scanner(System.in);
@@ -105,4 +105,3 @@ public class Server implements Container {
 	}
 
 }
-

@@ -46,11 +46,11 @@ function habilitaFormEvento(status, funcao) {
     if (status == true) {
         btnAcao.style.display = "";
         btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
-        btnAcao.setAttribute("formmethod", "POST");
+        // btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
-            btnAcao.setAttribute("formaction", serverAddress + "/cadastrarEvento");
+            //btnAcao.setAttribute("formaction", serverAddress + "/cadastrarEvento");
             for (i = 5; i < form.length; i++) {
                 if (i < form.length - 1) {
                     form[i].value = "";
@@ -67,8 +67,8 @@ function habilitaFormEvento(status, funcao) {
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
             btnAcao.className = "btnAcao btn btn-info";
-            btnAcao.setAttribute("formaction", serverAddress + "/consultarEvento");
-            btnAcao.setAttribute("formmethod", "GET");
+            // btnAcao.setAttribute("formaction", serverAddress + "/consultarEvento");
+            // btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
             for (i = 6; i < form.length; i++) {
@@ -81,8 +81,8 @@ function habilitaFormEvento(status, funcao) {
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";
             btnAcao.className = "btnAcao btn btn-primary";
-            btnAcao.setAttribute("formaction", serverAddress + "/atualizarEvento");
-            btnAcao.setAttribute("formmethod", "GET");
+            // btnAcao.setAttribute("formaction", serverAddress + "/atualizarEvento");
+            // btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -93,8 +93,8 @@ function habilitaFormEvento(status, funcao) {
         else if (funcao == "delete") {
             btnAcao.textContent = "Excluir";
             btnAcao.className = "btnAcao btn btn-danger";
-            btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
-            btnAcao.setAttribute("formmethod", "GET");
+            // btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
+            // btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
             for (i = 6; i < form.length; i++) {
@@ -115,8 +115,8 @@ function habilitaFormCliente(status, funcao) {
         btnAcao.setAttribute("onclick", "executaCliente('" + funcao + "')");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
-            btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
-            btnAcao.setAttribute("formmethod", "POST");
+            // btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
+            // btnAcao.setAttribute("formmethod", "POST");
             for (i = 5; i < form.length; i++) {
                 if (i < form.length - 1) {
                     form[i].value = "";
@@ -132,8 +132,8 @@ function habilitaFormCliente(status, funcao) {
         }
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
-            btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
-            btnAcao.setAttribute("formmethod", "GET");
+            // btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
+            // btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < 7; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -147,8 +147,8 @@ function habilitaFormCliente(status, funcao) {
         }
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";
-            btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
-            btnAcao.setAttribute("formmethod", "GET");
+            // btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
+            // btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -158,8 +158,8 @@ function habilitaFormCliente(status, funcao) {
         }
         else if (funcao == "delete") {
             btnAcao.textContent = "Excluir";
-            btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
-            btnAcao.setAttribute("formmethod", "GET");
+            // btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
+            // btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < 7; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -176,12 +176,43 @@ function habilitaFormCliente(status, funcao) {
 
 function executaEvento(funcao) {
     let form = document.querySelector("#formEvento");
-    if (funcao == "update")
+    if (funcao == "update") {
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
+    }
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
+    else {
+        var xmlhttp = new XMLHttpRequest();
+        console.log("antes do open e send");
+        xmlhttp.open("POST", serverAddress + "/cadastrarEvento", true);
+        xmlhttp.timeout = 1000;
+        xmlhttp.ontimeout = function (e) {
+            console.log("// XMLHttpRequest timed out.");
+        }
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+        xmlhttp.send(encodeURI(location.href));
+        console.log("apos o open e send");
+
+        xmlhttp.onreadystatechange = function (e) {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status >= 200) {
+                    console.log("requisicao OK. " + xmlhttp.response);
+                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response)
+                    location = "";
+                } else {
+                    console.error("erro na requisicao. //" + xmlhttp.statusText);
+                }
+            }
+        }
+
+        console.log("apos o onreadystatechange");
+
+        xmlhttp.onerror = function (e) {
+            console.error(xmlhttp.statusText);
+        }
+    }
 }
 
 function executaCliente(funcao) {
