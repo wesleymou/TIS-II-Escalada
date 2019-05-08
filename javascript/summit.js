@@ -242,9 +242,10 @@ function editarEvento(funcao) {
 
 function consultarEvento() {
     let form = document.querySelector("#formEvento");
-    form.reset();
     evento();
+    form[2].checked = true;
     habilitaFormEvento(true, "update");
+//    populate(form, response); verificar essa função
 }
 
 function executaCliente(funcao) {
