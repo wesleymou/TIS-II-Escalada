@@ -30,12 +30,12 @@ public class Evento {
 			JSONObject eventojson = new JSONObject();
 			eventojson.put("nome", this.nome);
 			eventojson.put("dataInicio", this.dataInicio);
-			eventojson.put("dataTermino", this.dataTermino);
+			eventojson.put("dataFim", this.dataTermino);
 			eventojson.put("local", this.local);
 			eventojson.put("capacidade", this.capacidade);
-			eventojson.put("quorum", this.quorum);
-			eventojson.put("orcamentoPrevio", this.orcamentoPrevio);
-			eventojson.put("valorIngresso", this.valorIngresso);
+			eventojson.put("minimo", this.quorum);
+			eventojson.put("orcamento", this.orcamentoPrevio);
+			eventojson.put("ingresso", this.valorIngresso);
 			eventojson.put("cronograma", cronograma);
 			eventojson.put("convenio", convenio);
 			eventojson.put("status", this.status);

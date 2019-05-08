@@ -100,7 +100,7 @@ function habilitaFormEvento(status, funcao) {
             for (i = 6; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none"
+                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
                 form[i].style.display = "none";
             }
         }
@@ -182,7 +182,7 @@ function executaEvento(funcao) {
     else if (funcao == "read")
         path = "/consultarEvento";
     else if (funcao == "update") {
-        path = "atualizarEvento";
+        path = "/atualizarEvento";
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
@@ -221,11 +221,11 @@ function executaEvento(funcao) {
                 }
             }
         }
-    }
-    console.log("apos o onreadystatechange");
+        console.log("apos o onreadystatechange");
 
-    xmlhttp.onerror = function (e) {
-        console.error(xmlhttp.statusText);
+        xmlhttp.onerror = function (e) {
+            console.error(xmlhttp.statusText);
+        }
     }
 }
 
@@ -243,9 +243,20 @@ function editarEvento(funcao) {
 function consultarEvento() {
     let form = document.querySelector("#formEvento");
     evento();
-    form[2].checked = true;
-    habilitaFormEvento(true, "update");
-//    populate(form, response); verificar essa função
+    form[1].checked = true;
+    habilitaFormEvento(true, "read");
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    for (i = 5; i < form.length-1; i++) {
+        form[i].style.display = "";
+        form[i].disabled = true;
+        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = ""
+    }
+}
+
+function populate(form, json) {
+    $.each(json, function(key, value) {
+        $('[name='+key+']', form).val(value);
+    })
 }
 
 function executaCliente(funcao) {
