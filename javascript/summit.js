@@ -45,6 +45,8 @@ function habilitaFormEvento(status, funcao) {
     let btnAcao = document.getElementsByClassName("btnAcao")[0];
     if (status == true) {
         btnAcao.style.display = "";
+        document.getElementsByClassName("btnUpdate")[0].style.display = "none";
+        document.getElementsByClassName("btnDelete")[0].style.display = "none";
         btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
         // btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
@@ -188,7 +190,7 @@ function executaEvento(funcao) {
         }
     }
     else if (funcao == "delete")
-        path = "excluirEvento";
+        path = "/excluirEvento";
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
@@ -213,7 +215,7 @@ function executaEvento(funcao) {
                         consultarEvento();
                     }
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
-                        editarEvento(funcao);
+                        alertaEvento(funcao);
                 }
                 //location = "";
                 else {
@@ -229,7 +231,7 @@ function executaEvento(funcao) {
     }
 }
 
-function editarEvento(funcao) {
+function alertaEvento(funcao) {
     $("#formEvento")[0].reset();
     document.getElementById('evento').style.display = "none";
     if (funcao == "create")
@@ -249,7 +251,10 @@ function consultarEvento() {
     for (i = 5; i < form.length-1; i++) {
         form[i].style.display = "";
         form[i].disabled = true;
-        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = ""
+        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        document.getElementsByClassName("btnUpdate")[0].style.display = "";
+        document.getElementsByClassName("btnDelete")[0].style.display = "";
+        document.getElementsByClassName("btnAcao")[0].style.display = "none";
     }
 }
 
@@ -257,6 +262,27 @@ function populate(form, json) {
     $.each(json, function(key, value) {
         $('[name='+key+']', form).val(value);
     })
+}
+
+function editarEvento(selecao) {
+    let form = document.querySelector("#formEvento");
+    form[selecao].checked = true;
+    if (selecao == 2)
+        habilitaFormEvento(true, "update");
+    else if (selecao == 3) {
+        habilitaFormEvento(true, "delete");
+    }
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    for (i = 5; i < form.length-1; i++) {
+        form[i].disabled = false;
+        if (selecao == 3) {
+            form[i].style.display = "";
+            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        }
+    }
+    document.getElementsByClassName("btnUpdate")[0].style.display = "none";
+    document.getElementsByClassName("btnDelete")[0].style.display = "none";
+    document.getElementsByClassName("btnAcao")[0].style.display = "";
 }
 
 function executaCliente(funcao) {
