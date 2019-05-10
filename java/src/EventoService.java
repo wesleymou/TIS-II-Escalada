@@ -16,10 +16,10 @@ public final class EventoService {
 	private final static String QUORUM = "minimo";
 	private final static String ORCAMENTOPREVIO = "orcamento";
 	private final static String VALORINGRESSO = "ingresso";
-//	private final static String CRONOGRAMA = "cronograma";
+	private final static String CRONOGRAMA = "cronograma";
 //	private final static String CONVENIO = "convenios";
 	private final static String STATUS = "status";
-	
+	private final static String NOVONOME = "novoNome";
 	
 	private ListaEvento listaDeEventos;
 
@@ -28,20 +28,18 @@ public final class EventoService {
 		String nome = query.get(NOME);
 		// LocalDateTime dataInicio = LocalDateTime.parse(query.get(DATAINICIO));
 		// LocalDateTime dataTermino = LocalDateTime.parse(query.get(DATATERMINO));
+		String dataInicio = query.get(DATAINICIO);
+		String dataTermino = query.get(DATATERMINO);
 		String local = query.get(LOCAL);
 		int capacidade = query.getInteger(CAPACIDADE);
 		int quorum = query.getInteger(QUORUM);
 		double orcamentoPrevio = query.getFloat(ORCAMENTOPREVIO);
 		double valorIngresso = query.getFloat(VALORINGRESSO);
+		String cronograma = query.get(CRONOGRAMA);
 		String status = query.get(STATUS);
 
-		LocalDateTime dataInicio = null, dataTermino = null;
-		Evento evento = new Evento(nome, local, dataInicio, dataTermino);
-		evento.setCapacidade(capacidade);
-		evento.setQuorum(quorum);
-		evento.setOrcamentoPrevio(orcamentoPrevio);
-		evento.setValorIngresso(valorIngresso);
-		evento.setStatus(status);
+		Evento evento = new Evento(nome, local, dataInicio, dataTermino, capacidade, quorum, orcamentoPrevio,
+				valorIngresso, cronograma, status);
 
 		this.listaDeEventos.create(evento);
 		return evento.toJson();
@@ -51,11 +49,23 @@ public final class EventoService {
 		return listaDeEventos.todosOsEventos();
 	}
 
-	//TODO - Terminar o metodo de update
 	public JSONObject update(Request request) {
-		String nome = request.getQuery().get(NOME);
-		listaDeEventos.update(nome);
-		return null;
+		Evento evento = listaDeEventos.read(request.getQuery().get(NOME));
+
+		Query query = request.getQuery();
+		if(query.get(NOVONOME) != "")
+			evento.setNome(query.get(NOVONOME));
+		evento.setDataInicio((String) query.get(DATAINICIO));
+		evento.setDataTermino(query.get(DATATERMINO));
+		evento.setLocal(query.get(LOCAL));
+		evento.setCapacidade(query.getInteger(CAPACIDADE));
+		evento.setQuorum(query.getInteger(QUORUM));
+		evento.setOrcamentoPrevio(query.getFloat(ORCAMENTOPREVIO));
+		evento.setValorIngresso(query.getFloat(VALORINGRESSO));
+		evento.setCronograma(query.get(CRONOGRAMA));
+		evento.setStatus(query.get(STATUS));
+		
+		return evento.toJson();
 
 	}
 
