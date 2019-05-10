@@ -51,12 +51,6 @@ public class ListaEvento {
         return null;
     }
 
-    //TODO - Terminar o metodo de update
-    public Evento update(String nome) {
-    	Evento evento = read(nome);
-    	return evento;
-    }
-
     public Evento delete(String nome) {
         CelulaEvento aux = primeiro.proximo, sombra = primeiro;
         while (aux != null) {

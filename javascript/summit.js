@@ -48,6 +48,7 @@ function habilitaFormEvento(status, funcao) {
         document.getElementsByClassName("btnUpdate")[0].style.display = "none";
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
         btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
+        form[5].readOnly = false;
         // btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
@@ -210,7 +211,7 @@ function executaEvento(funcao) {
             if (xmlhttp.readyState == 4) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. " + xmlhttp.response);
-                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response)
+                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
                     if (funcao == "read") {
                         consultarEvento();
                     }
@@ -273,9 +274,9 @@ function editarEvento(selecao) {
         habilitaFormEvento(true, "delete");
     }
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    for (i = 5; i < form.length-1; i++) {
-        form[i].disabled = false;
-        if (selecao == 3) {
+    form[5].readOnly = true;
+    if (selecao == 3) {
+        for (i = 6; i < form.length-1; i++) {
             form[i].style.display = "";
             jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
         }
