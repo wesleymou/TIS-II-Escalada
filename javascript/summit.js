@@ -47,7 +47,7 @@ function habilitaFormEvento(status, funcao) {
         btnAcao.style.display = "";
         document.getElementsByClassName("btnUpdate")[0].style.display = "none";
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
-        btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
+        btnAcao.setAttribute("onclick", `executaXml("${funcao}", "evento")`);
         // btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
@@ -73,7 +73,7 @@ function habilitaFormEvento(status, funcao) {
             // btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
-            for (i = 6; i < form.length; i++) {
+            for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -114,7 +114,7 @@ function habilitaFormCliente(status, funcao) {
     let btnAcao = document.getElementsByClassName("btnAcao")[1];
     if (status == true) {
         btnAcao.style.display = "";
-        btnAcao.setAttribute("onclick", "executaCliente('" + funcao + "')");
+        btnAcao.setAttribute("onclick", `executaXml("${funcao}", "cliente")`);
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             // btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
@@ -176,21 +176,39 @@ function habilitaFormCliente(status, funcao) {
     }
 }
 
-function executaEvento(funcao) {
-    let form = document.querySelector("#formEvento");
-    let path;
-    if (funcao == "create")
-        path = "/cadastrarEvento";
-    else if (funcao == "read")
-        path = "/consultarEvento";
-    else if (funcao == "update") {
-        path = "/atualizarEvento";
-        for (i = 6; i < form.length; i++) {
-            form[i].required = false;
+function executaXml(funcao, tipo) {
+    let form;
+    let path
+    if (tipo == "evento") {
+        form = document.querySelector("#formEvento");
+        if (funcao == "create")
+            path = "/cadastrarEvento";
+        else if (funcao == "read")
+            path = "/consultarEvento";
+        else if (funcao == "update") {
+            path = "/atualizarEvento";
+            for (i = 6; i < form.length; i++) {
+                form[i].required = false;
+            }
         }
+        else if (funcao == "delete")
+            path = "/excluirEvento";
+    } else if (tipo == "cliente") {
+        form = document.querySelector("#formCliente");
+        if (funcao == "create")
+            path = "/cadastrarCliente";
+        else if (funcao == "read")
+            path = "/consultarCliente";
+        else if (funcao == "update") {
+            path = "/atualizarCliente";
+            for (i = 6; i < form.length; i++) {
+                form[i].required = false;
+            }
+        }
+        else if (funcao == "delete")
+            path = "/excluirCliente";
     }
-    else if (funcao == "delete")
-        path = "/excluirEvento";
+
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
@@ -212,7 +230,8 @@ function executaEvento(funcao) {
                     console.log("requisicao OK. " + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response)
                     if (funcao == "read") {
-                        consultarEvento();
+                        // consultarEvento();
+                        mostrarPainel(tipo, JSON.parse(xmlhttp.response));
                     }
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
                         alertaEvento(funcao);
@@ -248,7 +267,7 @@ function consultarEvento() {
     form[1].checked = true;
     habilitaFormEvento(true, "read");
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    for (i = 5; i < form.length-1; i++) {
+    for (i = 5; i < form.length - 1; i++) {
         form[i].style.display = "";
         form[i].disabled = true;
         jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
@@ -273,7 +292,7 @@ function editarEvento(selecao) {
         habilitaFormEvento(true, "delete");
     }
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    for (i = 5; i < form.length-1; i++) {
+    for (i = 5; i < form.length - 1; i++) {
         form[i].disabled = false;
         if (selecao == 3) {
             form[i].style.display = "";
@@ -285,12 +304,19 @@ function editarEvento(selecao) {
     document.getElementsByClassName("btnAcao")[0].style.display = "";
 }
 
-function executaCliente(funcao) {
-    let form = document.querySelector("#formCliente");
-    if (funcao == "update")
-        for (i = 6; i < form.length; i++) {
-            form[i].required = false;
-        }
-    if (!form.checkValidity())
-        alert("Preencha o formulário corretamente!");
+function mostrarPainel(tipo, dados) {
+    if (tipo == "evento") {
+        $("#modalTitle").html("Evento.");
+        $("#modalBody").html(function () {
+            texto = "";
+            for (i = 0; i < dados.length; i++) {
+                texto += `<div><a href='#' onclick='console.log("teste da tag <a>")' >${dados[i].nome}</a></div>`;
+            }
+            return texto;
+        });
+        $("#myModal").modal();
+
+    } else if (tipo == "cliente") {
+
+    }
 }

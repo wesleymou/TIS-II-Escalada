@@ -1,3 +1,6 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ListaEvento {
 
     private CelulaEvento primeiro;
@@ -72,5 +75,15 @@ public class ListaEvento {
             }
         }
         return null;
+    }
+    
+    public JSONArray todosOsEventos() {
+    	JSONArray Json = new JSONArray();
+    	CelulaEvento aux = primeiro.proximo;
+    	while(aux != null) {
+    		Json.put(aux.item.toJson());
+    		aux = aux.proximo;
+    	}
+    	return Json;
     }
 }
