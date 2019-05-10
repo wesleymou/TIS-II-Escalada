@@ -25,16 +25,16 @@ public class Evento {
 	public Evento(String nome, String local, String inicio, String termino, int capacidade, int quorum,
 			double orcamentoPrevio, double valorIngresso, String cronograma, String status) {
 //		public Evento(String nome, String local, LocalDateTime inicio, LocalDateTime termino){
-		this.setNome(nome);
-		this.setLocal(local);
-		this.setDataInicio(inicio);
-		this.setDataTermino(termino);
-		this.setCapacidade(capacidade);
-		this.setQuorum(quorum);
-		this.setOrcamentoPrevio(orcamentoPrevio);
-		this.setValorIngresso(valorIngresso);
-		this.setCronograma(cronograma);
-		this.setStatus(status);
+		setNome(nome);
+		setLocal(local);
+		setDataInicio(inicio);
+		setDataTermino(termino);
+		setCapacidade(capacidade);
+		setQuorum(quorum);
+		setOrcamentoPrevio(orcamentoPrevio);
+		setValorIngresso(valorIngresso);
+		setCronograma(cronograma);
+		setStatus(status);
 	}
 
 	public JSONObject toJson() {

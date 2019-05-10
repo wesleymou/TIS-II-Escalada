@@ -38,31 +38,46 @@ public class ListaClientes {
         ultimo = ultimo.proximo;
     }
 
-    public Cliente read(float cpf) {
-        CelulaCliente aux = primeiro.proximo;
-        while (aux != null) {
-            if (aux.item.getCpf() == cpf) {
-                return aux.item;
-            } else {
-                aux = aux.proximo;
-            }
-        }
-        return null;
-    }
+    public Cliente read(String nome) {
+      CelulaCliente aux = primeiro.proximo;
+      while (aux != null) {
+          if (aux.item.getNome().equals(nome)) {
+              return aux.item;
+          } else {
+              aux = aux.proximo;
+          }
+      }
+      return null;
+  }
+    
+//    public Cliente read(float cpf) {
+//        CelulaCliente aux = primeiro.proximo;
+//        while (aux != null) {
+//            if (aux.item.getCpf() == cpf) {
+//                return aux.item;
+//            } else {
+//                aux = aux.proximo;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    //TODO - Terminar o metodo de update
+//    public Cliente update(float cpf) {
+//    	Cliente cliente = read(cpf);
+//    	return cliente;
+//    }
 
-    //TODO - Terminar o metodo de update
-    public Cliente update(float cpf) {
-    	Cliente cliente = read(cpf);
-    	return cliente;
-    }
-
-    public Cliente delete(float cpf) {
+    public Cliente delete(String nome) {
+    	//public Cliente delete(float cpf) {
         CelulaCliente aux = primeiro.proximo, sombra = primeiro;
         while (aux != null) {
-            if (aux.item.getCpf() == cpf) {
+        	if (aux.item.getNome().equals(nome)) {
+//            if (aux.item.getCpf() == cpf) {
                 sombra.proximo = aux.proximo;
-                if (aux == ultimo) 
+                if (aux == ultimo) {
                     ultimo = sombra;
+                }
                 return aux.item;
             } else {
                 sombra = aux;

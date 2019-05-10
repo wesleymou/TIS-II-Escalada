@@ -49,7 +49,6 @@ function habilitaFormEvento(status, funcao) {
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
         btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
         form[5].readOnly = false;
-        // btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
@@ -115,11 +114,14 @@ function habilitaFormCliente(status, funcao) {
     let btnAcao = document.getElementsByClassName("btnAcao")[1];
     if (status == true) {
         btnAcao.style.display = "";
+        document.getElementsByClassName("btnUpdate")[1].style.display = "none";
+        document.getElementsByClassName("btnDelete")[1].style.display = "none";
         btnAcao.setAttribute("onclick", "executaCliente('" + funcao + "')");
+        form[5].readOnly = false;
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
+            btnAcao.className = "btnAcao btn btn-primary";
             // btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
-            // btnAcao.setAttribute("formmethod", "POST");
             for (i = 5; i < form.length; i++) {
                 if (i < form.length - 1) {
                     form[i].value = "";
@@ -135,13 +137,12 @@ function habilitaFormCliente(status, funcao) {
         }
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
+            btnAcao.className = "btnAcao btn btn-info";
             // btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
             // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < 7; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-            }
-            for (i = 7; i < form.length; i++) {
+            form[5].value = "";
+            form[5].disabled = false;
+            for (i = 6; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -150,6 +151,7 @@ function habilitaFormCliente(status, funcao) {
         }
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";
+            btnAcao.className = "btnAcao btn btn-primary";
             // btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
             // btnAcao.setAttribute("formmethod", "GET");
             for (i = 5; i < form.length; i++) {
@@ -161,13 +163,12 @@ function habilitaFormCliente(status, funcao) {
         }
         else if (funcao == "delete") {
             btnAcao.textContent = "Excluir";
+            btnAcao.className = "btnAcao btn btn-danger";
             // btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
             // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < 7; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-            }
-            for (i = 7; i < form.length; i++) {
+            form[5].value = "";
+            form[5].disabled = false;
+            for (i = 6; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -232,6 +233,61 @@ function executaEvento(funcao) {
     }
 }
 
+function executaCliente(funcao) {
+    let form = document.querySelector("#formCliente");
+    let path;
+    if (funcao == "create")
+        path = "/cadastrarCliente";
+    else if (funcao == "read")
+        path = "/consultarCliente";
+    else if (funcao == "update") {
+        path = "/atualizarCliente";
+        for (i = 6; i < form.length; i++) {
+            form[i].required = false;
+        }
+    }
+    else if (funcao == "delete")
+        path = "/excluirCliente";
+    if (!form.checkValidity())
+        alert("Preencha o formulário corretamente!");
+    else {
+        var xmlhttp = new XMLHttpRequest();
+        console.log("antes do open e send");
+        xmlhttp.open("POST", serverAddress + path, true);
+        xmlhttp.timeout = 1000;
+        xmlhttp.ontimeout = function (e) {
+            console.log("// XMLHttpRequest timed out.");
+        }
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send($('#formCliente').serialize());
+        console.log($('#formCliente').serialize());
+        console.log("apos o open e send");
+
+        xmlhttp.onreadystatechange = function (e) {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status >= 200) {
+                    console.log("requisicao OK. " + xmlhttp.response);
+                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
+                    if (funcao == "read") {
+                        consultarCliente();
+                    }
+                    else if (funcao == "create" || funcao == "update" || funcao == "delete")
+                        alertaCliente(funcao);
+                }
+                //location = "";
+                else {
+                    console.error("erro na requisicao. //" + xmlhttp.statusText);
+                }
+            }
+        }
+        console.log("apos o onreadystatechange");
+
+        xmlhttp.onerror = function (e) {
+            console.error(xmlhttp.statusText);
+        }
+    }
+}
+
 function alertaEvento(funcao) {
     $("#formEvento")[0].reset();
     document.getElementById('evento').style.display = "none";
@@ -241,6 +297,17 @@ function alertaEvento(funcao) {
         alert("Evento atualizado com sucesso!");
     else
         alert("Evento excluído com sucesso!");
+}
+
+function alertaCliente(funcao) {
+    $("#formCliente")[0].reset();
+    document.getElementById('cliente').style.display = "none";
+    if (funcao == "create")
+        alert("Cliente cadastrado com sucesso!");
+    else if (funcao == "update")
+        alert("Cliente atualizado com sucesso!");
+    else
+        alert("Cliente excluído com sucesso!");
 }
 
 function consultarEvento() {
@@ -256,6 +323,22 @@ function consultarEvento() {
         document.getElementsByClassName("btnUpdate")[0].style.display = "";
         document.getElementsByClassName("btnDelete")[0].style.display = "";
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
+    }
+}
+
+function consultarCliente() {
+    let form = document.querySelector("#formCliente");
+    cliente();
+    form[1].checked = true;
+    habilitaFormCliente(true, "read");
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    for (i = 5; i < form.length-1; i++) {
+        form[i].style.display = "";
+        form[i].disabled = true;
+        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        document.getElementsByClassName("btnUpdate")[1].style.display = "";
+        document.getElementsByClassName("btnDelete")[1].style.display = "";
+        document.getElementsByClassName("btnAcao")[1].style.display = "none";
     }
 }
 
@@ -286,7 +369,28 @@ function editarEvento(selecao) {
     document.getElementsByClassName("btnAcao")[0].style.display = "";
 }
 
-function executaCliente(funcao) {
+function editarCliente(selecao) {
+    let form = document.querySelector("#formCliente");
+    form[selecao].checked = true;
+    if (selecao == 2)
+        habilitaFormCliente(true, "update");
+    else if (selecao == 3) {
+        habilitaFormCliente(true, "delete");
+    }
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    form[5].readOnly = true;
+    if (selecao == 3) {
+        for (i = 6; i < form.length-1; i++) {
+            form[i].style.display = "";
+            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        }
+    }
+    document.getElementsByClassName("btnUpdate")[0].style.display = "none";
+    document.getElementsByClassName("btnDelete")[0].style.display = "none";
+    document.getElementsByClassName("btnAcao")[0].style.display = "";
+}
+
+/*function executaCliente(funcao) {
     let form = document.querySelector("#formCliente");
     if (funcao == "update")
         for (i = 6; i < form.length; i++) {
@@ -294,4 +398,4 @@ function executaCliente(funcao) {
         }
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
-}
+}*/
