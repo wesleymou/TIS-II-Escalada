@@ -40,14 +40,21 @@ function cliente() {
     }
 }
 
-function habilitaFormEvento(status, funcao) {
-    let form = document.querySelector("#formEvento");
-    let btnAcao = document.getElementsByClassName("btnAcao")[0];
+function habilitaForm(status, funcao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let indiceForm;
+    if(modulo == "Evento") {
+        indiceForm = 0;
+    }
+    else if (modulo == "Cliente") {
+        indiceForm = 1;
+    }
+    let btnAcao = document.getElementsByClassName("btnAcao")[indiceForm];
     if (status == true) {
         btnAcao.style.display = "";
-        document.getElementsByClassName("btnUpdate")[0].style.display = "none";
-        document.getElementsByClassName("btnDelete")[0].style.display = "none";
-        btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
+        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
+        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "none";
+        btnAcao.setAttribute("onclick", `executaXML("${funcao}","${modulo}")`);
         form[5].readOnly = false;
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
@@ -109,7 +116,7 @@ function habilitaFormEvento(status, funcao) {
     }
 }
 
-function habilitaFormCliente(status, funcao) {
+/*function habilitaForm(status, funcao) {
     let form = document.querySelector("#formCliente");
     let btnAcao = document.getElementsByClassName("btnAcao")[1];
     if (status == true) {
@@ -176,36 +183,36 @@ function habilitaFormCliente(status, funcao) {
             }
         }
     }
-}
+}*/
 
-function executaEvento(funcao) {
-    let form = document.querySelector("#formEvento");
+function executaXML(funcao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
     let path;
     if (funcao == "create")
-        path = "/cadastrarEvento";
+        path = serverAddress + `/cadastrar${modulo}`;
     else if (funcao == "read")
-        path = "/consultarEvento";
+        path = serverAddress + `/consultar${modulo}`;
     else if (funcao == "update") {
-        path = "/atualizarEvento";
+        path = serverAddress + `/atualizar${modulo}`;
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
     }
     else if (funcao == "delete")
-        path = "/excluirEvento";
+        path = serverAddress + `/excluir${modulo}`;
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
         var xmlhttp = new XMLHttpRequest();
         console.log("antes do open e send");
-        xmlhttp.open("POST", serverAddress + path, true);
+        xmlhttp.open("POST", path, true);
         xmlhttp.timeout = 1000;
         xmlhttp.ontimeout = function (e) {
             console.log("// XMLHttpRequest timed out.");
         }
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xmlhttp.send($('#formEvento').serialize());
-        console.log($('#formEvento').serialize());
+        xmlhttp.send($(`#form${modulo}`).serialize());
+        console.log($(`#form${modulo}`).serialize());
         console.log("apos o open e send");
 
         xmlhttp.onreadystatechange = function (e) {
@@ -214,12 +221,17 @@ function executaEvento(funcao) {
                     console.log("requisicao OK. " + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
                     if (funcao == "read") {
-                        consultarEvento();
+                        if (modulo == "Evento")
+                            consultarEvento();
+                        else if (modulo == "Cliente")
+                            consultarCliente();
                     }
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
-                        alertaEvento(funcao);
+                        if (modulo == "Evento")
+                            alertaEvento(funcao);
+                        else if (modulo == "Cliente")
+                            alertaCliente(funcao);
                 }
-                //location = "";
                 else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);
                 }
@@ -233,7 +245,7 @@ function executaEvento(funcao) {
     }
 }
 
-function executaCliente(funcao) {
+/*function executaCliente(funcao) {
     let form = document.querySelector("#formCliente");
     let path;
     if (funcao == "create")
@@ -286,7 +298,7 @@ function executaCliente(funcao) {
             console.error(xmlhttp.statusText);
         }
     }
-}
+}*/
 
 function alertaEvento(funcao) {
     $("#formEvento")[0].reset();
@@ -314,7 +326,7 @@ function consultarEvento() {
     let form = document.querySelector("#formEvento");
     evento();
     form[1].checked = true;
-    habilitaFormEvento(true, "read");
+    habilitaForm(true, "read", "Evento");
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     for (i = 5; i < form.length-1; i++) {
         form[i].style.display = "";
@@ -330,7 +342,7 @@ function consultarCliente() {
     let form = document.querySelector("#formCliente");
     cliente();
     form[1].checked = true;
-    habilitaFormCliente(true, "read");
+    habilitaForm(true, "read", "Cliente");
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     for (i = 5; i < form.length-1; i++) {
         form[i].style.display = "";
@@ -352,9 +364,9 @@ function editarEvento(selecao) {
     let form = document.querySelector("#formEvento");
     form[selecao].checked = true;
     if (selecao == 2)
-        habilitaFormEvento(true, "update");
+        habilitaForm(true, "update", "Evento");
     else if (selecao == 3) {
-        habilitaFormEvento(true, "delete");
+        habilitaForm(true, "delete", "Evento");
     }
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     form[5].readOnly = true;
@@ -373,9 +385,9 @@ function editarCliente(selecao) {
     let form = document.querySelector("#formCliente");
     form[selecao].checked = true;
     if (selecao == 2)
-        habilitaFormCliente(true, "update");
+        habilitaForm(true, "update", "Cliente");
     else if (selecao == 3) {
-        habilitaFormCliente(true, "delete");
+        habilitaForm(true, "delete", "Cliente");
     }
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     form[5].readOnly = true;
