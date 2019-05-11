@@ -43,7 +43,7 @@ function cliente() {
 function habilitaForm(status, funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let indiceForm;
-    if(modulo == "Evento") {
+    if (modulo == "Evento") {
         indiceForm = 0;
     }
     else if (modulo == "Cliente") {
@@ -220,17 +220,10 @@ function executaXML(funcao, modulo) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. " + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
-                    if (funcao == "read") {
-                        if (modulo == "Evento")
-                            consultarEvento();
-                        else if (modulo == "Cliente")
-                            consultarCliente();
-                    }
+                    if (funcao == "read")
+                        consultaRegistro(modulo);
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
-                        if (modulo == "Evento")
-                            alertaEvento(funcao);
-                        else if (modulo == "Cliente")
-                            alertaCliente(funcao);
+                        alerta(funcao, modulo);
                 }
                 else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);
@@ -300,18 +293,42 @@ function executaXML(funcao, modulo) {
     }
 }*/
 
-function alertaEvento(funcao) {
-    $("#formEvento")[0].reset();
-    document.getElementById('evento').style.display = "none";
-    if (funcao == "create")
-        alert("Evento cadastrado com sucesso!");
-    else if (funcao == "update")
-        alert("Evento atualizado com sucesso!");
-    else
-        alert("Evento excluído com sucesso!");
+function consultaRegistro(modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let indiceForm;
+    if (modulo == "Evento") {
+        evento();
+        indiceForm = 0;
+    }
+    else if (modulo == "Cliente") {
+        cliente();
+        indiceForm = 1;
+    }
+    form[1].checked = true;
+    habilitaForm(true, "read", modulo);
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    for (i = 5; i < form.length - 1; i++) {
+        form[i].style.display = "";
+        form[i].disabled = true;
+        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
+        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
+        document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
+    }
 }
 
-function alertaCliente(funcao) {
+function alerta(funcao, modulo) {
+    $(`#form${modulo}`)[0].reset();
+    document.getElementById(modulo.toLowerCase()).style.display = "none";
+    if (funcao == "create")
+        alert(`${modulo} cadastrado com sucesso!`);
+    else if (funcao == "update")
+        alert(`${modulo} atualizado com sucesso!`);
+    else
+        alert(`${modulo} excluído com sucesso!`);
+}
+
+/*function alertaCliente(funcao) {
     $("#formCliente")[0].reset();
     document.getElementById('cliente').style.display = "none";
     if (funcao == "create")
@@ -320,9 +337,9 @@ function alertaCliente(funcao) {
         alert("Cliente atualizado com sucesso!");
     else
         alert("Cliente excluído com sucesso!");
-}
+}*/
 
-function consultarEvento() {
+/*function consultarEvento() {
     let form = document.querySelector("#formEvento");
     evento();
     form[1].checked = true;
@@ -336,9 +353,9 @@ function consultarEvento() {
         document.getElementsByClassName("btnDelete")[0].style.display = "";
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
     }
-}
+}*/
 
-function consultarCliente() {
+/*function consultarCliente() {
     let form = document.querySelector("#formCliente");
     cliente();
     form[1].checked = true;
@@ -352,15 +369,33 @@ function consultarCliente() {
         document.getElementsByClassName("btnDelete")[1].style.display = "";
         document.getElementsByClassName("btnAcao")[1].style.display = "none";
     }
-}
+}*/
 
 function populate(form, json) {
-    $.each(json, function(key, value) {
-        $('[name='+key+']', form).val(value);
+    $.each(json, function (key, value) {
+        $('[name=' + key + ']', form).val(value);
     })
 }
 
-function editarEvento(selecao) {
+function editaRegistro(selecao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    form[selecao].checked = true;
+    if (selecao == 2)
+        habilitaForm(true, "update", modulo);
+    else if (selecao == 3) {
+        habilitaForm(true, "delete", modulo);
+    }
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    form[5].readOnly = true;
+    if (selecao == 3) {
+        for (i = 6; i < form.length - 1; i++) {
+            form[i].style.display = "";
+            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        }
+    }
+}
+
+/*function editarEvento(selecao) {
     let form = document.querySelector("#formEvento");
     form[selecao].checked = true;
     if (selecao == 2)
@@ -371,7 +406,7 @@ function editarEvento(selecao) {
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     form[5].readOnly = true;
     if (selecao == 3) {
-        for (i = 6; i < form.length-1; i++) {
+        for (i = 6; i < form.length - 1; i++) {
             form[i].style.display = "";
             jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
         }
@@ -379,9 +414,9 @@ function editarEvento(selecao) {
     document.getElementsByClassName("btnUpdate")[0].style.display = "none";
     document.getElementsByClassName("btnDelete")[0].style.display = "none";
     document.getElementsByClassName("btnAcao")[0].style.display = "";
-}
+}*/
 
-function editarCliente(selecao) {
+/*function editarCliente(selecao) {
     let form = document.querySelector("#formCliente");
     form[selecao].checked = true;
     if (selecao == 2)
@@ -392,15 +427,15 @@ function editarCliente(selecao) {
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     form[5].readOnly = true;
     if (selecao == 3) {
-        for (i = 6; i < form.length-1; i++) {
+        for (i = 6; i < form.length - 1; i++) {
             form[i].style.display = "";
             jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
         }
     }
-    document.getElementsByClassName("btnUpdate")[0].style.display = "none";
+    document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
     document.getElementsByClassName("btnDelete")[0].style.display = "none";
     document.getElementsByClassName("btnAcao")[0].style.display = "";
-}
+}*/
 
 /*function executaCliente(funcao) {
     let form = document.querySelector("#formCliente");
