@@ -2,6 +2,7 @@ import java.time.LocalDateTime;
 //import java.util.HashMap;
 //import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
@@ -45,11 +46,8 @@ public final class EventoService {
 		return evento.toJson();
 	}
 
-	public JSONObject get(Request request) {
-		Evento evento = listaDeEventos.read(request.getQuery().get(NOME));
-		if ((evento) != null)
-			return evento.toJson();
-		return null;
+	public JSONArray get(Request request) {
+		return listaDeEventos.todosOsEventos();
 	}
 
 	public JSONObject update(Request request) {

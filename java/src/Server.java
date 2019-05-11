@@ -5,6 +5,7 @@ import java.net.SocketAddress;
 import java.net.URI;
 import java.util.Scanner;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
@@ -30,6 +31,7 @@ public class Server implements Container {
 				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
+				System.out.println(eventoService.get(request));
 				this.enviaResposta(Status.OK, response, eventoService.get(request));
 
 			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
@@ -66,6 +68,19 @@ public class Server implements Container {
 	}
 
 	private void enviaResposta(Status status, Response response, JSONObject JSON) throws Exception {
+		PrintStream body = response.getPrintStream();
+		long time = System.currentTimeMillis();
+		response.setValue("Access-Control-Allow-Origin", "*");
+		response.setValue("Content-Type", "application/json");
+		response.setValue("Server", "");
+		response.setDate("Date", time);
+		response.setDate("Last-Modified", time);
+		response.setStatus(status);
+		body.println(JSON);
+		body.close();
+	}
+	
+	private void enviaResposta(Status status, Response response, JSONArray JSON) throws Exception {
 		PrintStream body = response.getPrintStream();
 		long time = System.currentTimeMillis();
 		response.setValue("Access-Control-Allow-Origin", "*");

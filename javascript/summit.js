@@ -80,7 +80,7 @@ function habilitaForm(status, funcao, modulo) {
             // btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
-            for (i = 6; i < form.length; i++) {
+            for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -115,75 +115,6 @@ function habilitaForm(status, funcao, modulo) {
         }
     }
 }
-
-/*function habilitaForm(status, funcao) {
-    let form = document.querySelector("#formCliente");
-    let btnAcao = document.getElementsByClassName("btnAcao")[1];
-    if (status == true) {
-        btnAcao.style.display = "";
-        document.getElementsByClassName("btnUpdate")[1].style.display = "none";
-        document.getElementsByClassName("btnDelete")[1].style.display = "none";
-        btnAcao.setAttribute("onclick", "executaCliente('" + funcao + "')");
-        form[5].readOnly = false;
-        if (funcao == "create") {
-            btnAcao.textContent = "Cadastrar";
-            btnAcao.className = "btnAcao btn btn-primary";
-            // btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
-            for (i = 5; i < form.length; i++) {
-                if (i < form.length - 1) {
-                    form[i].value = "";
-                    form[i].disabled = false;
-                    form[i].style.display = "";
-                    jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-                }
-                else {
-                    form[i].style.display = "none";
-                    jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                }
-            }
-        }
-        else if (funcao == "read") {
-            btnAcao.textContent = "Consultar";
-            btnAcao.className = "btnAcao btn btn-info";
-            // btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            form[5].value = "";
-            form[5].disabled = false;
-            for (i = 6; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                form[i].style.display = "none";
-            }
-        }
-        else if (funcao == "update") {
-            btnAcao.textContent = "Atualizar";
-            btnAcao.className = "btnAcao btn btn-primary";
-            // btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-                form[i].style.display = "";
-            }
-        }
-        else if (funcao == "delete") {
-            btnAcao.textContent = "Excluir";
-            btnAcao.className = "btnAcao btn btn-danger";
-            // btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            form[5].value = "";
-            form[5].disabled = false;
-            for (i = 6; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                form[i].style.display = "none";
-            }
-        }
-    }
-}*/
 
 function executaXML(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
@@ -238,61 +169,6 @@ function executaXML(funcao, modulo) {
     }
 }
 
-/*function executaCliente(funcao) {
-    let form = document.querySelector("#formCliente");
-    let path;
-    if (funcao == "create")
-        path = "/cadastrarCliente";
-    else if (funcao == "read")
-        path = "/consultarCliente";
-    else if (funcao == "update") {
-        path = "/atualizarCliente";
-        for (i = 6; i < form.length; i++) {
-            form[i].required = false;
-        }
-    }
-    else if (funcao == "delete")
-        path = "/excluirCliente";
-    if (!form.checkValidity())
-        alert("Preencha o formulário corretamente!");
-    else {
-        var xmlhttp = new XMLHttpRequest();
-        console.log("antes do open e send");
-        xmlhttp.open("POST", serverAddress + path, true);
-        xmlhttp.timeout = 1000;
-        xmlhttp.ontimeout = function (e) {
-            console.log("// XMLHttpRequest timed out.");
-        }
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xmlhttp.send($('#formCliente').serialize());
-        console.log($('#formCliente').serialize());
-        console.log("apos o open e send");
-
-        xmlhttp.onreadystatechange = function (e) {
-            if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status >= 200) {
-                    console.log("requisicao OK. " + xmlhttp.response);
-                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
-                    if (funcao == "read") {
-                        consultarCliente();
-                    }
-                    else if (funcao == "create" || funcao == "update" || funcao == "delete")
-                        alertaCliente(funcao);
-                }
-                //location = "";
-                else {
-                    console.error("erro na requisicao. //" + xmlhttp.statusText);
-                }
-            }
-        }
-        console.log("apos o onreadystatechange");
-
-        xmlhttp.onerror = function (e) {
-            console.error(xmlhttp.statusText);
-        }
-    }
-}*/
-
 function consultaRegistro(modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let indiceForm;
@@ -328,49 +204,6 @@ function alerta(funcao, modulo) {
         alert(`${modulo} excluído com sucesso!`);
 }
 
-/*function alertaCliente(funcao) {
-    $("#formCliente")[0].reset();
-    document.getElementById('cliente').style.display = "none";
-    if (funcao == "create")
-        alert("Cliente cadastrado com sucesso!");
-    else if (funcao == "update")
-        alert("Cliente atualizado com sucesso!");
-    else
-        alert("Cliente excluído com sucesso!");
-}*/
-
-/*function consultarEvento() {
-    let form = document.querySelector("#formEvento");
-    evento();
-    form[1].checked = true;
-    habilitaForm(true, "read", "Evento");
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    for (i = 5; i < form.length-1; i++) {
-        form[i].style.display = "";
-        form[i].disabled = true;
-        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        document.getElementsByClassName("btnUpdate")[0].style.display = "";
-        document.getElementsByClassName("btnDelete")[0].style.display = "";
-        document.getElementsByClassName("btnAcao")[0].style.display = "none";
-    }
-}*/
-
-/*function consultarCliente() {
-    let form = document.querySelector("#formCliente");
-    cliente();
-    form[1].checked = true;
-    habilitaForm(true, "read", "Cliente");
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    for (i = 5; i < form.length-1; i++) {
-        form[i].style.display = "";
-        form[i].disabled = true;
-        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        document.getElementsByClassName("btnUpdate")[1].style.display = "";
-        document.getElementsByClassName("btnDelete")[1].style.display = "";
-        document.getElementsByClassName("btnAcao")[1].style.display = "none";
-    }
-}*/
-
 function populate(form, json) {
     $.each(json, function (key, value) {
         $('[name=' + key + ']', form).val(value);
@@ -395,54 +228,20 @@ function editaRegistro(selecao, modulo) {
     }
 }
 
-/*function editarEvento(selecao) {
-    let form = document.querySelector("#formEvento");
-    form[selecao].checked = true;
-    if (selecao == 2)
-        habilitaForm(true, "update", "Evento");
-    else if (selecao == 3) {
-        habilitaForm(true, "delete", "Evento");
-    }
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    form[5].readOnly = true;
-    if (selecao == 3) {
-        for (i = 6; i < form.length - 1; i++) {
-            form[i].style.display = "";
-            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        }
-    }
-    document.getElementsByClassName("btnUpdate")[0].style.display = "none";
-    document.getElementsByClassName("btnDelete")[0].style.display = "none";
-    document.getElementsByClassName("btnAcao")[0].style.display = "";
-}*/
 
-/*function editarCliente(selecao) {
-    let form = document.querySelector("#formCliente");
-    form[selecao].checked = true;
-    if (selecao == 2)
-        habilitaForm(true, "update", "Cliente");
-    else if (selecao == 3) {
-        habilitaForm(true, "delete", "Cliente");
-    }
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    form[5].readOnly = true;
-    if (selecao == 3) {
-        for (i = 6; i < form.length - 1; i++) {
-            form[i].style.display = "";
-            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        }
-    }
-    document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
-    document.getElementsByClassName("btnDelete")[0].style.display = "none";
-    document.getElementsByClassName("btnAcao")[0].style.display = "";
-}*/
+function mostrarPainel(tipo, dados) {
+    if (tipo == "evento") {
+        $("#modalTitle").html("Evento.");
+        $("#modalBody").html(function () {
+            texto = "";
+            for (i = 0; i < dados.length; i++) {
+                texto += `<div><a href='#' onclick='console.log("teste da tag <a>")' >${dados[i].nome}</a></div>`;
+            }
+            return texto;
+        });
+        $("#myModal").modal();
 
-/*function executaCliente(funcao) {
-    let form = document.querySelector("#formCliente");
-    if (funcao == "update")
-        for (i = 6; i < form.length; i++) {
-            form[i].required = false;
-        }
-    if (!form.checkValidity())
-        alert("Preencha o formulário corretamente!");
-}*/
+    } else if (tipo == "cliente") {
+
+    }
+}
