@@ -7,10 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Excursão - SUMMIT Ginásio de Escalada</title>
+
     <!-- Bootstrap core CSS -->
-    <!-- <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -18,11 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
         type="text/css">
 
-    <!-- Plugin CSS -->
-    <!-- <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css"> -->
-
     <!-- Custom styles for this template -->
-    <link href="css/freelancer.css" rel="stylesheet">
+    <link href="css/freelancer.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -43,20 +39,22 @@
                 <div class="row">
                     <div class="col">
                         <input id="formEventoCreate" type="radio" name="funcao" value="create"
-                            onchange="habilitaFormEvento(this.checked, 'create')">
+                            onchange="habilitaForm(this.checked, 'create', 'Evento')">
                         <label for="formEventoCreate">Cadastrar</label>
                         <input id="formEventoRead" type="radio" name="funcao" value="read"
-                            onchange="habilitaFormEvento(this.checked, 'read')">
+                            onchange="habilitaForm(this.checked, 'read', 'Evento')">
                         <label for="formEventoRead">Consultar</label>
                         <input id="formEventoUpdate" type="radio" name="funcao" value="update"
-                            onchange="habilitaFormEvento(this.checked, 'update')">
+                            onchange="habilitaForm(this.checked, 'update', 'Evento')">
                         <label for="formEventoUpdate">Atualizar</label>
                         <input id="formEventoDelete" type="radio" name="funcao" value="delete"
-                            onchange="habilitaFormEvento(this.checked, 'delete')">
+                            onchange="habilitaForm(this.checked, 'delete', 'Evento')">
                         <label for="formEventoDelete">Excluir</label>
                     </div>
                     <div class="col">
                         <button class="btnAcao btn" style="display:none" type="button"></button>
+                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form="" onclick="editaRegistro(2, 'Evento')">Atualizar</button>
+                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form="" onclick="editaRegistro(3, 'Evento')">Excluir</button>
                     </div>
                 </div><br>
                 <div class="row">
@@ -171,20 +169,22 @@
                 <div class="row">
                     <div class="col">
                         <input id="formClienteCreate" type="radio" name="funcao" value="create"
-                            onchange="habilitaFormCliente(this.checked, 'create')">
+                            onchange="habilitaForm(this.checked, 'create', 'Cliente')">
                         <label for="formClienteCreate">Cadastrar</label>
                         <input id="formClienteRead" type="radio" name="funcao" value="read"
-                            onchange="habilitaFormCliente(this.checked, 'read')">
+                            onchange="habilitaForm(this.checked, 'read', 'Cliente')">
                         <label for="formClienteRead">Consultar</label>
                         <input id="formClienteUpdate" type="radio" name="funcao" value="update"
-                            onchange="habilitaFormCliente(this.checked, 'update')">
+                            onchange="habilitaForm(this.checked, 'update', 'Cliente')">
                         <label for="formClienteUpdate">Atualizar</label>
                         <input id="formClienteDelete" type="radio" name="funcao" value="delete"
-                            onchange="habilitaFormCliente(this.checked, 'delete')">
+                            onchange="habilitaForm(this.checked, 'delete', 'Cliente')">
                         <label for="formClienteDelete">Excluir</label>
                     </div>
                     <div class="col">
                         <button class="btnAcao btn" style="display:none" type="button"></button>
+                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form="" onclick="editaRegistro(2, 'Cliente')">Atualizar</button>
+                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form="" onclick="editaRegistro(3, 'Cliente')">Excluir</button>
                     </div>
                 </div><br>
 
@@ -258,21 +258,32 @@
         </div>
     </div>
 
-    <!-- Javascript interno -->
-    <script src="javascript/summit.js"></script>
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid" id="modalBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
     <!-- Javascript do Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <!-- Javascript interno -->
+    <script src="javascript/summit.js"></script>
 
 </body>
 

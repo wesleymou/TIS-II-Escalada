@@ -40,13 +40,22 @@ function cliente() {
     }
 }
 
-function habilitaFormEvento(status, funcao) {
-    let form = document.querySelector("#formEvento");
-    let btnAcao = document.getElementsByClassName("btnAcao")[0];
+function habilitaForm(status, funcao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let indiceForm;
+    if (modulo == "Evento") {
+        indiceForm = 0;
+    }
+    else if (modulo == "Cliente") {
+        indiceForm = 1;
+    }
+    let btnAcao = document.getElementsByClassName("btnAcao")[indiceForm];
     if (status == true) {
         btnAcao.style.display = "";
-        btnAcao.setAttribute("onclick", "executaEvento('" + funcao + "')");
-        // btnAcao.setAttribute("formmethod", "POST");
+        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
+        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "none";
+        btnAcao.setAttribute("onclick", `executaXML("${funcao}","${modulo}")`);
+        form[5].readOnly = false;
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
@@ -71,7 +80,7 @@ function habilitaFormEvento(status, funcao) {
             // btnAcao.setAttribute("formmethod", "GET");
             form[5].value = "";
             form[5].disabled = false;
-            for (i = 6; i < form.length; i++) {
+            for (i = 5; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -100,73 +109,6 @@ function habilitaFormEvento(status, funcao) {
             for (i = 6; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none"
-                form[i].style.display = "none";
-            }
-        }
-    }
-}
-
-function habilitaFormCliente(status, funcao) {
-    let form = document.querySelector("#formCliente");
-    let btnAcao = document.getElementsByClassName("btnAcao")[1];
-    if (status == true) {
-        btnAcao.style.display = "";
-        btnAcao.setAttribute("onclick", "executaCliente('" + funcao + "')");
-        if (funcao == "create") {
-            btnAcao.textContent = "Cadastrar";
-            // btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
-            // btnAcao.setAttribute("formmethod", "POST");
-            for (i = 5; i < form.length; i++) {
-                if (i < form.length - 1) {
-                    form[i].value = "";
-                    form[i].disabled = false;
-                    form[i].style.display = "";
-                    jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-                }
-                else {
-                    form[i].style.display = "none";
-                    jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                }
-            }
-        }
-        else if (funcao == "read") {
-            btnAcao.textContent = "Consultar";
-            // btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < 7; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-            }
-            for (i = 7; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                form[i].style.display = "none";
-            }
-        }
-        else if (funcao == "update") {
-            btnAcao.textContent = "Atualizar";
-            // btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-                form[i].style.display = "";
-            }
-        }
-        else if (funcao == "delete") {
-            btnAcao.textContent = "Excluir";
-            // btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < 7; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-            }
-            for (i = 7; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
                 form[i].style.display = "none";
             }
@@ -174,39 +116,51 @@ function habilitaFormCliente(status, funcao) {
     }
 }
 
-function executaEvento(funcao) {
-    let form = document.querySelector("#formEvento");
-    if (funcao == "update") {
+function executaXML(funcao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let path;
+    if (funcao == "create")
+        path = serverAddress + `/cadastrar${modulo}`;
+    else if (funcao == "read")
+        path = serverAddress + `/consultar${modulo}`;
+    else if (funcao == "update") {
+        path = serverAddress + `/atualizar${modulo}`;
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
     }
+    else if (funcao == "delete")
+        path = serverAddress + `/excluir${modulo}`;
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
         var xmlhttp = new XMLHttpRequest();
         console.log("antes do open e send");
-        xmlhttp.open("POST", serverAddress + "/cadastrarEvento", true);
+        xmlhttp.open("POST", path, true);
         xmlhttp.timeout = 1000;
         xmlhttp.ontimeout = function (e) {
             console.log("// XMLHttpRequest timed out.");
         }
-        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-        xmlhttp.send(encodeURI(location.href));
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send($(`#form${modulo}`).serialize());
+        console.log($(`#form${modulo}`).serialize());
         console.log("apos o open e send");
 
         xmlhttp.onreadystatechange = function (e) {
             if (xmlhttp.readyState == 4) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. " + xmlhttp.response);
-                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response)
-                    location = "";
-                } else {
+                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
+                    if (funcao == "read")
+                        consultaRegistro(modulo);
+                    else if (funcao == "create" || funcao == "update" || funcao == "delete")
+                        alerta(funcao, modulo);
+                }
+                else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);
                 }
             }
         }
-
         console.log("apos o onreadystatechange");
 
         xmlhttp.onerror = function (e) {
@@ -215,12 +169,79 @@ function executaEvento(funcao) {
     }
 }
 
-function executaCliente(funcao) {
-    let form = document.querySelector("#formCliente");
-    if (funcao == "update")
-        for (i = 6; i < form.length; i++) {
-            form[i].required = false;
+function consultaRegistro(modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let indiceForm;
+    if (modulo == "Evento") {
+        evento();
+        indiceForm = 0;
+    }
+    else if (modulo == "Cliente") {
+        cliente();
+        indiceForm = 1;
+    }
+    form[1].checked = true;
+    habilitaForm(true, "read", modulo);
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    for (i = 5; i < form.length - 1; i++) {
+        form[i].style.display = "";
+        form[i].disabled = true;
+        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
+        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
+        document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
+    }
+}
+
+function alerta(funcao, modulo) {
+    $(`#form${modulo}`)[0].reset();
+    document.getElementById(modulo.toLowerCase()).style.display = "none";
+    if (funcao == "create")
+        alert(`${modulo} cadastrado com sucesso!`);
+    else if (funcao == "update")
+        alert(`${modulo} atualizado com sucesso!`);
+    else
+        alert(`${modulo} excluído com sucesso!`);
+}
+
+function populate(form, json) {
+    $.each(json, function (key, value) {
+        $('[name=' + key + ']', form).val(value);
+    })
+}
+
+function editaRegistro(selecao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    form[selecao].checked = true;
+    if (selecao == 2)
+        habilitaForm(true, "update", modulo);
+    else if (selecao == 3) {
+        habilitaForm(true, "delete", modulo);
+    }
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    form[5].readOnly = true;
+    if (selecao == 3) {
+        for (i = 6; i < form.length - 1; i++) {
+            form[i].style.display = "";
+            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
         }
-    if (!form.checkValidity())
-        alert("Preencha o formulário corretamente!");
+    }
+}
+
+
+function mostrarPainel(tipo, dados) {
+    if (tipo == "evento") {
+        $("#modalTitle").html("Evento.");
+        $("#modalBody").html(function () {
+            texto = "";
+            for (i = 0; i < dados.length; i++) {
+                texto += `<div><a href='#' onclick='console.log("teste da tag <a>")' >${dados[i].nome}</a></div>`;
+            }
+            return texto;
+        });
+        $("#myModal").modal();
+
+    } else if (tipo == "cliente") {
+
+    }
 }

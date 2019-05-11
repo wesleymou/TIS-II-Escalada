@@ -5,6 +5,7 @@ import java.net.SocketAddress;
 import java.net.URI;
 import java.util.Scanner;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
@@ -24,29 +25,33 @@ public class Server implements Container {
 			String path = request.getPath().getPath();
 			String method = request.getMethod();
 
-			if (path.startsWith("/cadastrarEvento") && "POST".equals(method)) {
-				this.enviaResposta(Status.CREATED, response, eventoService.add(request));
+			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
+				JSONObject j = eventoService.add(request);
+				System.out.println(request.getQuery().toString() + "\n" + j.toString());
+				this.enviaResposta(Status.CREATED, response, j);
 
-			} else if (path.startsWith("/consultarEvento") && "GET".equals(method)) {
+			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
+				System.out.println(eventoService.get(request));
 				this.enviaResposta(Status.OK, response, eventoService.get(request));
 
-			} else if (path.startsWith("/atualizarEvento") && "GET".equals(method)) {
+			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
 
-			} else if (path.startsWith("/excluirEvento") && "GET".equals(method)) {
+			} else if (path.startsWith("/excluirEvento")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, eventoService.remove(request));
 
-			} else if (path.startsWith("/cadastrarCliente") && "POST".equals(method)) {
+			} else if (path.startsWith("/cadastrarCliente")/* && "POST".equals(method)*/) {
 				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
 
-			} else if (path.startsWith("/consultarCliente") && "GET".equals(method)) {
+			} else if (path.startsWith("/consultarCliente")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, clienteService.get(request));
 
-			} else if (path.startsWith("/atualizarCliente") && "GET".equals(method)) {
+			} else if (path.startsWith("/atualizarCliente")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, clienteService.update(request));
 
-			} else if (path.startsWith("/excluirCliente") && "GET".equals(method)) {
+			} else if (path.startsWith("/excluirCliente")/* && "GET".equals(method)*/) {
 				this.enviaResposta(Status.OK, response, clienteService.remove(request));
+
 			} else {
 				this.naoEncontrado(response, path);
 			}
@@ -63,6 +68,19 @@ public class Server implements Container {
 	}
 
 	private void enviaResposta(Status status, Response response, JSONObject JSON) throws Exception {
+		PrintStream body = response.getPrintStream();
+		long time = System.currentTimeMillis();
+		response.setValue("Access-Control-Allow-Origin", "*");
+		response.setValue("Content-Type", "application/json");
+		response.setValue("Server", "");
+		response.setDate("Date", time);
+		response.setDate("Last-Modified", time);
+		response.setStatus(status);
+		body.println(JSON);
+		body.close();
+	}
+	
+	private void enviaResposta(Status status, Response response, JSONArray JSON) throws Exception {
 		PrintStream body = response.getPrintStream();
 		long time = System.currentTimeMillis();
 		response.setValue("Access-Control-Allow-Origin", "*");

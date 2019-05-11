@@ -1,3 +1,6 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ListaEvento {
 
     private CelulaEvento primeiro;
@@ -51,12 +54,6 @@ public class ListaEvento {
         return null;
     }
 
-    //TODO - Terminar o metodo de update
-    public Evento update(String nome) {
-    	Evento evento = read(nome);
-    	return evento;
-    }
-
     public Evento delete(String nome) {
         CelulaEvento aux = primeiro.proximo, sombra = primeiro;
         while (aux != null) {
@@ -72,5 +69,15 @@ public class ListaEvento {
             }
         }
         return null;
+    }
+    
+    public JSONArray todosOsEventos() {
+    	JSONArray Json = new JSONArray();
+    	CelulaEvento aux = primeiro.proximo;
+    	while(aux != null) {
+    		Json.put(aux.item.toJson());
+    		aux = aux.proximo;
+    	}
+    	return Json;
     }
 }
