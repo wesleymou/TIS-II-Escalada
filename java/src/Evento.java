@@ -1,7 +1,6 @@
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+
+//import java.time.LocalDateTime;
+//import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -36,6 +35,9 @@ public class Evento {
 		this.setCronograma(cronograma);
 		this.setStatus(status);
 	}
+	
+	public Evento() {
+	}
 
 	public JSONObject toJson() {
 		JSONObject eventojson = new JSONObject();
@@ -47,10 +49,17 @@ public class Evento {
 		eventojson.put("minimo", this.quorum);
 		eventojson.put("orcamento", this.orcamentoPrevio);
 		eventojson.put("ingresso", this.valorIngresso);
-		eventojson.put("cronograma", cronograma);
+		eventojson.put("cronograma", this.cronograma);
 //			eventojson.put("convenio", convenio);
 		eventojson.put("status", this.status);
 		return eventojson;
+	}
+	
+	@Override
+    public boolean equals(Object o) {
+		if (o.equals(this.nome))
+			return true;
+		return false;
 	}
 
 	public String getNome() {

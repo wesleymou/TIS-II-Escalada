@@ -307,7 +307,7 @@ function editarEvento(selecao) {
 
 function mostrarPainel(tipo, dados) {
     if (tipo == "evento") {
-        $("#modalTitle").html("Evento.");
+        $("#modalTitle").html("Eventos.");
         $("#modalBody").html(function () {
             texto = "";
             for (i = 0; i < dados.length; i++) {
@@ -318,6 +318,14 @@ function mostrarPainel(tipo, dados) {
         $("#myModal").modal();
 
     } else if (tipo == "cliente") {
-
+        $("#modalTitle").html("Clientes.");
+        $("#modalBody").html(function () {
+            texto = "";
+            for (i = 0; i < dados.length; i++) {
+                texto += `<div><a href='#' onclick='console.log("teste da tag <a>")' >${dados[i].nome}</a></div>`;
+            }
+            return texto;
+        });
+        $("#myModal").modal();
     }
 }

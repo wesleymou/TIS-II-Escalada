@@ -1,6 +1,7 @@
-import java.time.LocalDateTime;
 //import java.util.HashMap;
 //import java.util.Map;
+
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +22,11 @@ public final class EventoService {
 	private final static String STATUS = "status";
 	private final static String NOVONOME = "novoNome";
 	
-	private ListaEvento listaDeEventos;
+	private EventoDAO eventoDAO;
+	
+	public EventoService() {
+		eventoDAO = new EventoDAO();
+	}
 
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
@@ -41,16 +46,17 @@ public final class EventoService {
 		Evento evento = new Evento(nome, local, dataInicio, dataTermino, capacidade, quorum, orcamentoPrevio,
 				valorIngresso, cronograma, status);
 
-		this.listaDeEventos.create(evento);
+		this.eventoDAO.add(evento);
 		return evento.toJson();
 	}
 
 	public JSONArray get(Request request) {
-		return listaDeEventos.todosOsEventos();
+//		return eventoDAO.get(request.getQuery().get(NOME)).toJson();
+		return this.getAll(request);
 	}
 
 	public JSONObject update(Request request) {
-		Evento evento = listaDeEventos.read(request.getQuery().get(NOME));
+		Evento evento = eventoDAO.get(request.getQuery().get(NOME));
 
 		Query query = request.getQuery();
 		if(query.get(NOVONOME) != "")
@@ -65,18 +71,20 @@ public final class EventoService {
 		evento.setCronograma(query.get(CRONOGRAMA));
 		evento.setStatus(query.get(STATUS));
 		
+		eventoDAO.update(evento);
 		return evento.toJson();
-
 	}
 
-	public JSONObject remove (Request request) {
-		Evento evento = listaDeEventos.delete(request.getQuery().get(NOME));
-		if (evento != null)
-			return evento.toJson();
-		return null;
+	public JSONObject remove (Request request) { 
+		return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
 	}
 	
-	public EventoService() {
-		listaDeEventos = new ListaEvento();
+	public JSONArray getAll(Request request) {
+		List<Evento> lista = eventoDAO.getAll();
+		JSONArray listaJson = new JSONArray();
+		for(Evento e : lista) {
+			listaJson.put(e.toJson());
+		}
+		return listaJson;
 	}
 }

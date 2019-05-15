@@ -23,7 +23,7 @@ public class Server implements Container {
 	public void handle(Request request, Response response) {
 		try {
 			String path = request.getPath().getPath();
-			String method = request.getMethod();
+//			String method = request.getMethod();
 
 			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
 				JSONObject j = eventoService.add(request);
@@ -31,7 +31,7 @@ public class Server implements Container {
 				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
-				System.out.println(eventoService.get(request));
+				System.out.println(eventoService.getAll(request));
 				this.enviaResposta(Status.OK, response, eventoService.get(request));
 
 			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
