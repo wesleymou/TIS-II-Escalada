@@ -3,32 +3,37 @@ import org.json.JSONObject;
 class Cliente {
 	private static final String CPF = "cpf";
 	private static final String NOME = "nome";
-	private static final String NUNFONE1 = "telRes";
-	private static final String NUNFONE2 = "telCel";
+	private static final String NUMFONE1 = "telRes";
+	private static final String NUMFONE2 = "telCel";
 	private static final String ENDERECO = "endereco";
 	private static final String EMAIL = "email";
 	private static final String EVENTOS = "eventosInscritos";
 	
 	private float cpf;
 	private String nome;
-	private float nunFone1;
-	private float nunFone2;
+	private float numFone1;
+	private float numFone2;
 	private String endereco;
 	private String email;
-	private Evento[] eventos;
+	private String eventos;
+//	private Evento[] eventos;
 	
-	Cliente(float cpf, String nome, float nunFone1){
-		this.cpf = cpf;
-		this.nome = nome;
-		this.nunFone1 = nunFone1;
+	Cliente(float cpf, String nome, float numFone1, float numFone2, String endereco, String email, String eventos){
+		setCpf(cpf);
+		setNome(nome);
+		setNumFone1(numFone1);
+		setNumFone2(numFone2);
+		setEndereco(endereco);
+		setEmail(email);
+		setEventos(eventos);
 	}
 	
 	public JSONObject toJson() {
 		JSONObject clienteJson = new JSONObject();
 		clienteJson.put(CPF, this.cpf);
 		clienteJson.put(NOME, this.nome);
-		clienteJson.put(NUNFONE1, this.nunFone1);
-		clienteJson.put(NUNFONE2, this.nunFone2);
+		clienteJson.put(NUMFONE1, this.numFone1);
+		clienteJson.put(NUMFONE2, this.numFone2);
 		clienteJson.put(ENDERECO, this.endereco);
 		clienteJson.put(EMAIL, this.email);
 		clienteJson.put(EVENTOS, this.eventos);
@@ -52,20 +57,20 @@ class Cliente {
 		this.nome = nome;
 	}
 
-	public float getNunFone1() {
-		return nunFone1;
+	public float getNumFone1() {
+		return numFone1;
 	}
 
-	public void setNunFone1(float nunFone1) {
-		this.nunFone1 = nunFone1;
+	public void setNumFone1(float numFone1) {
+		this.numFone1 = numFone1;
 	}
 
-	public float getNunFone2() {
-		return nunFone2;
+	public float getNumFone2() {
+		return numFone2;
 	}
 
-	public void setNunFone2(float nunFone2) {
-		this.nunFone2 = nunFone2;
+	public void setNumFone2(float numFone2) {
+		this.numFone2 = numFone2;
 	}
 
 	public String getEndereco() {
@@ -84,11 +89,13 @@ class Cliente {
 		this.email = email;
 	}
 
-	public Evento[] getEventos() {
+	public String getEventos() {
+//	public Evento[] getEventos() {
 		return eventos;
 	}
 
-	public void setEventos(Evento[] eventos) {
+	public void setEventos(String eventos) {
+//	public void setEventos(Evento[] eventos) {
 		this.eventos = eventos;
 	}
 

@@ -39,24 +39,22 @@
                 <div class="row">
                     <div class="col">
                         <input id="formEventoCreate" type="radio" name="funcao" value="create"
-                            onchange="habilitaFormEvento(this.checked, 'create')">
+                            onchange="habilitaForm(this.checked, 'create', 'Evento')">
                         <label for="formEventoCreate">Cadastrar</label>
                         <input id="formEventoRead" type="radio" name="funcao" value="read"
-                            onchange="habilitaFormEvento(this.checked, 'read')">
+                            onchange="habilitaForm(this.checked, 'read', 'Evento')">
                         <label for="formEventoRead">Consultar</label>
                         <input id="formEventoUpdate" type="radio" name="funcao" value="update"
-                            onchange="habilitaFormEvento(this.checked, 'update')">
+                            onchange="habilitaForm(this.checked, 'update', 'Evento')">
                         <label for="formEventoUpdate">Atualizar</label>
                         <input id="formEventoDelete" type="radio" name="funcao" value="delete"
-                            onchange="habilitaFormEvento(this.checked, 'delete')">
+                            onchange="habilitaForm(this.checked, 'delete', 'Evento')">
                         <label for="formEventoDelete">Excluir</label>
                     </div>
                     <div class="col">
                         <button class="btnAcao btn" style="display:none" type="button"></button>
-                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form=""
-                            onclick="editarEvento(2)">Atualizar</button>
-                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form=""
-                            onclick="editarEvento(3)">Excluir</button>
+                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form="" onclick="editaRegistro(2, 'Evento')">Atualizar</button>
+                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form="" onclick="editaRegistro(3, 'Evento')">Excluir</button>
                     </div>
                 </div><br>
                 <div class="row">
@@ -171,20 +169,22 @@
                 <div class="row">
                     <div class="col">
                         <input id="formClienteCreate" type="radio" name="funcao" value="create"
-                            onchange="habilitaFormCliente(this.checked, 'create')">
+                            onchange="habilitaForm(this.checked, 'create', 'Cliente')">
                         <label for="formClienteCreate">Cadastrar</label>
                         <input id="formClienteRead" type="radio" name="funcao" value="read"
-                            onchange="habilitaFormCliente(this.checked, 'read')">
+                            onchange="habilitaForm(this.checked, 'read', 'Cliente')">
                         <label for="formClienteRead">Consultar</label>
                         <input id="formClienteUpdate" type="radio" name="funcao" value="update"
-                            onchange="habilitaFormCliente(this.checked, 'update')">
+                            onchange="habilitaForm(this.checked, 'update', 'Cliente')">
                         <label for="formClienteUpdate">Atualizar</label>
                         <input id="formClienteDelete" type="radio" name="funcao" value="delete"
-                            onchange="habilitaFormCliente(this.checked, 'delete')">
+                            onchange="habilitaForm(this.checked, 'delete', 'Cliente')">
                         <label for="formClienteDelete">Excluir</label>
                     </div>
                     <div class="col">
                         <button class="btnAcao btn" style="display:none" type="button"></button>
+                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form="" onclick="editaRegistro(2, 'Cliente')">Atualizar</button>
+                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form="" onclick="editaRegistro(3, 'Cliente')">Excluir</button>
                     </div>
                 </div><br>
 

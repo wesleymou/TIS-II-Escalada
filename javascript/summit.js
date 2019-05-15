@@ -40,16 +40,22 @@ function cliente() {
     }
 }
 
-function habilitaFormEvento(status, funcao) {
-    let form = document.querySelector("#formEvento");
-    let btnAcao = document.getElementsByClassName("btnAcao")[0];
+function habilitaForm(status, funcao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let indiceForm;
+    if (modulo == "Evento") {
+        indiceForm = 0;
+    }
+    else if (modulo == "Cliente") {
+        indiceForm = 1;
+    }
+    let btnAcao = document.getElementsByClassName("btnAcao")[indiceForm];
     if (status == true) {
         btnAcao.style.display = "";
-        document.getElementsByClassName("btnUpdate")[0].style.display = "none";
-        document.getElementsByClassName("btnDelete")[0].style.display = "none";
-        btnAcao.setAttribute("onclick", `executaXml("${funcao}", "evento")`);
+        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
+        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "none";
+        btnAcao.setAttribute("onclick", `executaXML("${funcao}","${modulo}")`);
         form[5].readOnly = false;
-        // btnAcao.setAttribute("formmethod", "POST");
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
@@ -110,119 +116,34 @@ function habilitaFormEvento(status, funcao) {
     }
 }
 
-function habilitaFormCliente(status, funcao) {
-    let form = document.querySelector("#formCliente");
-    let btnAcao = document.getElementsByClassName("btnAcao")[1];
-    if (status == true) {
-        btnAcao.style.display = "";
-        btnAcao.setAttribute("onclick", `executaXml("${funcao}", "cliente")`);
-        if (funcao == "create") {
-            btnAcao.textContent = "Cadastrar";
-            // btnAcao.setAttribute("formaction", serverAddress + "/cadastrarCliente");
-            // btnAcao.setAttribute("formmethod", "POST");
-            for (i = 5; i < form.length; i++) {
-                if (i < form.length - 1) {
-                    form[i].value = "";
-                    form[i].disabled = false;
-                    form[i].style.display = "";
-                    jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-                }
-                else {
-                    form[i].style.display = "none";
-                    jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                }
-            }
-        }
-        else if (funcao == "read") {
-            btnAcao.textContent = "Consultar";
-            // btnAcao.setAttribute("formaction", serverAddress + "/consultarCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < 7; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-            }
-            for (i = 7; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                form[i].style.display = "none";
-            }
-        }
-        else if (funcao == "update") {
-            btnAcao.textContent = "Atualizar";
-            // btnAcao.setAttribute("formaction", serverAddress + "/atualizarCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-                form[i].style.display = "";
-            }
-        }
-        else if (funcao == "delete") {
-            btnAcao.textContent = "Excluir";
-            // btnAcao.setAttribute("formaction", serverAddress + "/excluirCliente");
-            // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < 7; i++) {
-                form[i].value = "";
-                form[i].disabled = false;
-            }
-            for (i = 7; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                form[i].style.display = "none";
-            }
+function executaXML(funcao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let path;
+    if (funcao == "create")
+        path = serverAddress + `/cadastrar${modulo}`;
+    else if (funcao == "read")
+        path = serverAddress + `/consultar${modulo}`;
+    else if (funcao == "update") {
+        path = serverAddress + `/atualizar${modulo}`;
+        for (i = 6; i < form.length; i++) {
+            form[i].required = false;
         }
     }
-}
-
-function executaXml(funcao, tipo) {
-    let form;
-    let path
-    if (tipo == "evento") {
-        form = document.querySelector("#formEvento");
-        if (funcao == "create")
-            path = "/cadastrarEvento";
-        else if (funcao == "read")
-            path = "/consultarEvento";
-        else if (funcao == "update") {
-            path = "/atualizarEvento";
-            for (i = 6; i < form.length; i++) {
-                form[i].required = false;
-            }
-        }
-        else if (funcao == "delete")
-            path = "/excluirEvento";
-    } else if (tipo == "cliente") {
-        form = document.querySelector("#formCliente");
-        if (funcao == "create")
-            path = "/cadastrarCliente";
-        else if (funcao == "read")
-            path = "/consultarCliente";
-        else if (funcao == "update") {
-            path = "/atualizarCliente";
-            for (i = 6; i < form.length; i++) {
-                form[i].required = false;
-            }
-        }
-        else if (funcao == "delete")
-            path = "/excluirCliente";
-    }
-
+    else if (funcao == "delete")
+        path = serverAddress + `/excluir${modulo}`;
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
         var xmlhttp = new XMLHttpRequest();
         console.log("antes do open e send");
-        xmlhttp.open("POST", serverAddress + path, true);
+        xmlhttp.open("POST", path, true);
         xmlhttp.timeout = 1000;
         xmlhttp.ontimeout = function (e) {
             console.log("// XMLHttpRequest timed out.");
         }
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xmlhttp.send($('#formEvento').serialize());
-        console.log($('#formEvento').serialize());
+        xmlhttp.send($(`#form${modulo}`).serialize());
+        console.log($(`#form${modulo}`).serialize());
         console.log("apos o open e send");
 
         xmlhttp.onreadystatechange = function (e) {
@@ -230,14 +151,11 @@ function executaXml(funcao, tipo) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. " + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
-                    if (funcao == "read") {
-                        // consultarEvento();
-                        mostrarPainel(tipo, JSON.parse(xmlhttp.response));
-                    }
+                    if (funcao == "read")
+                        consultaRegistro(modulo);
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
-                        alertaEvento(funcao);
+                        alerta(funcao, modulo);
                 }
-                //location = "";
                 else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);
                 }
@@ -251,59 +169,65 @@ function executaXml(funcao, tipo) {
     }
 }
 
-function alertaEvento(funcao) {
-    $("#formEvento")[0].reset();
-    document.getElementById('evento').style.display = "none";
-    if (funcao == "create")
-        alert("Evento cadastrado com sucesso!");
-    else if (funcao == "update")
-        alert("Evento atualizado com sucesso!");
-    else
-        alert("Evento excluído com sucesso!");
-}
-
-function consultarEvento() {
-    let form = document.querySelector("#formEvento");
-    evento();
+function consultaRegistro(modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let indiceForm;
+    if (modulo == "Evento") {
+        evento();
+        indiceForm = 0;
+    }
+    else if (modulo == "Cliente") {
+        cliente();
+        indiceForm = 1;
+    }
     form[1].checked = true;
-    habilitaFormEvento(true, "read");
+    habilitaForm(true, "read", modulo);
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     for (i = 5; i < form.length - 1; i++) {
         form[i].style.display = "";
         form[i].disabled = true;
         jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        document.getElementsByClassName("btnUpdate")[0].style.display = "";
-        document.getElementsByClassName("btnDelete")[0].style.display = "";
-        document.getElementsByClassName("btnAcao")[0].style.display = "none";
+        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
+        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
+        document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
     }
 }
 
+function alerta(funcao, modulo) {
+    $(`#form${modulo}`)[0].reset();
+    document.getElementById(modulo.toLowerCase()).style.display = "none";
+    if (funcao == "create")
+        alert(`${modulo} cadastrado com sucesso!`);
+    else if (funcao == "update")
+        alert(`${modulo} atualizado com sucesso!`);
+    else
+        alert(`${modulo} excluído com sucesso!`);
+}
+
 function populate(form, json) {
-    $.each(json, function(key, value) {
-        $('[name='+key+']', form).val(value);
+    $.each(json, function (key, value) {
+        $('[name=' + key + ']', form).val(value);
     })
 }
 
-function editarEvento(selecao) {
-    let form = document.querySelector("#formEvento");
+function editaRegistro(selecao, modulo) {
+    let form = document.querySelector(`#form${modulo}`);
     form[selecao].checked = true;
     if (selecao == 2)
-        habilitaFormEvento(true, "update");
+        habilitaForm(true, "update", modulo);
     else if (selecao == 3) {
-        habilitaFormEvento(true, "delete");
+        habilitaForm(true, "delete", modulo);
     }
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
     form[5].readOnly = true;
     if (selecao == 3) {
-        for (i = 6; i < form.length-1; i++) {
+        for (i = 6; i < form.length - 1; i++) {
             form[i].style.display = "";
             jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
         }
     }
-    document.getElementsByClassName("btnUpdate")[0].style.display = "none";
-    document.getElementsByClassName("btnDelete")[0].style.display = "none";
-    document.getElementsByClassName("btnAcao")[0].style.display = "";
 }
+
 
 function mostrarPainel(tipo, dados) {
     if (tipo == "evento") {
