@@ -1,9 +1,9 @@
 import java.util.List;
 
-public interface DAO<T> {
-	public void add(T evento);
-	public T get(String chave);
-	public void update(T evento);
-	public boolean delete(String chave);
+public interface DAO<T,K> {
+	public void add(T tipo);
+	public T get(K chave);
+	public void update(T tipo);
+	public boolean delete(K chave);
 	public List<?> getAll();
 }

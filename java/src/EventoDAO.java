@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-class EventoDAO implements DAO<Evento> {
+class EventoDAO implements DAO<Evento,String> {
 
 	public EventoDAO(){
 
@@ -105,8 +105,7 @@ class EventoDAO implements DAO<Evento> {
 						entrada.readUTF());
 				lista.add(evento);
 			}
-			return lista;
-				
+			return lista;	
 		} catch(EOFException e) {
 			System.out.println("Erro de EOFException.");
 		} catch (Exception e) {

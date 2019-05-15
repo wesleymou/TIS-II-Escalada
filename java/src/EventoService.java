@@ -51,9 +51,9 @@ public final class EventoService {
 		return evento.toJson();
 	}
 
-	public JSONArray get(Request request) {
-//		return eventoDAO.get(request.getQuery().get(NOME)).toJson();
-		return this.getAll(request);
+	public JSONObject get(Request request) {
+		return eventoDAO.get(request.getQuery().get(NOME)).toJson();
+//		return this.getAll(request);
 	}
 
 	public JSONObject update(Request request) {

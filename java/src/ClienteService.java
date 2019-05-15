@@ -1,3 +1,6 @@
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
@@ -13,7 +16,11 @@ public class ClienteService {
 	private static final String EVENTOS = "eventosInscritos";
 	private static final String NOVONOME = "novoNome";
 		
-	private ListaClientes listaDeClientes;
+	private ClienteDAO clienteDAO;
+	
+	public ClienteService() {
+		clienteDAO = new ClienteDAO();
+	}
 	
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
@@ -28,25 +35,18 @@ public class ClienteService {
 		
 		Cliente cliente = new Cliente(cpf, nome, nunFone1, nunFone2, endereco, email, eventos);
 		
-		this.listaDeClientes.create(cliente);
+		this.clienteDAO.add(cliente);
 		return cliente.toJson();
 	}
 	
 	public JSONObject get(Request request) {
-		Cliente cliente = listaDeClientes.read(request.getQuery().get(NOME));
-/*		float cpf = request.getQuery().getFloat(CPF);
-		Cliente cliente = listaDeClientes.read(cpf);*/
-
-		if (cliente != null)
-			return cliente.toJson();
-		return null;
+		return clienteDAO.get(request.getQuery().getFloat(CPF)).toJson();
+//		return this.getAll(request);
 	}
 	
-	//TODO terminar metodo
 	public JSONObject update(Request request) {
-		Cliente cliente = listaDeClientes.read(request.getQuery().get(NOME));
-//		float cpf = request.getQuery().getFloat(CPF);
-//		Cliente cliente = listaDeClientes.read(cpf);
+		Cliente cliente = clienteDAO.get(request.getQuery().getFloat(CPF));
+
 		Query query = request.getQuery();
 		if(query.get(NOVONOME) != "")
 			cliente.setNome(query.get(NOVONOME));
@@ -57,19 +57,20 @@ public class ClienteService {
 		cliente.setEmail(query.get(EMAIL));
 		cliente.setEventos(query.get(EVENTOS));
 		
+		clienteDAO.update(cliente);
 		return cliente.toJson();
 	}
 	
 	public JSONObject remove (Request request) {
-		Cliente cliente = listaDeClientes.delete(request.getQuery().get(NOME));
-		if (cliente != null)
-			return cliente.toJson();
-		return null;
-//		float cpf = request.getQuery().getFloat(CPF);
-//		return 	this.listaDeClientes.delete(cpf).toJson();
+		return new JSONObject(clienteDAO.delete(request.getQuery().getFloat(CPF)));
 	}
-
-	public ClienteService() {
-		listaDeClientes = new ListaClientes();
+	
+	public JSONArray getAll(Request request) {
+		List<Cliente> lista = clienteDAO.getAll();
+		JSONArray listaJson = new JSONArray();
+		for(Cliente e : lista) {
+			listaJson.put(e.toJson());
+		}
+		return listaJson;
 	}
 }
