@@ -83,8 +83,13 @@ public final class EventoService {
 	public JSONArray getAll(Request request) {
 		List<Evento> lista = eventoDAO.getAll();
 		JSONArray listaJson = new JSONArray();
-		for(Evento e : lista) {
-			listaJson.put(e.toJson());
+		if(!lista.isEmpty()){
+			for(Evento e : lista) {
+				listaJson.put(e.toJson());
+			}
+		}else {
+			JSONObject j = new JSONObject();
+			listaJson.put(0, "null");
 		}
 		return listaJson;
 	}

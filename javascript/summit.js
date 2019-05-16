@@ -4,7 +4,7 @@ function evento() {
     if (document.getElementById('evento').style.display == "none") {
         $("#formEvento")[0].reset();
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
-        for (i = 5; i < $("#formEvento")[0].length; i++) {
+        for (i = 3; i < $("#formEvento")[0].length; i++) {
             if (i < $("#formEvento")[0].length - 1) {
                 $("#formEvento")[0][i].disabled = true;
                 $("#formEvento")[0][i].style.display = "";
@@ -24,7 +24,7 @@ function cliente() {
     if (document.getElementById('cliente').style.display == "none") {
         $("#formCliente")[0].reset();
         document.getElementsByClassName("btnAcao")[1].style.display = "none";
-        for (i = 5; i < $("#formCliente")[0].length; i++) {
+        for (i = 3; i < $("#formCliente")[0].length; i++) {
             if (i < $("#formCliente")[0].length - 1) {
                 $("#formCliente")[0][i].disabled = true;
                 $("#formCliente")[0][i].style.display = "";
@@ -55,12 +55,12 @@ function habilitaForm(status, funcao, modulo) {
         document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
         document.getElementsByClassName("btnDelete")[indiceForm].style.display = "none";
         btnAcao.setAttribute("onclick", `executaXML("${funcao}","${modulo}")`);
-        form[5].readOnly = false;
+        form[3].readOnly = false;
         if (funcao == "create") {
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
             //btnAcao.setAttribute("formaction", serverAddress + "/cadastrarEvento");
-            for (i = 5; i < form.length; i++) {
+            for (i = 3; i < form.length; i++) {
                 if (i < form.length - 1) {
                     form[i].value = "";
                     form[i].disabled = false;
@@ -78,9 +78,9 @@ function habilitaForm(status, funcao, modulo) {
             btnAcao.className = "btnAcao btn btn-info";
             // btnAcao.setAttribute("formaction", serverAddress + "/consultarEvento");
             // btnAcao.setAttribute("formmethod", "GET");
-            form[5].value = "";
-            form[5].disabled = false;
-            for (i = 5; i < form.length; i++) {
+            form[3].value = "";
+            form[3].disabled = false;
+            for (i = 3; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -92,7 +92,7 @@ function habilitaForm(status, funcao, modulo) {
             btnAcao.className = "btnAcao btn btn-primary";
             // btnAcao.setAttribute("formaction", serverAddress + "/atualizarEvento");
             // btnAcao.setAttribute("formmethod", "GET");
-            for (i = 5; i < form.length; i++) {
+            for (i = 3; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
@@ -104,9 +104,9 @@ function habilitaForm(status, funcao, modulo) {
             btnAcao.className = "btnAcao btn btn-danger";
             // btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
             // btnAcao.setAttribute("formmethod", "GET");
-            form[5].value = "";
-            form[5].disabled = false;
-            for (i = 6; i < form.length; i++) {
+            form[3].value = "";
+            form[3].disabled = false;
+            for (i = 4; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = true;
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
@@ -123,14 +123,15 @@ function executaXML(funcao, modulo) {
         path = serverAddress + `/cadastrar${modulo}`;
     else if (funcao == "read")
         path = serverAddress + `/consultar${modulo}`;
-    else if (funcao == "update") {
+    else if (funcao == "update" || funcao == "delete") {
+        if(funcao == "update")
         path = serverAddress + `/atualizar${modulo}`;
+        if(funcao == "delete")
+        path = serverAddress + `/excluir${modulo}`;
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
     }
-    else if (funcao == "delete")
-        path = serverAddress + `/excluir${modulo}`;
     if (!form.checkValidity())
         alert("Preencha o formulário corretamente!");
     else {
@@ -182,14 +183,14 @@ function consultaRegistro(modulo, indice) {
     form[1].checked = true;
     habilitaForm(true, "update", modulo);
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")), indice);
-    for (i = 5; i < form.length - 1; i++) {
-        // form[i].style.display = "";
-        // form[i].disabled = true;
-        // jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
+    document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
         document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
         document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
-    }
+    // for (i = 5; i < form.length - 1; i++) {
+    //     form[i].style.display = "";
+    //     form[i].disabled = true;
+    //     jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+    // }
 }
 
 function alerta(funcao, modulo) {
@@ -229,8 +230,12 @@ function editaRegistro(selecao, modulo) {
 
 
 function mostrarPainel(modulo, dados) {
-    if (modulo == "Evento") {
-        $("#modalTitle").html("Eventos.");
+    $("#modalTitle").html(`${modulo}.`);
+    if(dados[0] == "null"){
+        $("#modalBody").html("Lista vazia.");
+        $("#myModal").modal();
+    } else if (modulo == "Evento") {
+        
         $("#modalBody").html(function () {
             console.log(dados[0][0]);
             texto = "";
@@ -242,7 +247,6 @@ function mostrarPainel(modulo, dados) {
         $("#myModal").modal();
 
     } else if (modulo == "Cliente") {
-        $("#modalTitle").html("Clientes.");
         $("#modalBody").html(function () {
             texto = "";
             for (i = 0; i < dados.length; i++) {

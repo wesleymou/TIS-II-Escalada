@@ -68,8 +68,13 @@ public class ClienteService {
 	public JSONArray getAll(Request request) {
 		List<Cliente> lista = clienteDAO.getAll();
 		JSONArray listaJson = new JSONArray();
-		for(Cliente e : lista) {
-			listaJson.put(e.toJson());
+		if(!lista.isEmpty()){
+			for(Cliente e : lista) {
+				listaJson.put(e.toJson());
+			}
+		}else {
+			JSONObject j = new JSONObject();
+			listaJson.put(0, "null");
 		}
 		return listaJson;
 	}
