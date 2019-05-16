@@ -33,7 +33,14 @@ public class ClienteService {
 		String email = query.get(EMAIL);
 		String eventos = query.get(EVENTOS);
 		
-		Cliente cliente = new Cliente(cpf, nome, nunFone1, nunFone2, endereco, email, eventos);
+		Cliente cliente = new Cliente(
+				cpf,
+				nome,
+				nunFone1,
+				nunFone2,
+				endereco,
+				email,
+				eventos);
 		
 		this.clienteDAO.add(cliente);
 		return cliente.toJson();
@@ -73,7 +80,6 @@ public class ClienteService {
 				listaJson.put(e.toJson());
 			}
 		}else {
-			JSONObject j = new JSONObject();
 			listaJson.put(0, "null");
 		}
 		return listaJson;

@@ -128,7 +128,7 @@
                         <div class="form-group">
                             <label for="formEventoOrcamento">Orçamento prévio:</label><br>
                             <input id="formEventoOrcamento" class="form-control" name="orcamento" type="number"
-                                disabled="true" required min="0.01" step="0.01"><br>
+                                disabled="true" required min="1" step="1"><br>
                         </div>
                     </div>
 
@@ -136,7 +136,7 @@
                         <div class="form-group">
                             <label for="formEventoIngresso">Valor do ingresso:</label><br>
                             <input id="formEventoIngresso" class="form-control" name="ingresso" type="number"
-                                disabled="true" required min="0.01" step="0.01"><br>
+                                disabled="true" required min="1" step="1"><br>
                         </div>
                     </div>
                 </div>
@@ -194,9 +194,9 @@
                     <div class="col">
                         <button class="btnAcao btn" style="display:none" type="button"></button>
                         <button class="btnUpdate btn btn-success" style="display:none" type="button" form=""
-                            onclick="editaRegistro(2, 'Cliente')">Atualizar</button>
+                            onclick="executaXML('update','Cliente')">Atualizar</button>
                         <button class="btnDelete btn btn-danger" style="display:none" type="button" form=""
-                            onclick="editaRegistro(3, 'Cliente')">Excluir</button>
+                            onclick="executaXML('delete','Cliente')">Excluir</button>
                     </div>
                 </div><br>
 
@@ -211,8 +211,8 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formClienteCPF">CPF</label><br>
-                            <input id="formClienteCPF" class="form-control" name="cpf" type="text" disabled="true"
-                                required><br>
+                            <input id="formClienteCPF" class="form-control" name="cpf" type="text" pattern="[0-9]{11}" minlength="11"
+                                maxlength="11" disabled="true" required><br>
                         </div>
                     </div>
                 </div>
@@ -236,14 +236,14 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formClienteFone1">Telefone residencial:</label><br>
-                            <input id="formClienteFone1" class="form-control" name="telRes" type="text" minlength="10"
+                            <input id="formClienteFone1" class="form-control" name="telRes" type="tel" pattern="[0-9]{10-11}" minlength="10"
                                 maxlength="11" disabled="true" required><br>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="formClienteFone2">Telefone Celular:</label><br>
-                            <input id="formClienteFone2" class="form-control" name="telCel" type="tel" minlength="10"
+                            <input id="formClienteFone2" class="form-control" name="telCel" type="tel" pattern="[0-9]{10-11}" minlength="10"
                                 maxlength="11" disabled="true" required><br>
                         </div>
                     </div>

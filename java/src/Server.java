@@ -45,7 +45,7 @@ public class Server implements Container {
 			} else if (path.startsWith("/cadastrarCliente")/* && "POST".equals(method)*/) {
 				JSONObject j = clienteService.add(request);
 				System.out.println(request.getQuery().toString() + "\n" + j.toString());
-				this.enviaResposta(Status.CREATED, response, clienteService.add(request));
+				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarCliente")/* && "GET".equals(method)*/) {
 				System.out.println(clienteService.getAll(request));

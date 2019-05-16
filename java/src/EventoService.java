@@ -44,7 +44,8 @@ public final class EventoService {
 		String cronograma = query.get(CRONOGRAMA);
 		String status = query.get(STATUS);
 
-		Evento evento = new Evento(nome,
+		Evento evento = new Evento(
+				nome,
 				dataInicio,
 				dataTermino,
 				local,
@@ -96,7 +97,6 @@ public final class EventoService {
 				listaJson.put(e.toJson());
 			}
 		}else {
-			JSONObject j = new JSONObject();
 			listaJson.put(0, "null");
 		}
 		return listaJson;

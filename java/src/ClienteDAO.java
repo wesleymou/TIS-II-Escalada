@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,9 +101,13 @@ public class ClienteDAO implements DAO<Cliente,Double> {
 			return lista;	
 		} catch(EOFException e) {
 			System.out.println("Erro de EOFException.");
-		} catch (Exception e) {
-			System.out.println("ERRO ao ler os eventos do disco rígido!");
-			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("ERRO ao ler os clientes do disco rígido!");
+			try {
+				new File("clientes.dat").createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		return null;
 	}

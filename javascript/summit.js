@@ -136,9 +136,7 @@ function executaXML(funcao, modulo) {
             form[i].required = false;
         }
     }
-    if (!form.checkValidity())
-        alert("Preencha o formulário corretamente!");
-    else {
+    if (form.reportValidity()) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", path, true);
         xmlhttp.timeout = 1000;
