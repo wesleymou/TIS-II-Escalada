@@ -4,6 +4,8 @@ function evento() {
     if (document.getElementById('evento').style.display == "none") {
         $("#formEvento")[0].reset();
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
+        document.getElementsByClassName("btnUpdate")[0].style.display = "none";
+        document.getElementsByClassName("btnDelete")[0].style.display = "none";
         for (i = 3; i < $("#formEvento")[0].length; i++) {
             if (i < $("#formEvento")[0].length - 1) {
                 $("#formEvento")[0][i].disabled = true;
@@ -24,6 +26,8 @@ function cliente() {
     if (document.getElementById('cliente').style.display == "none") {
         $("#formCliente")[0].reset();
         document.getElementsByClassName("btnAcao")[1].style.display = "none";
+        document.getElementsByClassName("btnUpdate")[1].style.display = "none";
+        document.getElementsByClassName("btnDelete")[1].style.display = "none";
         for (i = 3; i < $("#formCliente")[0].length; i++) {
             if (i < $("#formCliente")[0].length - 1) {
                 $("#formCliente")[0][i].disabled = true;
@@ -124,10 +128,10 @@ function executaXML(funcao, modulo) {
     else if (funcao == "read")
         path = serverAddress + `/consultar${modulo}`;
     else if (funcao == "update" || funcao == "delete") {
-        if(funcao == "update")
-        path = serverAddress + `/atualizar${modulo}`;
-        if(funcao == "delete")
-        path = serverAddress + `/excluir${modulo}`;
+        if (funcao == "update")
+            path = serverAddress + `/atualizar${modulo}`;
+        if (funcao == "delete")
+            path = serverAddress + `/excluir${modulo}`;
         for (i = 6; i < form.length; i++) {
             form[i].required = false;
         }
@@ -151,7 +155,7 @@ function executaXML(funcao, modulo) {
                     console.log("requisicao OK. \n" + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
                     if (funcao == "read")
-                        mostrarPainel(modulo,JSON.parse(xmlhttp.response));
+                        mostrarPainel(modulo, JSON.parse(xmlhttp.response));
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
                         alerta(funcao, modulo);
                 }
@@ -184,8 +188,8 @@ function consultaRegistro(modulo, indice) {
     habilitaForm(true, "update", modulo);
     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")), indice);
     document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
-        document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
-        document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
+    document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
+    document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
     // for (i = 5; i < form.length - 1; i++) {
     //     form[i].style.display = "";
     //     form[i].disabled = true;
@@ -231,11 +235,11 @@ function editaRegistro(selecao, modulo) {
 
 function mostrarPainel(modulo, dados) {
     $("#modalTitle").html(`${modulo}.`);
-    if(dados[0] == "null"){
+    if (dados[0] == "null") {
         $("#modalBody").html("Lista vazia.");
         $("#myModal").modal();
     } else if (modulo == "Evento") {
-        
+
         $("#modalBody").html(function () {
             console.log(dados[0][0]);
             texto = "";

@@ -44,8 +44,16 @@ public final class EventoService {
 		String cronograma = query.get(CRONOGRAMA);
 		String status = query.get(STATUS);
 
-		Evento evento = new Evento(nome, local, dataInicio, dataTermino, capacidade, quorum, orcamentoPrevio,
-				valorIngresso, cronograma, status);
+		Evento evento = new Evento(nome,
+				dataInicio,
+				dataTermino,
+				local,
+				capacidade,
+				quorum,
+				orcamentoPrevio,
+				valorIngresso,
+				cronograma,
+				status);
 
 		this.eventoDAO.add(evento);
 		return evento.toJson();

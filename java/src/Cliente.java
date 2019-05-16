@@ -9,16 +9,16 @@ class Cliente {
 	private static final String EMAIL = "email";
 	private static final String EVENTOS = "eventosInscritos";
 	
-	private float cpf;
+	private double cpf;
 	private String nome;
-	private float numFone1;
-	private float numFone2;
+	private double numFone1;
+	private double numFone2;
 	private String endereco;
 	private String email;
 	private String eventos;
 //	private Evento[] eventos;
 	
-	Cliente(float cpf, String nome, float numFone1, float numFone2, String endereco, String email, String eventos){
+	Cliente(double cpf, String nome, double numFone1, double numFone2, String endereco, String email, String eventos){
 		setCpf(cpf);
 		setNome(nome);
 		setNumFone1(numFone1);
@@ -41,11 +41,11 @@ class Cliente {
 		return clienteJson;
 	}
 
-	public float getCpf() {
+	public double getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(float cpf) {
+	public void setCpf(double cpf) {
 		this.cpf = cpf;
 	}
 
@@ -57,19 +57,19 @@ class Cliente {
 		this.nome = nome;
 	}
 
-	public float getNumFone1() {
+	public double getNumFone1() {
 		return numFone1;
 	}
 
-	public void setNumFone1(float numFone1) {
+	public void setNumFone1(double numFone1) {
 		this.numFone1 = numFone1;
 	}
 
-	public float getNumFone2() {
+	public double getNumFone2() {
 		return numFone2;
 	}
 
-	public void setNumFone2(float numFone2) {
+	public void setNumFone2(double numFone2) {
 		this.numFone2 = numFone2;
 	}
 

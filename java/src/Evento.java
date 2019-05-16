@@ -24,9 +24,9 @@ public class Evento {
 	public Evento(String nome, String inicio, String termino, String local, int capacidade, int quorum,
 			double orcamentoPrevio, double valorIngresso, String cronograma, String status) {
 		setNome(nome);
-		setLocal(local);
 		setDataInicio(inicio);
 		setDataTermino(termino);
+		setLocal(local);
 		setCapacidade(capacidade);
 		setQuorum(quorum);
 		setOrcamentoPrevio(orcamentoPrevio);

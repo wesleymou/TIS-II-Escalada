@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteDAO implements DAO<Cliente,Float> {
+public class ClienteDAO implements DAO<Cliente,Double> {
 	
 	public ClienteDAO() {
 		
@@ -15,11 +15,12 @@ public class ClienteDAO implements DAO<Cliente,Float> {
 
 	@Override
 	public void add(Cliente cliente) {
+		
 		try (DataOutputStream saida = new DataOutputStream(new FileOutputStream("clientes.dat", true))) {
-			saida.writeFloat(cliente.getCpf());
+			saida.writeDouble(cliente.getCpf());
 			saida.writeUTF(cliente.getNome());
-			saida.writeFloat(cliente.getNumFone1());
-			saida.writeFloat(cliente.getNumFone2());
+			saida.writeDouble(cliente.getNumFone1());
+			saida.writeDouble(cliente.getNumFone2());
 			saida.writeUTF(cliente.getEndereco());
 			saida.writeUTF(cliente.getEmail());
 			saida.writeUTF(cliente.getEventos());
@@ -29,15 +30,14 @@ public class ClienteDAO implements DAO<Cliente,Float> {
 			e.printStackTrace();
 		}
 	}
-
 	
-	public Cliente get(float chave) {
+	public Cliente get(double chave) {
 		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.dat"))) {
 			while (entrada.available()>0) {		
-				float cpf = entrada.readFloat();
+				double cpf = entrada.readDouble();
 				String nome = entrada.readUTF();
-				float numFone1 = entrada.readFloat();
-				float numFone2 = entrada.readFloat();
+				double numFone1 = entrada.readDouble();
+				double numFone2 = entrada.readDouble();
 				String endereco = entrada.readUTF();
 				String email = entrada.readUTF();
 				String eventos = entrada.readUTF();
@@ -69,7 +69,7 @@ public class ClienteDAO implements DAO<Cliente,Float> {
 	}
 
 	@Override
-	public boolean delete(Float chave) {
+	public boolean delete(Double chave) {
 		List<Cliente> lista = this.getAll();
 		boolean foiRemovido = lista.removeIf(T -> T.getCpf()==chave);
 		if(foiRemovido) {
@@ -88,10 +88,10 @@ public class ClienteDAO implements DAO<Cliente,Float> {
 		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.dat"))) {
 			while (entrada.available()>0) {
 				Cliente cliente = new Cliente(
-						entrada.readFloat(),
+						entrada.readDouble(),
 						entrada.readUTF(),
-						entrada.readFloat(),
-						entrada.readFloat(),
+						entrada.readDouble(),
+						entrada.readDouble(),
 						entrada.readUTF(),
 						entrada.readUTF(),
 						entrada.readUTF());
@@ -108,7 +108,7 @@ public class ClienteDAO implements DAO<Cliente,Float> {
 	}
 
 	@Override
-	public Cliente get(Float chave) {
+	public Cliente get(Double chave) {
 		// TODO Auto-generated method stub
 		return null;
 	}

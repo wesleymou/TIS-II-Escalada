@@ -25,10 +25,10 @@ public class ClienteService {
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 
-		float cpf = query.getFloat(CPF);
+		double cpf = query.getFloat(CPF);
 		String nome = query.get(NOME);
-		float nunFone1 = query.getFloat(NUNFONE1);
-		float nunFone2 = query.getFloat(NUNFONE2);
+		double nunFone1 = query.getFloat(NUNFONE1);
+		double nunFone2 = query.getFloat(NUNFONE2);
 		String endereco = query.get(ENDERECO);
 		String email = query.get(EMAIL);
 		String eventos = query.get(EVENTOS);
@@ -62,7 +62,7 @@ public class ClienteService {
 	}
 	
 	public JSONObject remove (Request request) {
-		return new JSONObject(clienteDAO.delete(request.getQuery().getFloat(CPF)));
+		return new JSONObject(clienteDAO.delete((double) request.getQuery().getFloat(CPF)));
 	}
 	
 	public JSONArray getAll(Request request) {
