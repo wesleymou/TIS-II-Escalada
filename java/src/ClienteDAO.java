@@ -60,7 +60,12 @@ public class ClienteDAO implements DAO<Cliente,Float> {
 		for(Cliente e : lista) {
 			if(e.getCpf() == cliente.getCpf())
 				e = cliente;
-		}		
+		}
+		File file = new File("clientes.dat");
+		if (file.exists())
+			file.delete();
+		for(Cliente e: lista)
+			this.add(e);
 	}
 
 	@Override

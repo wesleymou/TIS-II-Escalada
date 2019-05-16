@@ -21,9 +21,8 @@ public class Evento {
 	// private Inscricoes = new Inscricao[];
 	private String status;
 
-	public Evento(String nome, String local, String inicio, String termino, int capacidade, int quorum,
+	public Evento(String nome, String inicio, String termino, String local, int capacidade, int quorum,
 			double orcamentoPrevio, double valorIngresso, String cronograma, String status) {
-//		public Evento(String nome, String local, LocalDateTime inicio, LocalDateTime termino){
 		setNome(nome);
 		setLocal(local);
 		setDataInicio(inicio);

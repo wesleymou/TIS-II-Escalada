@@ -135,7 +135,6 @@ function executaXML(funcao, modulo) {
         alert("Preencha o formulário corretamente!");
     else {
         var xmlhttp = new XMLHttpRequest();
-        console.log("antes do open e send");
         xmlhttp.open("POST", path, true);
         xmlhttp.timeout = 1000;
         xmlhttp.ontimeout = function (e) {
@@ -143,16 +142,15 @@ function executaXML(funcao, modulo) {
         }
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send($(`#form${modulo}`).serialize());
-        console.log($(`#form${modulo}`).serialize());
-        console.log("apos o open e send");
+        console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
 
         xmlhttp.onreadystatechange = function (e) {
             if (xmlhttp.readyState == 4) {
                 if (xmlhttp.status >= 200) {
-                    console.log("requisicao OK. " + xmlhttp.response);
+                    console.log("requisicao OK. \n" + xmlhttp.response);
                     sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
                     if (funcao == "read")
-                        consultaRegistro(modulo);
+                        mostrarPainel(modulo,JSON.parse(xmlhttp.response));
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
                         alerta(funcao, modulo);
                 }
@@ -169,7 +167,8 @@ function executaXML(funcao, modulo) {
     }
 }
 
-function consultaRegistro(modulo) {
+function consultaRegistro(modulo, indice) {
+    $("#myModal").modal('toggle');
     let form = document.querySelector(`#form${modulo}`);
     let indiceForm;
     if (modulo == "Evento") {
@@ -181,12 +180,12 @@ function consultaRegistro(modulo) {
         indiceForm = 1;
     }
     form[1].checked = true;
-    habilitaForm(true, "read", modulo);
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+    habilitaForm(true, "update", modulo);
+    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")), indice);
     for (i = 5; i < form.length - 1; i++) {
-        form[i].style.display = "";
-        form[i].disabled = true;
-        jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+        // form[i].style.display = "";
+        // form[i].disabled = true;
+        // jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
         document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
         document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
         document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
@@ -204,8 +203,8 @@ function alerta(funcao, modulo) {
         alert(`${modulo} excluído com sucesso!`);
 }
 
-function populate(form, json) {
-    $.each(json, function (key, value) {
+function populate(form, json, indice) {
+    $.each(json[indice], function (key, value) {
         $('[name=' + key + ']', form).val(value);
     })
 }
@@ -229,24 +228,25 @@ function editaRegistro(selecao, modulo) {
 }
 
 
-function mostrarPainel(tipo, dados) {
-    if (tipo == "evento") {
+function mostrarPainel(modulo, dados) {
+    if (modulo == "Evento") {
         $("#modalTitle").html("Eventos.");
         $("#modalBody").html(function () {
+            console.log(dados[0][0]);
             texto = "";
             for (i = 0; i < dados.length; i++) {
-                texto += `<div><a href='#' onclick='console.log("teste da tag <a>")' >${dados[i].nome}</a></div>`;
+                texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome}</a></div>`;
             }
             return texto;
         });
         $("#myModal").modal();
 
-    } else if (tipo == "cliente") {
+    } else if (modulo == "Cliente") {
         $("#modalTitle").html("Clientes.");
         $("#modalBody").html(function () {
             texto = "";
             for (i = 0; i < dados.length; i++) {
-                texto += `<div><a href='#' onclick='console.log("teste da tag <a>")' >${dados[i].nome}</a></div>`;
+                texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome}</a></div>`;
             }
             return texto;
         });

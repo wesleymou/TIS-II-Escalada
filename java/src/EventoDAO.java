@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 class EventoDAO implements DAO<Evento,String> {
@@ -66,11 +67,19 @@ class EventoDAO implements DAO<Evento,String> {
 	@Override
 	public void update(Evento evento) {
 		List<Evento> lista = this.getAll();
-		for(Evento e : lista) {
-			if(e.getNome().equals(evento.getNome()))
-				e = evento;
-			
+		Iterator<Evento> it = lista.iterator();
+		while(it.hasNext()) {
+		      Evento e = it.next();
+		      if(e.getNome().equals(evento.getNome())) {
+		    	  lista.remove(e);
+		    	  lista.add(evento);
+		      }
 		}
+		File file = new File("eventos.dat");
+		if (file.exists())
+			file.delete();
+		for(Evento e: lista) {
+			this.add(e); System.out.println(e.toJson() + "2");}
 	}
 
 	@Override
