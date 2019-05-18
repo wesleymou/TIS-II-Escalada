@@ -1,6 +1,6 @@
 import org.json.JSONObject;
 
-class Cliente {
+class Cliente implements Comparable<Cliente>{
 	private static final String CPF = "cpf";
 	private static final String NOME = "nome";
 	private static final String NUMFONE1 = "telRes";
@@ -9,16 +9,16 @@ class Cliente {
 	private static final String EMAIL = "email";
 	private static final String EVENTOS = "eventosInscritos";
 	
-	private double cpf;
+	private long cpf;
 	private String nome;
-	private double numFone1;
-	private double numFone2;
+	private long numFone1;
+	private long numFone2;
 	private String endereco;
 	private String email;
 	private String eventos;
 //	private Evento[] eventos;
 	
-	Cliente(double cpf, String nome, double numFone1, double numFone2, String endereco, String email, String eventos){
+	Cliente(long cpf, String nome, long numFone1, long numFone2, String endereco, String email, String eventos){
 		setCpf(cpf);
 		setNome(nome);
 		setNumFone1(numFone1);
@@ -26,6 +26,20 @@ class Cliente {
 		setEndereco(endereco);
 		setEmail(email);
 		setEventos(eventos);
+	}
+	
+	@Override
+	public int compareTo(Cliente cliente) {
+		return Long.compare(this.getCpf(), cliente.getCpf());
+	}
+	
+	@Override
+	public boolean equals (Object o) {
+		if(o instanceof Cliente && this.getNome().equalsIgnoreCase(((Cliente)o).getNome()))
+			return true;
+		if(o instanceof Long && this.getCpf() ==(Long) o)
+			return true;
+		return false;
 	}
 	
 	public JSONObject toJson() {
@@ -41,11 +55,11 @@ class Cliente {
 		return clienteJson;
 	}
 
-	public double getCpf() {
+	public long getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(double cpf) {
+	public void setCpf(long cpf) {
 		this.cpf = cpf;
 	}
 
@@ -57,19 +71,19 @@ class Cliente {
 		this.nome = nome;
 	}
 
-	public double getNumFone1() {
+	public long getNumFone1() {
 		return numFone1;
 	}
 
-	public void setNumFone1(double numFone1) {
+	public void setNumFone1(long numFone1) {
 		this.numFone1 = numFone1;
 	}
 
-	public double getNumFone2() {
+	public long getNumFone2() {
 		return numFone2;
 	}
 
-	public void setNumFone2(double numFone2) {
+	public void setNumFone2(long numFone2) {
 		this.numFone2 = numFone2;
 	}
 
@@ -98,5 +112,4 @@ class Cliente {
 //	public void setEventos(Evento[] eventos) {
 		this.eventos = eventos;
 	}
-
 }

@@ -1,5 +1,4 @@
-import java.util.List;
-
+import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -14,21 +13,21 @@ public class ClienteService {
 	private static final String ENDERECO = "endereco";
 	private static final String EMAIL = "email";
 	private static final String EVENTOS = "eventosInscritos";
-	private static final String NOVONOME = "novoNome";
+	private static final String NOVOCPF = "novoCpf";
 		
 	private ClienteDAO clienteDAO;
 	
 	public ClienteService() {
-		clienteDAO = new ClienteDAO();
+		clienteDAO = new ClienteDAO("clientes.dat");
 	}
 	
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 
-		double cpf = query.getFloat(CPF);
+		long cpf = Long.parseLong(query.get(CPF));
 		String nome = query.get(NOME);
-		double nunFone1 = query.getFloat(NUNFONE1);
-		double nunFone2 = query.getFloat(NUNFONE2);
+		long nunFone1 = Long.parseLong(query.get(NUNFONE1));
+		long nunFone2 = Long.parseLong(query.get(NUNFONE2));
 		String endereco = query.get(ENDERECO);
 		String email = query.get(EMAIL);
 		String eventos = query.get(EVENTOS);
@@ -47,11 +46,11 @@ public class ClienteService {
 	}
 	
 	public JSONArray get(Request request) {
-		List<Cliente> lista = clienteDAO.getListaDeClientes();
+		Set<Cliente> lista = clienteDAO.getLista();
 		JSONArray listaJson = new JSONArray();
 		if(!lista.isEmpty()){
-			for(Cliente e : lista) {
-				listaJson.put(e.toJson());
+			for(Cliente c : lista) {
+				listaJson.put(c.toJson());
 			}
 		}else {
 			listaJson.put(0, "null");
@@ -60,14 +59,15 @@ public class ClienteService {
 	}
 	
 	public JSONObject update(Request request) {
-		Cliente cliente = clienteDAO.get(request.getQuery().getFloat(CPF));
-
 		Query query = request.getQuery();
-		if(query.get(NOVONOME) != "")
-			cliente.setNome(query.get(NOVONOME));
-		cliente.setCpf(query.getFloat(CPF));
-		cliente.setNumFone1(query.getFloat(NUNFONE1));
-		cliente.setNumFone2(query.getFloat(NUNFONE2));
+		Cliente cliente = clienteDAO.get(Long.parseLong(query.get(CPF)));
+		
+		String novoCpf = query.get(NOVOCPF);
+		if(novoCpf != "")
+			cliente.setCpf(Long.parseLong(novoCpf));
+		cliente.setNome(query.get(NOME));
+		cliente.setNumFone1(Long.parseLong(query.get(NUNFONE1)));
+		cliente.setNumFone2(Long.parseLong(query.get(NUNFONE2)));
 		cliente.setEndereco(query.get(ENDERECO));
 		cliente.setEmail(query.get(EMAIL));
 		cliente.setEventos(query.get(EVENTOS));
@@ -77,6 +77,6 @@ public class ClienteService {
 	}
 	
 	public JSONObject remove (Request request) {
-		return new JSONObject(clienteDAO.delete((double) request.getQuery().getFloat(CPF)));
+		return new JSONObject(clienteDAO.delete(Long.parseLong(request.getQuery().get(CPF))));
 	}
 }

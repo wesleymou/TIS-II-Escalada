@@ -1,8 +1,4 @@
-//import java.util.HashMap;
-//import java.util.Map;
-
-import java.util.List;
-
+import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -25,7 +21,7 @@ public final class EventoService {
 	private EventoDAO eventoDAO;
 	
 	public EventoService() {
-		eventoDAO = new EventoDAO();
+		eventoDAO = new EventoDAO("eventos.dat");
 	}
 
 	public JSONObject add(Request request) {
@@ -61,7 +57,7 @@ public final class EventoService {
 	}
 
 	public JSONArray get(Request request) {
-		List<Evento> lista = eventoDAO.getListaDeEventos();
+		Set<Evento> lista = eventoDAO.getLista();
 		JSONArray listaJson = new JSONArray();
 		if(!lista.isEmpty()){
 			for(Evento e : lista) {
@@ -74,12 +70,12 @@ public final class EventoService {
 	}
 
 	public JSONObject update(Request request) {
-		String n = request.getQuery().get(NOME);
-		Evento evento = eventoDAO.get(n);
-
 		Query query = request.getQuery();
-		if(query.get(NOVONOME) != "")
-			evento.setNome(query.get(NOVONOME));
+		Evento evento = eventoDAO.get(request.getQuery().get(NOME));
+
+		String novoNome = query.get(NOVONOME);
+		if(novoNome != "")
+			evento.setNome(novoNome);
 		evento.setDataInicio(query.get(DATAINICIO));
 		evento.setDataTermino(query.get(DATATERMINO));
 		evento.setLocal(query.get(LOCAL));

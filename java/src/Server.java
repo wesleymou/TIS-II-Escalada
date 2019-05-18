@@ -17,49 +17,53 @@ import org.simpleframework.transport.connect.SocketConnection;
 
 public class Server implements Container {
 
-	static EventoService eventoService = new EventoService();
-	static ClienteService clienteService = new ClienteService();
+	EventoService eventoService = new EventoService();
+	ClienteService clienteService = new ClienteService();
 
 	public void handle(Request request, Response response) {
 		try {
 			String path = request.getPath().getPath();
 //			String method = request.getMethod();
-
+			System.out.println(request.getQuery().toString() + "\n");
 			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
 				JSONObject j = eventoService.add(request);
-				System.out.println(request.getQuery().toString() + "\n" + j.toString());
+				System.out.println(j);
 				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
-				System.out.println(eventoService.get(request));
-				this.enviaResposta(Status.OK, response, eventoService.get(request));
+				JSONArray j = eventoService.get(request);
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
-				System.out.println(request.getQuery().toString());
 				JSONObject j = eventoService.update(request);
-				System.out.println(request.getQuery().toString() + "\n" + j.toString());
-				this.enviaResposta(Status.OK, response, eventoService.update(request));
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/excluirEvento")/* && "GET".equals(method)*/) {
-				this.enviaResposta(Status.OK, response, eventoService.remove(request));
+				JSONObject j = eventoService.remove(request);
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/cadastrarCliente")/* && "POST".equals(method)*/) {
 				JSONObject j = clienteService.add(request);
-				System.out.println(request.getQuery().toString() + "\n" + j.toString());
+				System.out.println(j);
 				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarCliente")/* && "GET".equals(method)*/) {
-				System.out.println(clienteService.get(request));
-				this.enviaResposta(Status.OK, response, clienteService.get(request));
+				JSONArray j = clienteService.get(request);
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/atualizarCliente")/* && "GET".equals(method)*/) {
 				JSONObject j = clienteService.update(request);
-				System.out.println(request.getQuery().toString() + "\n" + j.toString());
-				this.enviaResposta(Status.OK, response, clienteService.update(request));
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/excluirCliente")/* && "GET".equals(method)*/) {
-				this.enviaResposta(Status.OK, response, clienteService.remove(request));
-
+				JSONObject j = clienteService.remove(request);
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
 			} else {
 				this.naoEncontrado(response, path);
 			}

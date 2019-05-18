@@ -5,95 +5,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-public class ClienteDAO implements DAO<Cliente,Double> {
+public class ClienteDAO extends DAO<Cliente,Long> {
 	
-	List<Cliente> listaDeClientes;
-	
-	public ClienteDAO() {
-		listaDeClientes = new ArrayList<Cliente>();
+	public ClienteDAO(String nomeArquivo) {
+		super(nomeArquivo);
 	}
 
 	@Override
-	public void add(Cliente cliente) {
-		
-		try (DataOutputStream saida = new DataOutputStream(new FileOutputStream("clientes.dat", true))) {
-			saida.writeDouble(cliente.getCpf());
-			saida.writeUTF(cliente.getNome());
-			saida.writeDouble(cliente.getNumFone1());
-			saida.writeDouble(cliente.getNumFone2());
-			saida.writeUTF(cliente.getEndereco());
-			saida.writeUTF(cliente.getEmail());
-			saida.writeUTF(cliente.getEventos());
-			saida.flush();
-		} catch (Exception e) {
-			System.out.println("ERRO ao gravar o cliente '" + cliente.getNome() + "' no disco!");
-			e.printStackTrace();
-		}
-	}
-	
-	public Cliente get(double chave) {
-		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.dat"))) {
-			while (entrada.available()>0) {		
-				double cpf = entrada.readDouble();
-				String nome = entrada.readUTF();
-				double numFone1 = entrada.readDouble();
-				double numFone2 = entrada.readDouble();
-				String endereco = entrada.readUTF();
-				String email = entrada.readUTF();
-				String eventos = entrada.readUTF();
-
-				if(chave == cpf)
-					return new Cliente(cpf, nome, numFone1, numFone2, endereco, email, eventos);
-			}
-		} catch(EOFException e) { 
-
-		} catch (Exception e) {
-			System.out.println("ERRO ao ler o cliente '" + chave + "' do disco rígido!");
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public void update(Cliente cliente) {
-		List<Cliente> lista = this.getAll();
-		for(Cliente e : lista) {
-			if(e.getCpf() == cliente.getCpf())
-				e = cliente;
-		}
-		File file = new File("clientes.dat");
-		if (file.exists())
-			file.delete();
-		for(Cliente e: lista)
-			this.add(e);
-	}
-
-	@Override
-	public boolean delete(Double chave) {
-		List<Cliente> lista = this.getAll();
-		boolean foiRemovido = lista.removeIf(T -> T.getCpf()==chave);
-		if(foiRemovido) {
-			File file = new File("clientes.dat");
-			if (file.exists())
-				file.delete();
-			for(Cliente e: lista)
-				this.add(e);
-		}
-		return foiRemovido;
-	}
-
-	private List<Cliente> getAll() {
-		List<Cliente> lista = new ArrayList<Cliente>();
-		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.dat"))) {
+	protected Set<Cliente> getAll() {
+		Set<Cliente> lista = new TreeSet<Cliente>();
+		try (DataInputStream entrada = new DataInputStream(new FileInputStream(this.nomeArquivo))) {
 			while (entrada.available()>0) {
 				Cliente cliente = new Cliente(
-						entrada.readDouble(),
+						entrada.readLong(),
 						entrada.readUTF(),
-						entrada.readDouble(),
-						entrada.readDouble(),
+						entrada.readLong(),
+						entrada.readLong(),
 						entrada.readUTF(),
 						entrada.readUTF(),
 						entrada.readUTF());
@@ -105,7 +35,7 @@ public class ClienteDAO implements DAO<Cliente,Double> {
 		} catch (IOException e) {
 			System.out.println("ERRO ao ler os clientes do disco rígido!");
 			try {
-				new File("clientes.dat").createNewFile();
+				new File(this.nomeArquivo).createNewFile();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -113,13 +43,22 @@ public class ClienteDAO implements DAO<Cliente,Double> {
 		return null;
 	}
 
-	public List<Cliente> getListaDeClientes() {
-		return listaDeClientes;
-	}
-
 	@Override
-	public Cliente get(Double chave) {
-		// TODO Auto-generated method stub
-		return null;
+	protected void gravar() {
+		try (DataOutputStream saida = new DataOutputStream(new FileOutputStream(this.nomeArquivo, false))) {
+			for(Cliente cliente: this.lista) {
+			saida.writeLong(cliente.getCpf());
+			saida.writeUTF(cliente.getNome());
+			saida.writeLong(cliente.getNumFone1());
+			saida.writeLong(cliente.getNumFone2());
+			saida.writeUTF(cliente.getEndereco());
+			saida.writeUTF(cliente.getEmail());
+			saida.writeUTF(cliente.getEventos());
+			saida.flush();
+			}
+		} catch (Exception e) {
+			System.out.println("ERRO ao gravar os clientes no disco!");
+			e.printStackTrace();
+		}
 	}
 }

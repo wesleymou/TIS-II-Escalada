@@ -4,7 +4,7 @@
 
 import org.json.JSONObject;
 
-public class Evento {
+public class Evento implements Comparable<Evento>{
 	private String nome;
 	private String dataInicio;
 	private String dataTermino;
@@ -35,7 +35,18 @@ public class Evento {
 		setStatus(status);
 	}
 	
-	public Evento() {
+	@Override
+	public int compareTo(Evento evento) {
+		return this.getNome().compareToIgnoreCase(evento.getNome());
+	}
+	
+	@Override
+	public boolean equals (Object o) {
+		if(o instanceof Evento && this.getNome().equalsIgnoreCase(((Evento)o).getNome()))
+			return true;
+		if(o instanceof String && this.getNome().equalsIgnoreCase((String)o))
+			return true;
+		return false;
 	}
 
 	public JSONObject toJson() {

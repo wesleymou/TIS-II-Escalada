@@ -224,7 +224,7 @@ function populate(form, json, indice) {
         $('[name=' + key + ']', form).val(value);
     })
     $("#formEventoNovoNome").val(json[indice].nome);
-    $("#formClienteNovoNome").val(json[indice].nome);
+    $("#formClienteNovoCPF").val(json[indice].cpf);
 }
 
 function editaRegistro(selecao, modulo) {
