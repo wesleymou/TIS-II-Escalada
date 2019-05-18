@@ -21,6 +21,10 @@ public class Inscricao {
 	}
 	
 	public void geraRecibo() {
+		//criar arquivo de texto
+		//coletar dados específicos
+		//salvar no arquivo
+		//fechar arquivpo
 		
 	}
 	
