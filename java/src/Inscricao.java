@@ -3,8 +3,8 @@ public class Inscricao {
 	
 	private int qtdAdulto;
 	private int qtdInfantil;
-	private double valorTotal;
-	private double valorRecebido;
+	private double valorTotal =0;
+	private double valorRecebido = 0;
 	private Cliente cliente;
 	private String[] participantes;
 	private Evento evento;
@@ -12,30 +12,32 @@ public class Inscricao {
 	private boolean status;
 	
 	public Inscricao(int qtdAdulto, int qtdInfantil) {
-		
+		this.qtdAdulto = qtdAdulto;
+		this.qtdInfantil = qtdInfantil;		
 	}
 	
 	public double simularValor(){
-		return valorTotal;
-		
+		valorTotal = (qtdAdulto * evento.getValorIngresso()) + (qtdInfantil * (evento.getValorIngresso()/2));
+		return valorTotal;		
 	}
 	
 	public void geraRecibo() {
 		//criar arquivo de texto
 		//coletar dados específicos
 		//salvar no arquivo
-		//fechar arquivpo
-		
+		//fechar arquivpo		
 	}
 	
-	public boolean inscricaoConfirmada() {
-		return status;
-		
+	public boolean isInscricaoConfirmada() {
+		return status;		
 	}
 	
-	public boolean pagouTotal() {
-		return status;
-		
+	public boolean isPagouTotal() {
+		if(valorRecebido >= valorTotal)
+			status = true;
+		else
+			status = false;
+		return status;		
 	}
 	
 	public int getQtdAdulto() {
@@ -67,7 +69,11 @@ public class Inscricao {
 	}
 	
 	public void setValorRecebido(double valorRecebido) {
-		this.valorRecebido = valorRecebido;
+		this.valorRecebido += valorRecebido;
+	}
+	
+	public double valorFaltaPagar() {
+		return valorTotal - valorRecebido; 
 	}
 	
 	public Cliente getCliente() {
@@ -108,6 +114,5 @@ public class Inscricao {
 	
 	public void setStatus(boolean status) {
 		this.status = status;
-	}
-	
+	}	
 }
