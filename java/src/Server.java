@@ -31,10 +31,11 @@ public class Server implements Container {
 				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
-				System.out.println(eventoService.getAll(request));
-				this.enviaResposta(Status.OK, response, eventoService.getAll(request));
+				System.out.println(eventoService.get(request));
+				this.enviaResposta(Status.OK, response, eventoService.get(request));
 
 			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
+				System.out.println(request.getQuery().toString());
 				JSONObject j = eventoService.update(request);
 				System.out.println(request.getQuery().toString() + "\n" + j.toString());
 				this.enviaResposta(Status.OK, response, eventoService.update(request));
@@ -48,8 +49,8 @@ public class Server implements Container {
 				this.enviaResposta(Status.CREATED, response, j);
 
 			} else if (path.startsWith("/consultarCliente")/* && "GET".equals(method)*/) {
-				System.out.println(clienteService.getAll(request));
-				this.enviaResposta(Status.OK, response, clienteService.getAll(request));
+				System.out.println(clienteService.get(request));
+				this.enviaResposta(Status.OK, response, clienteService.get(request));
 
 			} else if (path.startsWith("/atualizarCliente")/* && "GET".equals(method)*/) {
 				JSONObject j = clienteService.update(request);

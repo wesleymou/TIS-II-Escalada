@@ -10,8 +10,10 @@ import java.util.List;
 
 public class ClienteDAO implements DAO<Cliente,Double> {
 	
+	List<Cliente> listaDeClientes;
+	
 	public ClienteDAO() {
-		
+		listaDeClientes = new ArrayList<Cliente>();
 	}
 
 	@Override
@@ -83,8 +85,7 @@ public class ClienteDAO implements DAO<Cliente,Double> {
 		return foiRemovido;
 	}
 
-	@Override
-	public List<Cliente> getAll() {
+	private List<Cliente> getAll() {
 		List<Cliente> lista = new ArrayList<Cliente>();
 		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.dat"))) {
 			while (entrada.available()>0) {
@@ -110,6 +111,10 @@ public class ClienteDAO implements DAO<Cliente,Double> {
 			}
 		}
 		return null;
+	}
+
+	public List<Cliente> getListaDeClientes() {
+		return listaDeClientes;
 	}
 
 	@Override

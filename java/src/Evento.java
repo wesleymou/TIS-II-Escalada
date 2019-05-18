@@ -53,13 +53,6 @@ public class Evento {
 		eventojson.put("status", this.status);
 		return eventojson;
 	}
-	
-	@Override
-    public boolean equals(Object o) {
-		if (o.equals(this.nome))
-			return true;
-		return false;
-	}
 
 	public String getNome() {
 		return nome;

@@ -46,9 +46,17 @@ public class ClienteService {
 		return cliente.toJson();
 	}
 	
-	public JSONObject get(Request request) {
-		return clienteDAO.get(request.getQuery().getFloat(CPF)).toJson();
-//		return this.getAll(request);
+	public JSONArray get(Request request) {
+		List<Cliente> lista = clienteDAO.getListaDeClientes();
+		JSONArray listaJson = new JSONArray();
+		if(!lista.isEmpty()){
+			for(Cliente e : lista) {
+				listaJson.put(e.toJson());
+			}
+		}else {
+			listaJson.put(0, "null");
+		}
+		return listaJson;
 	}
 	
 	public JSONObject update(Request request) {
@@ -70,18 +78,5 @@ public class ClienteService {
 	
 	public JSONObject remove (Request request) {
 		return new JSONObject(clienteDAO.delete((double) request.getQuery().getFloat(CPF)));
-	}
-	
-	public JSONArray getAll(Request request) {
-		List<Cliente> lista = clienteDAO.getAll();
-		JSONArray listaJson = new JSONArray();
-		if(!lista.isEmpty()){
-			for(Cliente e : lista) {
-				listaJson.put(e.toJson());
-			}
-		}else {
-			listaJson.put(0, "null");
-		}
-		return listaJson;
 	}
 }

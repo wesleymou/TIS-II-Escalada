@@ -11,94 +11,72 @@ import java.util.List;
 
 class EventoDAO implements DAO<Evento,String> {
 
+	private List<Evento> listaDeEventos;
 	public EventoDAO(){
-
+		listaDeEventos = new ArrayList<Evento>(getAll());
 	}
 
 	@Override
 	public void add(Evento evento) {
-		
-		try (DataOutputStream saida = new DataOutputStream(new FileOutputStream("eventos.dat", true))) {
-			saida.writeUTF(evento.getNome());
-			saida.writeUTF(evento.getDataInicio());
-			saida.writeUTF(evento.getDataTermino());
-			saida.writeUTF(evento.getLocal());
-			saida.writeInt(evento.getCapacidade());
-			saida.writeInt(evento.getQuorum());
-			saida.writeDouble(evento.getOrcamentoPrevio());
-			saida.writeDouble(evento.getValorIngresso());
-			saida.writeUTF(evento.getCronograma());
-			//			Convenio
-			saida.writeUTF(evento.getStatus());
-			saida.flush();
-
-		} catch (Exception e) {
-			System.out.println("ERRO ao gravar o evento '" + evento.getNome() + "' no disco!");
-			e.printStackTrace();
-		}
+		listaDeEventos.add(evento);
+		this.gravar();
 	}
 
 	@Override
 	public Evento get(String chave) {
-		try (DataInputStream entrada = new DataInputStream(new FileInputStream("eventos.dat"))) {
-			while (entrada.available()>0) {
-				String nome = entrada.readUTF();
-				String dataInicio = entrada.readUTF();
-				String dataTermino = entrada.readUTF();
-				String local = entrada.readUTF();
-				int capacidade = entrada.readInt();
-				int quorum = entrada.readInt();
-				double orcamentoPrevio = entrada.readDouble();
-				double valorIngresso = entrada.readDouble();
-				String cronograma = entrada.readUTF();
-				String status = entrada.readUTF();
-
-				if(chave.equals(nome))
-					return new Evento(nome, local, dataInicio, dataTermino, capacidade, quorum, orcamentoPrevio, valorIngresso, cronograma, status);
-			}
-		} catch(EOFException e) { 
-
-		} catch (Exception e) {
-			System.out.println("ERRO ao ler o evento '" + chave + "' do disco rígido!");
-			e.printStackTrace();
+		for(Evento evento:listaDeEventos) {
+			if(evento.getNome().equals(chave))
+				return evento;
 		}
 		return null;
+		
+//		try (DataInputStream entrada = new DataInputStream(new FileInputStream("eventos.dat"))) {
+//			while (entrada.available()>0) {
+//				String nome = entrada.readUTF();
+//				String dataInicio = entrada.readUTF();
+//				String dataTermino = entrada.readUTF();
+//				String local = entrada.readUTF();
+//				int capacidade = entrada.readInt();
+//				int quorum = entrada.readInt();
+//				double orcamentoPrevio = entrada.readDouble();
+//				double valorIngresso = entrada.readDouble();
+//				String cronograma = entrada.readUTF();
+//				String status = entrada.readUTF();
+//
+//				if(chave.equals(nome))
+//					return new Evento(nome, local, dataInicio, dataTermino, capacidade, quorum, orcamentoPrevio, valorIngresso, cronograma, status);
+//			}
+//		} catch(EOFException e) { 
+//
+//		} catch (Exception e) {
+//			System.out.println("ERRO ao ler o evento '" + chave + "' do disco rígido!");
+//			e.printStackTrace();
+//		}
+//		return null;
 	}
 
 	@Override
 	public void update(Evento evento) {
-		List<Evento> lista = this.getAll();
-		Iterator<Evento> it = lista.iterator();
+		Iterator<Evento> it = listaDeEventos.iterator();
 		while(it.hasNext()) {
 		      Evento e = it.next();
 		      if(e.getNome().equals(evento.getNome())) {
-		    	  lista.remove(e);
-		    	  lista.add(evento);
+		    	  listaDeEventos.remove(e);
 		      }
 		}
-		File file = new File("eventos.dat");
-		if (file.exists())
-			file.delete();
-		for(Evento e: lista) {
-			this.add(e); System.out.println(e.toJson() + "2");}
+  	  this.add(evento);
 	}
 
 	@Override
 	public boolean delete(String chave) {
-		List<Evento> lista = this.getAll();
-		boolean foiRemovido = lista.removeIf(T -> T.getNome().equals(chave));
+		boolean foiRemovido = listaDeEventos.removeIf(T -> T.getNome().equals(chave));
 		if(foiRemovido) {
-			File file = new File("eventos.dat");
-			if (file.exists())
-				file.delete();
-			for(Evento e: lista)
-				this.add(e);
+			this.gravar();
 		}
 		return foiRemovido;
 	}
 
-	@Override
-	public List<Evento> getAll() {
+	private List<Evento> getAll() {
 		List<Evento> lista = new ArrayList<Evento>();
 		try (DataInputStream entrada = new DataInputStream(new FileInputStream("eventos.dat"))) {
 			while (entrada.available()>0) {
@@ -127,5 +105,31 @@ class EventoDAO implements DAO<Evento,String> {
 			}
 		}
 		return null;
+	}
+	
+	public List<Evento> getListaDeEventos() {
+		return listaDeEventos;
+	}
+
+	private void gravar() {
+		try (DataOutputStream saida = new DataOutputStream(new FileOutputStream("eventos.dat", false))) {
+			for(Evento E:listaDeEventos) {
+				saida.writeUTF(E.getNome());
+				saida.writeUTF(E.getDataInicio());
+				saida.writeUTF(E.getDataTermino());
+				saida.writeUTF(E.getLocal());
+				saida.writeInt(E.getCapacidade());
+				saida.writeInt(E.getQuorum());
+				saida.writeDouble(E.getOrcamentoPrevio());
+				saida.writeDouble(E.getValorIngresso());
+				saida.writeUTF(E.getCronograma());
+				//			Convenio
+				saida.writeUTF(E.getStatus());
+				saida.flush();
+			}
+		} catch (Exception e) {
+			System.out.println("ERRO ao gravar os eventos no disco!");
+			e.printStackTrace();
+		}
 	}
 }

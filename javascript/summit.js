@@ -6,8 +6,8 @@ function evento() {
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
         document.getElementsByClassName("btnUpdate")[0].style.display = "none";
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
-        for (i = 3; i < $("#formEvento")[0].length; i++) {
-            if (i < $("#formEvento")[0].length - 1) {
+        for (i = 3  ; i < $("#formEvento")[0].length; i++) {
+            if (i != 4) {
                 $("#formEvento")[0][i].disabled = true;
                 $("#formEvento")[0][i].style.display = "";
                 jQuery("label[for=" + $("#formEvento")[0][i].getAttribute("id") + "]")[0].style.display = "";
@@ -15,6 +15,8 @@ function evento() {
             else {
                 $("#formEvento")[0][i].style.display = "none";
                 jQuery("label[for=" + $("#formEvento")[0][i].getAttribute("id") + "]")[0].style.display = "none";
+                $(".colNovoNome").addClass("d-none");
+                $(".colNome").removeClass("d-none");
             }
         }
         document.getElementById('evento').style.display = "";
@@ -29,7 +31,7 @@ function cliente() {
         document.getElementsByClassName("btnUpdate")[1].style.display = "none";
         document.getElementsByClassName("btnDelete")[1].style.display = "none";
         for (i = 3; i < $("#formCliente")[0].length; i++) {
-            if (i < $("#formCliente")[0].length - 1) {
+            if (i != 4) {
                 $("#formCliente")[0][i].disabled = true;
                 $("#formCliente")[0][i].style.display = "";
                 jQuery("label[for=" + $("#formCliente")[0][i].getAttribute("id") + "]")[0].style.display = "";
@@ -37,6 +39,9 @@ function cliente() {
             else {
                 $("#formCliente")[0][i].style.display = "none";
                 jQuery("label[for=" + $("#formCliente")[0][i].getAttribute("id") + "]")[0].style.display = "none";
+                $(".colNovoNome").addClass("d-none");
+                $(".colNome").removeClass("d-none");
+                
             }
         }
         document.getElementById('evento').style.display = "none";
@@ -61,11 +66,12 @@ function habilitaForm(status, funcao, modulo) {
         btnAcao.setAttribute("onclick", `executaXML("${funcao}","${modulo}")`);
         form[3].readOnly = false;
         if (funcao == "create") {
+
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
             //btnAcao.setAttribute("formaction", serverAddress + "/cadastrarEvento");
             for (i = 3; i < form.length; i++) {
-                if (i < form.length - 1) {
+                if (i != 4) {
                     form[i].value = "";
                     form[i].disabled = false;
                     form[i].style.display = "";
@@ -74,6 +80,8 @@ function habilitaForm(status, funcao, modulo) {
                 else {
                     form[i].style.display = "none";
                     jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
+                    $(".colNovoNome").addClass("d-none");
+                    $(".colNome").removeClass("d-none");
                 }
             }
         }
@@ -102,21 +110,24 @@ function habilitaForm(status, funcao, modulo) {
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
                 form[i].style.display = "";
             }
+            $(".colNovoNome").removeClass("d-none");
+            $(".colNome").addClass("d-none");
+
         }
-        else if (funcao == "delete") {
-            btnAcao.textContent = "Excluir";
-            btnAcao.className = "btnAcao btn btn-danger";
-            // btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
-            // btnAcao.setAttribute("formmethod", "GET");
-            form[3].value = "";
-            form[3].disabled = false;
-            for (i = 4; i < form.length; i++) {
-                form[i].value = "";
-                form[i].disabled = true;
-                jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-                form[i].style.display = "none";
-            }
-        }
+        // else if (funcao == "delete") {
+        //     btnAcao.textContent = "Excluir";
+        //     btnAcao.className = "btnAcao btn btn-danger";
+        //     // btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
+        //     // btnAcao.setAttribute("formmethod", "GET");
+        //     form[3].value = "";
+        //     form[3].disabled = false;
+        //     for (i = 4; i < form.length; i++) {
+        //         form[i].value = "";
+        //         form[i].disabled = true;
+        //         jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
+        //         form[i].style.display = "none";
+        //     }
+        // }
     }
 }
 
@@ -144,8 +155,10 @@ function executaXML(funcao, modulo) {
             console.log("// XMLHttpRequest timed out.");
         }
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $(".colNome").removeClass("d-none");
         xmlhttp.send($(`#form${modulo}`).serialize());
         console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
+        $(".colNome").addClass("d-none");
 
         xmlhttp.onreadystatechange = function (e) {
             if (xmlhttp.readyState == 4) {
@@ -210,6 +223,8 @@ function populate(form, json, indice) {
     $.each(json[indice], function (key, value) {
         $('[name=' + key + ']', form).val(value);
     })
+    $("#formEventoNovoNome").val(json[indice].nome);
+    $("#formClienteNovoNome").val(json[indice].nome);
 }
 
 function editaRegistro(selecao, modulo) {

@@ -60,13 +60,22 @@ public final class EventoService {
 		return evento.toJson();
 	}
 
-	public JSONObject get(Request request) {
-		return eventoDAO.get(request.getQuery().get(NOME)).toJson();
-//		return this.getAll(request);
+	public JSONArray get(Request request) {
+		List<Evento> lista = eventoDAO.getListaDeEventos();
+		JSONArray listaJson = new JSONArray();
+		if(!lista.isEmpty()){
+			for(Evento e : lista) {
+				listaJson.put(e.toJson());
+			}
+		}else {
+			listaJson.put(0, "null");
+		}
+		return listaJson;
 	}
 
 	public JSONObject update(Request request) {
-		Evento evento = eventoDAO.get(request.getQuery().get(NOME));
+		String n = request.getQuery().get(NOME);
+		Evento evento = eventoDAO.get(n);
 
 		Query query = request.getQuery();
 		if(query.get(NOVONOME) != "")
@@ -87,18 +96,5 @@ public final class EventoService {
 
 	public JSONObject remove (Request request) { 
 		return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
-	}
-	
-	public JSONArray getAll(Request request) {
-		List<Evento> lista = eventoDAO.getAll();
-		JSONArray listaJson = new JSONArray();
-		if(!lista.isEmpty()){
-			for(Evento e : lista) {
-				listaJson.put(e.toJson());
-			}
-		}else {
-			listaJson.put(0, "null");
-		}
-		return listaJson;
 	}
 }
