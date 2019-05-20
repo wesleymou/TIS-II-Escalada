@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Inscricao {
 	
@@ -10,6 +13,7 @@ public class Inscricao {
 	private Evento evento;
 	private String tipoPagamento;
 	private boolean status;
+	private PrintWriter gravar;
 	
 	public Inscricao(int qtdAdulto, int qtdInfantil) {
 		this.qtdAdulto = qtdAdulto;
@@ -21,11 +25,16 @@ public class Inscricao {
 		return valorTotal;		
 	}
 	
-	public void geraRecibo() {
-		//criar arquivo de texto
-		//coletar dados específicos
-		//salvar no arquivo
-		//fechar arquivpo		
+	public void geraRecibo() throws IOException {
+		FileWriter arq = new FileWriter("Recibo.txt");
+		gravar = new PrintWriter(arq);
+		gravar.printf("Recibo\nNome do cliente: " + cliente.getNome() + "\nTipo de pagamento: " + tipoPagamento + "Valor pago: " + valorRecebido + "\nParticipantes cadastrados: ");
+		for (int i = 0; i<(qtdInfantil + qtdAdulto); i++) {
+			gravar.printf("\n-"+participantes[i]);
+		}
+		gravar.printf("\nEste recibo nao se trata de documento fiscal");
+		arq.close();
+			Runtime.getRuntime().exec("Recibo.txt");
 	}
 	
 	public boolean isInscricaoConfirmada() {
