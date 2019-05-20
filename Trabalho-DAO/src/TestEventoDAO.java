@@ -67,17 +67,17 @@ class TestEventoDAO {
 		
 		Set<Evento> novoSet = eventoDAO.getLista();
 		Iterator<Evento> novaKey = novoSet.iterator();
+		Evento novoEventoLocal = null;
 		while(novaKey.hasNext()) {
 			Evento eventoDaLista = novaKey.next();
-			if(eventoDaLista.equals(evento)) {
-				assertEquals("Evento atualizado.", eventoLocal, eventoDaLista);
+			if(eventoDaLista.equals(eventoLocal)) {
+				novoEventoLocal = eventoDaLista;
 				break;
 			}
 		}
 		
-		Evento novoEvento = eventoDAO.get("BH-Passarela");
-		assertEquals("Capacidade alterada.", 50, novoEvento.getCapacidade());
-		assertEquals("Quorum alterado.", 25, novoEvento.getQuorum());
+		assertEquals("Capacidade alterada.", 50, novoEventoLocal.getCapacidade());
+		assertEquals("Quorum alterado.", 25, novoEventoLocal.getQuorum());
 	}
 	
 	@Test
