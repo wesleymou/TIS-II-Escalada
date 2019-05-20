@@ -1,4 +1,5 @@
 var serverAddress = "http://127.0.0.1:880";
+var dadosXMLHTTP;
 
 function evento() {
     if (document.getElementById('evento').style.display == "none") {
@@ -6,6 +7,7 @@ function evento() {
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
         document.getElementsByClassName("btnUpdate")[0].style.display = "none";
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
+        document.getElementsByClassName("btnOperacao")[0].style.display = "none";
         for (i = 3  ; i < $("#formEvento")[0].length; i++) {
             if (i != 4) {
                 $("#formEvento")[0][i].disabled = true;
@@ -30,6 +32,7 @@ function cliente() {
         document.getElementsByClassName("btnAcao")[1].style.display = "none";
         document.getElementsByClassName("btnUpdate")[1].style.display = "none";
         document.getElementsByClassName("btnDelete")[1].style.display = "none";
+        document.getElementsByClassName("btnOperacao")[0].style.display = "none";
         for (i = 3; i < $("#formCliente")[0].length; i++) {
             if (i != 4) {
                 $("#formCliente")[0][i].disabled = true;
@@ -63,6 +66,7 @@ function habilitaForm(status, funcao, modulo) {
         btnAcao.style.display = "";
         document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
         document.getElementsByClassName("btnDelete")[indiceForm].style.display = "none";
+        document.getElementsByClassName("btnOperacao")[0].style.display = "none";
         btnAcao.setAttribute("onclick", `executaXML("${funcao}","${modulo}")`);
         form[3].readOnly = false;
         if (funcao == "create") {
@@ -164,9 +168,10 @@ function executaXML(funcao, modulo) {
             if (xmlhttp.readyState == 4) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. \n" + xmlhttp.response);
-                    sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
+                    // sessionStorage.setItem("dadosXMLHTTP", xmlhttp.response);
+                    dadosXMLHTTP = JSON.parse(xmlhttp.response);
                     if (funcao == "read")
-                        mostrarPainel(modulo, JSON.parse(xmlhttp.response));
+                        mostrarPainel(modulo, dadosXMLHTTP);
                     else if (funcao == "create" || funcao == "update" || funcao == "delete")
                         alerta(funcao, modulo);
                 }
@@ -197,9 +202,10 @@ function consultaRegistro(modulo, indice) {
     }
     form[1].checked = true;
     habilitaForm(true, "update", modulo);
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")), indice);
+    populate(form, dadosXMLHTTP, indice);
     document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "";
     document.getElementsByClassName("btnDelete")[indiceForm].style.display = "";
+    document.getElementsByClassName("btnOperacao")[0].style.display = "";
     document.getElementsByClassName("btnAcao")[indiceForm].style.display = "none";
     // for (i = 5; i < form.length - 1; i++) {
     //     form[i].style.display = "";
@@ -225,25 +231,27 @@ function populate(form, json, indice) {
     })
     $("#formEventoNovoNome").val(json[indice].nome);
     $("#formClienteNovoCPF").val(json[indice].cpf);
+    dadosXMLHTTP = json[indice];
+    sessionStorage.setItem("dadosXMLHTTP", JSON.stringify(json[indice]));
 }
 
-function editaRegistro(selecao, modulo) {
-    let form = document.querySelector(`#form${modulo}`);
-    form[selecao].checked = true;
-    if (selecao == 2)
-        habilitaForm(true, "update", modulo);
-    else if (selecao == 3) {
-        habilitaForm(true, "delete", modulo);
-    }
-    populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
-    form[5].readOnly = true;
-    if (selecao == 3) {
-        for (i = 6; i < form.length - 1; i++) {
-            form[i].style.display = "";
-            jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
-        }
-    }
-}
+// function editaRegistro(selecao, modulo) {
+//     let form = document.querySelector(`#form${modulo}`);
+//     form[selecao].checked = true;
+//     if (selecao == 2)
+//         habilitaForm(true, "update", modulo);
+//     else if (selecao == 3) {
+//         habilitaForm(true, "delete", modulo);
+//     }
+//     populate(form, JSON.parse(sessionStorage.getItem("dadosXMLHTTP")));
+//     form[5].readOnly = true;
+//     if (selecao == 3) {
+//         for (i = 6; i < form.length - 1; i++) {
+//             form[i].style.display = "";
+//             jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "";
+//         }
+//     }
+// }
 
 
 function mostrarPainel(modulo, dados) {
@@ -254,7 +262,6 @@ function mostrarPainel(modulo, dados) {
     } else if (modulo == "Evento") {
 
         $("#modalBody").html(function () {
-            console.log(dados[0][0]);
             texto = "";
             for (i = 0; i < dados.length; i++) {
                 texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome}</a></div>`;
@@ -267,10 +274,15 @@ function mostrarPainel(modulo, dados) {
         $("#modalBody").html(function () {
             texto = "";
             for (i = 0; i < dados.length; i++) {
-                texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome}</a></div>`;
+                texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome} - CPF: ${dados[i].cpf}</a></div>`;
             }
             return texto;
         });
         $("#myModal").modal();
     }
+}
+
+function preencheOperacoes () {
+    dadosXMLHTTP = JSON.parse(sessionStorage.getItem("dadosXMLHTTP"));
+    $("#nomeEvento").html(`Evento: ${dadosXMLHTTP.nome}`);
 }
