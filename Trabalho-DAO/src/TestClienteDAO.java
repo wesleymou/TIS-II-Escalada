@@ -24,13 +24,13 @@ class TestClienteDAO {
 	
 	@Test
 	void testGetAll() {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
 		assertFalse(clienteDAO.getLista().isEmpty());
 	}
 	
 	@Test
 	void testAdd() throws FileNotFoundException, IOException {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
 		clienteDAO.add(cliente);
 		Set<Cliente> set = clienteDAO.getLista();
 		assertTrue("Contem evento." ,set.contains(cliente));
@@ -38,14 +38,14 @@ class TestClienteDAO {
 	
 	@Test
 	void testGet() {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
 		clienteDAO.add(cliente);
 		assertEquals("Recupera evento.", cliente, clienteDAO.get(11122233344L));
 	}
 	
 	@Test
 	void testUpdate() {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
 		clienteDAO.add(cliente);
 		Set<Cliente> set = clienteDAO.getLista();
 		
@@ -81,7 +81,7 @@ class TestClienteDAO {
 	
 	@Test
 	void testDelete() {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
 		Set<Cliente> set = clienteDAO.getLista();
 		clienteDAO.add(cliente);
 		assertTrue("Contem evento." ,set.contains(cliente));
@@ -92,10 +92,10 @@ class TestClienteDAO {
 	
 	@Test
 	void testGravar() throws FileNotFoundException, IOException {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
 		clienteDAO.add(cliente);
 		
-		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.dat"))) {
+		try (DataInputStream entrada = new DataInputStream(new FileInputStream("clientes.ser"))) {
 			assertEquals("CPF gravado", 11122233344L, entrada.readLong());
 			assertEquals("Nome gravado", "João da Silva", entrada.readUTF());
 		}

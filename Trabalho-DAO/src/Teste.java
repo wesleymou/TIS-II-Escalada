@@ -3,8 +3,8 @@ import javax.swing.JOptionPane;
 class Teste {
 
 	public static void main(String[] args) {
-		ClienteDAO clienteDAO = new ClienteDAO("clientes.dat");
-		EventoDAO eventoDAO = new EventoDAO("eventos.dat");
+		ClienteDAO clienteDAO = new ClienteDAO("clientes.ser");
+		EventoDAO eventoDAO = new EventoDAO("eventos.ser");
 		
 		for(Cliente c : clienteDAO.getLista()) {
 			System.out.println("Cliente: " + c.toJson());
@@ -21,6 +21,17 @@ class Teste {
 				50,	//Valor do ingresso
 				"\n	Chegada: 10h.\n	Saida: 15h.",	//Cronograma
 				"Aguardando quorum minimo."));	//Status
+		eventoDAO.add(new Evento(
+				"SP-Passarela",	//Nome
+				"2020-05-26T10:00:00",	//Data de inicio
+				"2020-05-26T15:00:00",	//Data de termino
+				"Rua Estreira, Numero 5000",	//Local do Evento
+				30,	//Capacidade
+				40,	//Minimo de participantes
+				600,	//Orcamento previo
+				60,	//Valor do ingresso
+				"\n	Chegada: 11h.\n	Saida: 14h.",	//Cronograma
+				"Aguardando quorum minimo."));	//Status
 		
 		exibe(eventoDAO);
 		
@@ -35,7 +46,8 @@ class Teste {
 		eventoDAO.delete("Serra da Piedade");
 		JOptionPane.showMessageDialog(null, "Apos .delete", null, 1);
 		
-		exibe(eventoDAO);
+		EventoDAO eventoDAONovo = new EventoDAO("eventos.ser");
+		exibe(eventoDAONovo);
 	}
 	
 	public static void exibe(EventoDAO eventoDAO) {

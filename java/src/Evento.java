@@ -1,10 +1,9 @@
 
-//import java.time.LocalDateTime;
-//import java.util.HashMap;
+import java.io.Serializable;
 
 import org.json.JSONObject;
 
-public class Evento implements Comparable<Evento>{
+public class Evento implements Comparable<Evento>, Serializable{
 	private String nome;
 	private String dataInicio;
 	private String dataTermino;

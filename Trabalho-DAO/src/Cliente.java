@@ -1,6 +1,8 @@
+
+import java.io.Serializable;
 import org.json.JSONObject;
 
-class Cliente implements Comparable<Cliente>{
+class Cliente implements Comparable<Cliente>,Serializable{
 	private static final String CPF = "cpf";
 	private static final String NOME = "nome";
 	private static final String NUMFONE1 = "telRes";
