@@ -7,12 +7,12 @@ import org.simpleframework.http.Request;
 public final class EventoService {
 	private static final String NOME = "nome";
 	private static final String DATAINICIO = "dataInicio";
-	private static final String DATATERMINO = "dataFim";
+	private static final String DATATERMINO = "dataTermino";
 	private static final String LOCAL = "local";
 	private static final String CAPACIDADE = "capacidade";
-	private static final String QUORUM = "minimo";
-	private static final String ORCAMENTOPREVIO = "orcamento";
-	private static final String VALORINGRESSO = "ingresso";
+	private static final String QUORUM = "quorum";
+	private static final String ORCAMENTOPREVIO = "orcamentoPrevio";
+	private static final String VALORINGRESSO = "valorIngresso";
 	private static final String CRONOGRAMA = "cronograma";
 //	private static final String CONVENIO = "convenios";
 	private static final String STATUS = "status";

@@ -1,9 +1,11 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 
-public class Inscricao {
-	
+public class Inscricao implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int qtdAdulto;
 	private int qtdInfantil;
 	private double valorTotal =0;

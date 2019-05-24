@@ -8,11 +8,11 @@ public class ClienteService {
 	
 	private static final String CPF = "cpf";
 	private static final String NOME = "nome";
-	private static final String NUNFONE1 = "telRes";
-	private static final String NUNFONE2 = "telCel";
+	private static final String NUNFONE1 = "numFone1";
+	private static final String NUNFONE2 = "numFone2";
 	private static final String ENDERECO = "endereco";
 	private static final String EMAIL = "email";
-	private static final String EVENTOS = "eventosInscritos";
+	private static final String EVENTOS = "eventos";
 	private static final String NOVOCPF = "novoCpf";
 		
 	private ClienteDAO clienteDAO;

@@ -1,5 +1,6 @@
 var serverAddress = "http://127.0.0.1:880";
 var dadosXMLHTTP;
+var clientes;
 
 function evento() {
     if (document.getElementById('evento').style.display == "none") {
@@ -8,7 +9,7 @@ function evento() {
         document.getElementsByClassName("btnUpdate")[0].style.display = "none";
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
         document.getElementsByClassName("btnOperacao")[0].style.display = "none";
-        for (i = 3  ; i < $("#formEvento")[0].length; i++) {
+        for (i = 3; i < $("#formEvento")[0].length; i++) {
             if (i != 4) {
                 $("#formEvento")[0][i].disabled = true;
                 $("#formEvento")[0][i].style.display = "";
@@ -44,7 +45,7 @@ function cliente() {
                 jQuery("label[for=" + $("#formCliente")[0][i].getAttribute("id") + "]")[0].style.display = "none";
                 $(".colNovoNome").addClass("d-none");
                 $(".colNome").removeClass("d-none");
-                
+
             }
         }
         document.getElementById('evento').style.display = "none";
@@ -142,6 +143,8 @@ function executaXML(funcao, modulo) {
         path = serverAddress + `/cadastrar${modulo}`;
     else if (funcao == "read")
         path = serverAddress + `/consultar${modulo}`;
+    else if (funcao == "inscrever")
+        path = serverAddress + `/adicionar${modulo}`;
     else if (funcao == "update" || funcao == "delete") {
         if (funcao == "update")
             path = serverAddress + `/atualizar${modulo}`;
@@ -185,6 +188,42 @@ function executaXML(funcao, modulo) {
         xmlhttp.onerror = function (e) {
             console.error(xmlhttp.statusText);
         }
+    }
+}
+
+function operacoesEventos(modulo) {
+    let form = document.querySelector(`#form${modulo}`);
+    let path;
+    if (modulo == "Inscricao")
+        path = serverAddress + `/inscricao${modulo}`;
+    else if (modulo == "Cliente")
+        path = serverAddress + `/consultar${modulo}`;
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", path, true);
+    xmlhttp.timeout = 3000;
+    xmlhttp.ontimeout = function (e) {
+        console.log("Apos timeout.");
+    }
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlhttp.send($(`#form${modulo}`).serialize());
+    console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
+
+    xmlhttp.onreadystatechange = function (e) {
+        if (xmlhttp.readyState == 4) {
+            if (xmlhttp.status >= 200) {
+                console.log("requisicao OK. \n" + xmlhttp.response);
+                clientes = JSON.parse(xmlhttp.response);
+                preencheOperacoes(JSON.parse(xmlhttp.response));
+            } else {
+                console.error("erro na requisicao. //" + xmlhttp.statusText);
+            }
+        }
+    }
+    console.log("apos o onreadystatechange");
+
+    xmlhttp.onerror = function (e) {
+        console.error(xmlhttp.statusText);
     }
 }
 
@@ -282,7 +321,16 @@ function mostrarPainel(modulo, dados) {
     }
 }
 
-function preencheOperacoes () {
+function preencheOperacoes(l) {
     dadosXMLHTTP = JSON.parse(sessionStorage.getItem("dadosXMLHTTP"));
     $("#nomeEvento").html(`Evento: ${dadosXMLHTTP.nome}`);
+    for (let i = 0; i < l.length; i++) {
+        $('#inputGroupSelect01').append(`<option value="${clientes[i].cpf}">${clientes[i].nome}, ${clientes[i].cpf}</option>`);
+    }
+}
+
+function simulaIngresso() {
+    $('campoAdulto').value
+    soma = ($('#campoAdulto').val() * dadosXMLHTTP.valorIngresso) + ($('#campoCrianca').val() * dadosXMLHTTP.valorIngresso/2);
+    $("#resultadoSimulacao").html(`R$ ${soma}`);
 }

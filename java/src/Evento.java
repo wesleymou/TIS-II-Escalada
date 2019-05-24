@@ -1,5 +1,7 @@
 
+import java.util.List;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 
@@ -21,7 +23,7 @@ public class Evento implements Comparable<Evento>, Serializable{
 //	private Map <Array,Array> cronograma = new HashMap<Array,Array>();
 	private String cronograma;
 //	private int convenio[];
-	// private Inscricoes = new Inscricao[];
+	private List<Inscricao> inscricoes = new ArrayList<Inscricao>();
 	private String status;
 
 	public Evento(String nome, String inicio, String termino, String local, int capacidade, int quorum,
@@ -167,6 +169,14 @@ public class Evento implements Comparable<Evento>, Serializable{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public List<Inscricao> getInscricoes() {
+		return inscricoes;
+	}
+
+	public void setInscricoes(ArrayList<Inscricao> inscricoes) {
+		this.inscricoes.addAll(inscricoes);
 	}
 
 }
