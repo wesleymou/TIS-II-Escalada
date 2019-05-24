@@ -2,7 +2,13 @@
 import java.io.Serializable;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 class Cliente implements Comparable<Cliente>,Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6453360528647623074L;
 	private static final String CPF = "cpf";
 	private static final String NOME = "nome";
 	private static final String NUMFONE1 = "telRes";
@@ -44,17 +50,18 @@ class Cliente implements Comparable<Cliente>,Serializable{
 		return false;
 	}
 	
-	public JSONObject toJson() {
-		JSONObject clienteJson = new JSONObject();
-		clienteJson.put(CPF, this.cpf);
-		clienteJson.put(NOME, this.nome);
-		clienteJson.put(NUMFONE1, this.numFone1);
-		clienteJson.put(NUMFONE2, this.numFone2);
-		clienteJson.put(ENDERECO, this.endereco);
-		clienteJson.put(EMAIL, this.email);
-		clienteJson.put(EVENTOS, this.eventos);
-		
-		return clienteJson;
+	public String toJson() {
+		return new Gson().toJson(this);
+//		JSONObject clienteJson = new JSONObject();
+//		clienteJson.put(CPF, this);
+//		clienteJson.put(CPF, this.cpf);
+//		clienteJson.put(NOME, this.nome);
+//		clienteJson.put(NUMFONE1, this.numFone1);
+//		clienteJson.put(NUMFONE2, this.numFone2);
+//		clienteJson.put(ENDERECO, this.endereco);
+//		clienteJson.put(EMAIL, this.email);
+//		clienteJson.put(EVENTOS, this.eventos);
+//		return clienteJson;
 	}
 
 	public long getCpf() {

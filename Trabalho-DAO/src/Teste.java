@@ -10,6 +10,8 @@ class Teste {
 			System.out.println("Cliente: " + c.toJson());
 		}
 		
+		clienteDAO.add(new Cliente(123, "nome", 123, 123, "Rua", "email", "eventos"));
+		
 		eventoDAO.add(new Evento(
 				"BH-Passarela",	//Nome
 				"2019-05-26T10:00:00",	//Data de inicio

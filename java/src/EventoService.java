@@ -21,7 +21,7 @@ public final class EventoService {
 	private EventoDAO eventoDAO;
 	
 	public EventoService() {
-		eventoDAO = new EventoDAO("eventos.dat");
+		eventoDAO = new EventoDAO("eventos.ser");
 	}
 
 	public JSONObject add(Request request) {

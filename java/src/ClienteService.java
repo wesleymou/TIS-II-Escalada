@@ -18,7 +18,7 @@ public class ClienteService {
 	private ClienteDAO clienteDAO;
 	
 	public ClienteService() {
-		clienteDAO = new ClienteDAO("clientes.dat");
+		clienteDAO = new ClienteDAO("clientes.ser");
 	}
 	
 	public JSONObject add(Request request) {

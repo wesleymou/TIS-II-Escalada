@@ -66,7 +66,7 @@ abstract class DAO<T,K> {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			System.out.println("Arquivo vazio!");
+			System.out.println("Arquivo " + this.nomeArquivo + " vazio!");
 //			e1.printStackTrace();
 		}
 		return lista;
