@@ -17,13 +17,13 @@ import org.simpleframework.transport.connect.SocketConnection;
 
 public class Server implements Container {
 
-	EventoService eventoService = new EventoService();
-	ClienteService clienteService = new ClienteService();
+	static EventoService eventoService = new EventoService();
+	static ClienteService clienteService = new ClienteService();
 
 	public void handle(Request request, Response response) {
 		try {
 			String path = request.getPath().getPath();
-//			String method = request.getMethod();
+			//			String method = request.getMethod();
 			System.out.println("Request: " + request.getQuery().toString());
 			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
 				JSONObject j = eventoService.add(request);
@@ -36,7 +36,7 @@ public class Server implements Container {
 				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
-				JSONObject j = eventoService.update(request);
+				JSONObject j = eventoService.update(request, 0, null);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
@@ -62,6 +62,11 @@ public class Server implements Container {
 
 			} else if (path.startsWith("/excluirCliente")/* && "GET".equals(method)*/) {
 				JSONObject j = clienteService.remove(request);
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
+
+			} else if (path.startsWith("/adicionarInscricao")/* && "GET".equals(method)*/) {
+				JSONObject j = eventoService.updateInscricao(request, true, clienteService.getDAO());
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 			} else {
@@ -91,7 +96,7 @@ public class Server implements Container {
 		body.println(JSON);
 		body.close();
 	}
-	
+
 	private void enviaResposta(Status status, Response response, JSONArray JSON) throws Exception {
 		PrintStream body = response.getPrintStream();
 		long time = System.currentTimeMillis();

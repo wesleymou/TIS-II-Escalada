@@ -40,7 +40,7 @@
                     <span class="input-group-text">
                         <h5>Cronograma</h5>
                     </span>
-                    <button class="btn btn-success" type="button">Adicionar</button>
+                    <button class="btn btn-success ml-1" type="button">Adicionar</button>
                 </div><br>
                 <div class="input-group">
                     <input type="text" class="form-control" required>
@@ -57,8 +57,10 @@
                     <span class="input-group-text">
                         <h5>Clientes</h5>
                     </span>
-                    <button class="btn btn-success" type="button"
-                        onclick="executaXML('inscrever','Inscricao')">Enviar</button>
+                    <button class="btn btn-info ml-1" type="button" onclick="$('#myModal').modal();">Listar</button>
+                    <button class="btn btn-success ml-1" type="button" onclick="operacoesEventos('Inscricao')">Enviar</button>
+                    <button class="btn btn-warning ml-1" type="button" onclick="">Atualizar</button>
+                    <button class="btn btn-danger ml-1" type="button" onclick="">Excluir</button>
                 </div><br>
                 <form class="input-group mb-3" id="formInscricao">
                     <select class="custom-select" id="inputGroupSelect01" name="inscricao">
@@ -80,10 +82,28 @@
                         <input id="campoCrianca" class="form-control" name="crianca" type="number">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button"
-                            onclick="simulaIngresso()">Calcular</button>
-                        <span class="input-group-text" id="resultadoSimulacao"></span>
+                            onclick="simulaIngresso()" form="formSimulacao">Calcular</button>
+                        <span class="input-group-text col-6" id="resultadoSimulacao"></span>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid" id="modalBody"></div>
+                </div>
             </div>
         </div>
     </div>

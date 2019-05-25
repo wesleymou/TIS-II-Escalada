@@ -69,7 +69,7 @@ public final class EventoService {
 		return listaJson;
 	}
 
-	public JSONObject update(Request request) {
+	public JSONObject update(Request request, int option, Inscricao inscricao) {
 		Query query = request.getQuery();
 		Evento evento = eventoDAO.get(request.getQuery().get(NOME));
 
@@ -89,8 +89,22 @@ public final class EventoService {
 		eventoDAO.update(evento);
 		return evento.toJson();
 	}
+	
+	public JSONObject updateInscricao(Request request, boolean option, ClienteDAO clienteDAO) {
+		Query query = request.getQuery();
+		Evento evento = eventoDAO.get(request.getQuery().get(NOME));
+		if (option == true) {
+			evento.getInscricoes().add(new Inscricao(
+					query.getInteger("adulto"),
+					query.getInteger("crianca"),
+					clienteDAO.get(Long.parseLong(query.get("cpf")))));
+		}
+		return evento.toJson();
+	}
 
 	public JSONObject remove (Request request) { 
 		return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
 	}
+	
+	
 }

@@ -79,4 +79,8 @@ public class ClienteService {
 	public JSONObject remove (Request request) {
 		return new JSONObject(clienteDAO.delete(Long.parseLong(request.getQuery().get(CPF))));
 	}
+	
+	public ClienteDAO getDAO() {
+		return clienteDAO;
+	}
 }

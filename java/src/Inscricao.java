@@ -17,9 +17,10 @@ public class Inscricao implements Serializable{
 	private boolean status;
 	private PrintWriter gravar;
 	
-	public Inscricao(int qtdAdulto, int qtdInfantil) {
+	public Inscricao(int qtdAdulto, int qtdInfantil, Cliente cliente) {
 		this.qtdAdulto = qtdAdulto;
-		this.qtdInfantil = qtdInfantil;		
+		this.qtdInfantil = qtdInfantil;
+		this.cliente = cliente;
 	}
 	
 	public double simularValor(){

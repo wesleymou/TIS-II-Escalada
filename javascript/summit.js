@@ -194,8 +194,12 @@ function executaXML(funcao, modulo) {
 function operacoesEventos(modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
-    if (modulo == "Inscricao")
-        path = serverAddress + `/inscricao${modulo}`;
+    if (modulo == "Inscricao") {
+        path = serverAddress + `/adicionar${modulo}`;
+        dadosXMLHTTP["cpf"] = $('#inputGroupSelect01').val();
+        dadosXMLHTTP[$('#campoAdulto').attr("name")] = $('#campoAdulto').val();
+        dadosXMLHTTP[$('#campoCrianca').attr("name")] = $('#campoCrianca').val();
+    }
     else if (modulo == "Cliente")
         path = serverAddress + `/consultar${modulo}`;
 
@@ -206,7 +210,10 @@ function operacoesEventos(modulo) {
         console.log("Apos timeout.");
     }
     xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlhttp.send($(`#form${modulo}`).serialize());
+    if (modulo == "Cliente")
+        xmlhttp.send($(`#form${modulo}`).serialize());
+    if (modulo == "Inscricao")
+        xmlhttp.send($.param(dadosXMLHTTP));
     console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
 
     xmlhttp.onreadystatechange = function (e) {
@@ -215,7 +222,7 @@ function operacoesEventos(modulo) {
                 console.log("requisicao OK. \n" + xmlhttp.response);
                 clientes = JSON.parse(xmlhttp.response);
                 preencheOperacoes(JSON.parse(xmlhttp.response));
-            } else {
+            } else {    
                 console.error("erro na requisicao. //" + xmlhttp.statusText);
             }
         }
@@ -331,6 +338,6 @@ function preencheOperacoes(l) {
 
 function simulaIngresso() {
     $('campoAdulto').value
-    soma = ($('#campoAdulto').val() * dadosXMLHTTP.valorIngresso) + ($('#campoCrianca').val() * dadosXMLHTTP.valorIngresso/2);
+    soma = ($('#campoAdulto').val() * dadosXMLHTTP.valorIngresso) + ($('#campoCrianca').val() * dadosXMLHTTP.valorIngresso / 2);
     $("#resultadoSimulacao").html(`R$ ${soma}`);
 }
