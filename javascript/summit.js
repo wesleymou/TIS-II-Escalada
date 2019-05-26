@@ -2,6 +2,33 @@ var serverAddress = "http://127.0.0.1:880";
 var dadosXMLHTTP;
 var clientes;
 
+function fornecedor() {
+    if (document.getElementById('fornecedor').style.display == "none") {
+        $("#formFornecedor")[0].reset();
+        document.getElementsByClassName("btnAcao")[1].style.display = "none";
+        document.getElementsByClassName("btnUpdate")[1].style.display = "none";
+        document.getElementsByClassName("btnDelete")[1].style.display = "none";
+        document.getElementsByClassName("btnOperacao")[0].style.display = "none";
+        for (i = 3; i < $("#formFornecedor")[0].length; i++) {
+            if (i != 4) {
+                $("#formFornecedor")[0][i].disabled = true;
+                $("#formFornecedor")[0][i].style.display = "";
+                jQuery("label[for=" + $("#formFornecedor")[0][i].getAttribute("id") + "]")[0].style.display = "";
+            }
+            else {
+                $("#formFornecedor")[0][i].style.display = "none";
+                jQuery("label[for=" + $("#formFornecedor")[0][i].getAttribute("id") + "]")[0].style.display = "none";
+                $(".colNovoNome").addClass("d-none");
+                $(".colNome").removeClass("d-none");
+
+            }
+        }
+        document.getElementById('fornecedor').style.display = "";
+        document.getElementById('evento').style.display = "none";
+        document.getElementById('cliente').style.display = "none";
+    }
+}
+
 function evento() {
     if (document.getElementById('evento').style.display == "none") {
         $("#formEvento")[0].reset();
@@ -22,6 +49,7 @@ function evento() {
                 $(".colNome").removeClass("d-none");
             }
         }
+        document.getElementById('fornecedor').style.display = "none";
         document.getElementById('evento').style.display = "";
         document.getElementById('cliente').style.display = "none";
     }
@@ -48,6 +76,7 @@ function cliente() {
 
             }
         }
+        document.getElementById('fornecedor').style.display = "none";
         document.getElementById('evento').style.display = "none";
         document.getElementById('cliente').style.display = "";
     }
@@ -61,6 +90,9 @@ function habilitaForm(status, funcao, modulo) {
     }
     else if (modulo == "Cliente") {
         indiceForm = 1;
+    }
+    else if (modulo == "Fornecedor") {
+        indiceForm = 2;
     }
     let btnAcao = document.getElementsByClassName("btnAcao")[indiceForm];
     if (status == true) {
@@ -298,7 +330,6 @@ function populate(form, json, indice) {
 //         }
 //     }
 // }
-
 
 function mostrarPainel(modulo, dados) {
     $("#modalTitle").html(`${modulo}.`);
