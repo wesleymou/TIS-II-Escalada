@@ -1,15 +1,18 @@
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 public class Fornecedor {
 	
-	private int[] cnpj, telefone;
+	private long cnpj, telefone;
 	private String nome, endereco, email, servico;
 	
-	public Fornecedor (int[]cnpj, String nome) {
+	public Fornecedor (long cnpj, String nome) {
 		this.cnpj = cnpj;
 		this.nome = nome;		
 	}
 	
-	public Fornecedor (int[]cnpj, String nome, int[] telefone, String endereco, String email, String servico ) {
+	public Fornecedor (long cnpj, String nome, long telefone, String endereco, String email, String servico ) {
 		this.cnpj = cnpj;
 		this.nome = nome;
 		this.telefone = telefone;
@@ -17,16 +20,20 @@ public class Fornecedor {
 		this.email = email;
 		this.servico = servico;		
 	}
+	
+	public JSONObject toJson() {
+		return new JSONObject(new Gson().toJson(this));
+	}
 
-	public int[] getCnpj() {
+	public long getCnpj() {
 		return cnpj;
 	}
 
-	public int[] getTelefone() {
+	public long getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(int[] telefone) {
+	public void setTelefone(long telefone) {
 		this.telefone = telefone;
 	}
 
