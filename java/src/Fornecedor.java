@@ -1,9 +1,12 @@
+import java.io.Serializable;
+
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
-public class Fornecedor {
-	
+public class Fornecedor implements Comparable<Fornecedor>, Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private long cnpj, telefone;
 	private String nome, endereco, email, servico;
 	
@@ -23,6 +26,20 @@ public class Fornecedor {
 	
 	public JSONObject toJson() {
 		return new JSONObject(new Gson().toJson(this));
+	}
+	
+	@Override
+	public int compareTo(Fornecedor fornecedor) {
+		return this.getNome().compareToIgnoreCase(fornecedor.getNome());
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Fornecedor && this.getNome().equalsIgnoreCase(((Fornecedor)o).getNome()))
+			return true;
+		if(o instanceof Long && this.getCnpj() == (Long)o)
+			return true;
+		return false;
 	}
 
 	public long getCnpj() {

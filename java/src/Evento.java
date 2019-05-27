@@ -56,19 +56,6 @@ public class Evento implements Comparable<Evento>, Serializable{
 
 	public JSONObject toJson() {
 		return new JSONObject(new Gson().toJson(this));
-//		JSONObject eventojson = new JSONObject();
-//		eventojson.put("nome", this.nome);
-//		eventojson.put("dataInicio", this.dataInicio);
-//		eventojson.put("dataFim", this.dataTermino);
-//		eventojson.put("local", this.local);
-//		eventojson.put("capacidade", this.capacidade);
-//		eventojson.put("minimo", this.quorum);
-//		eventojson.put("orcamento", this.orcamentoPrevio);
-//		eventojson.put("ingresso", this.valorIngresso);
-//		eventojson.put("cronograma", this.cronograma);
-////			eventojson.put("convenio", convenio);
-//		eventojson.put("status", this.status);
-//		return eventojson;
 	}
 
 	public String getNome() {
