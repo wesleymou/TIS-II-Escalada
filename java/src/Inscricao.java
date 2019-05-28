@@ -3,9 +3,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 
+import org.json.JSONObject;
+
 import com.google.gson.Gson;
 
-public class Inscricao implements Serializable{
+public class Inscricao implements Serializable, Comparable<Inscricao>{
 
 	private static final long serialVersionUID = 1L;
 	private int qtdAdulto;
@@ -35,8 +37,8 @@ public class Inscricao implements Serializable{
 		return valorTotal == valorRecebido;
 	}
 
-	public String toJson() {
-		return new Gson().toJson(this);
+	public JSONObject toJson() {
+		return new JSONObject(new Gson().toJson(this));
 	}
 	
 	public void geraRecibo(double valor) throws IOException {
@@ -105,6 +107,11 @@ public class Inscricao implements Serializable{
 
 	public void setTipoPagamento(String tipoPagamento) {
 		this.tipoPagamento = tipoPagamento;
+	}
+
+	@Override
+	public int compareTo(Inscricao o) {
+		return Long.compareUnsigned(cliente.getCpf(), o.getCliente().getCpf());
 	}
 
 }

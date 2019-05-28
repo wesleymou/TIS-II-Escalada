@@ -37,7 +37,7 @@ public class Server implements Container {
 				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
-				JSONObject j = eventoService.update(request, 0, null);
+				JSONObject j = eventoService.update(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
@@ -68,7 +68,7 @@ public class Server implements Container {
 
 			} else if (path.startsWith("/adicionarInscricao")/* && "GET".equals(method)*/) {
 				JSONObject j = inscricaoService.add(request);
-				System.out.println(j);
+				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 			} else {
 				this.naoEncontrado(response, path);

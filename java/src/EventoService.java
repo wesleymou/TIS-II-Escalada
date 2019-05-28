@@ -69,16 +69,17 @@ public final class EventoService {
 		return listaJson;
 	}
 	
+	
 	public Evento getEvento(Request request) {
 		return eventoDAO.get(request.getQuery().get(NOME));
 	}
 
-	public JSONObject update(Request request, int option, Inscricao inscricao) {
+	public JSONObject update(Request request) {
 		Query query = request.getQuery();
 		Evento evento = eventoDAO.get(request.getQuery().get(NOME));
 
 		String novoNome = query.get(NOVONOME);
-		if(novoNome != "")
+		if(novoNome != "" && novoNome != null)
 			evento.setNome(novoNome);
 		evento.setDataInicio(query.get(DATAINICIO));
 		evento.setDataTermino(query.get(DATATERMINO));

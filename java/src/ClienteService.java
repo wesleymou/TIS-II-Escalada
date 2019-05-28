@@ -58,6 +58,7 @@ public class ClienteService {
 		return listaJson;
 	}
 	
+	
 	public Cliente getCliente(Request request) {
 		return clienteDAO.get(Long.parseLong(request.getQuery().get(CPF)));
 	}

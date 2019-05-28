@@ -1,11 +1,8 @@
 
-import java.util.List;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 import org.json.JSONObject;
-
-import com.google.gson.Gson;
 
 public class Evento implements Comparable<Evento>, Serializable{
 
@@ -13,17 +10,17 @@ public class Evento implements Comparable<Evento>, Serializable{
 	private String nome;
 	private String dataInicio;
 	private String dataTermino;
-//	private LocalDateTime dataInicio;
-//	private LocalDateTime dataTermino;
+	//	private LocalDateTime dataInicio;
+	//	private LocalDateTime dataTermino;
 	private String local;
 	private int capacidade;
 	private int quorum;
 	private double orcamentoPrevio;
 	private double valorIngresso;
-//	private Map <Array,Array> cronograma = new HashMap<Array,Array>();
+	//	private Map <Array,Array> cronograma = new HashMap<Array,Array>();
 	private String cronograma;
-//	private int convenio[];
-	private List<Inscricao> inscricoes = new ArrayList<Inscricao>();
+	//	private int convenio[];
+	private TreeSet<Inscricao> inscricoes = new TreeSet<Inscricao>();
 	private String status;
 
 	public Evento(String nome, String inicio, String termino, String local, int capacidade, int quorum,
@@ -39,12 +36,12 @@ public class Evento implements Comparable<Evento>, Serializable{
 		setCronograma(cronograma);
 		setStatus(status);
 	}
-	
+
 	@Override
 	public int compareTo(Evento evento) {
 		return this.getNome().compareToIgnoreCase(evento.getNome());
 	}
-	
+
 	@Override
 	public boolean equals (Object o) {
 		if(o instanceof Evento && this.getNome().equalsIgnoreCase(((Evento)o).getNome()))
@@ -55,7 +52,21 @@ public class Evento implements Comparable<Evento>, Serializable{
 	}
 
 	public JSONObject toJson() {
-		return new JSONObject(new Gson().toJson(this));
+		JSONObject j = new JSONObject();
+		j.put("nome", nome);
+	    j.put("dataInicio", dataInicio);
+	    j.put("dataTermino", dataTermino);
+	    j.put("local", local);
+	    j.put("capacidade", capacidade);
+	    j.put("quorum", quorum);
+	    j.put("orcamentoPrevio", orcamentoPrevio);
+	    j.put("valorIngresso", valorIngresso);
+	    j.put("cronograma", cronograma);
+	    j.put("status", status);
+	    for (Inscricao inscricao : this.inscricoes) {
+			j.put("inscricao",inscricao.toJson());
+		}
+		return j;
 	}
 
 	public String getNome() {
@@ -67,22 +78,22 @@ public class Evento implements Comparable<Evento>, Serializable{
 	}
 
 	public String getDataInicio() {
-//		public LocalDateTime getDataInicio() {
+		//		public LocalDateTime getDataInicio() {
 		return dataInicio;
 	}
 
 	public void setDataInicio(String dataInicio) {
-//		public void setDataInicio(LocalDateTime dataInicio) {
+		//		public void setDataInicio(LocalDateTime dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
 	public String getDataTermino() {
-//		public LocalDateTime getDataTermino() {
+		//		public LocalDateTime getDataTermino() {
 		return dataTermino;
 	}
 
 	public void setDataTermino(String dataTermino) {
-//		public void setDataTermino(LocalDateTime dataTermino) {
+		//		public void setDataTermino(LocalDateTime dataTermino) {
 		this.dataTermino = dataTermino;
 	}
 
@@ -134,21 +145,21 @@ public class Evento implements Comparable<Evento>, Serializable{
 		this.cronograma = cronograma;
 	}
 
-//		public Map <Array,Array> getCronograma() {
-//			return cronograma;
-//		}
-//		
-//		public void setCronograma(Map <Array,Array> cronograma) {
-//			this.cronograma = cronograma;
-//		}
-//		
-//		public int[] getConvenio() {
-//			return convenio;
-//		}
-//		
-//		public void setConvenio(int[] convenio) {
-//			this.convenio = convenio;
-//		}
+	//		public Map <Array,Array> getCronograma() {
+	//			return cronograma;
+	//		}
+	//		
+	//		public void setCronograma(Map <Array,Array> cronograma) {
+	//			this.cronograma = cronograma;
+	//		}
+	//		
+	//		public int[] getConvenio() {
+	//			return convenio;
+	//		}
+	//		
+	//		public void setConvenio(int[] convenio) {
+	//			this.convenio = convenio;
+	//		}
 
 	public String getStatus() {
 		return status;
@@ -158,11 +169,11 @@ public class Evento implements Comparable<Evento>, Serializable{
 		this.status = status;
 	}
 
-	public List<Inscricao> getInscricoes() {
+	public TreeSet<Inscricao> getInscricoes() {
 		return inscricoes;
 	}
 
-	public void setInscricoes(ArrayList<Inscricao> inscricoes) {
+	public void setInscricoes(TreeSet<Inscricao> inscricoes) {
 		this.inscricoes.addAll(inscricoes);
 	}
 
