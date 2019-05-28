@@ -229,8 +229,10 @@ function operacoesEventos(modulo) {
     if (modulo == "Inscricao") {
         path = serverAddress + `/adicionar${modulo}`;
     }
-    else if (modulo == "Cliente")
+    else if (modulo == "Cliente"){
         path = serverAddress + `/consultar${modulo}`;
+        form = document.querySelector(`#formCronograma`);
+    }
 
     if (form.reportValidity()) {
         var xmlhttp = new XMLHttpRequest();
@@ -240,10 +242,10 @@ function operacoesEventos(modulo) {
         if (modulo == "Cliente")
             xmlhttp.send();
         if (modulo == "Inscricao") {
-            json = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}
+            campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}
             &${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}
             &${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
-            xmlhttp.send();
+            xmlhttp.send(campos);
         }
         console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
 
@@ -252,6 +254,7 @@ function operacoesEventos(modulo) {
                 if (xmlhttp.status >= 200) {
                     console.log("requisicao OK. \n" + xmlhttp.response);
                     clientes = JSON.parse(xmlhttp.response);
+                    if(modulo == "Cliente")
                     preencheOperacoes(JSON.parse(xmlhttp.response));
                 } else {
                     console.error("erro na requisicao. //" + xmlhttp.statusText);

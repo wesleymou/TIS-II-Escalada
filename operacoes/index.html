@@ -42,13 +42,13 @@
                     </span>
                     <button class="btn btn-success ml-1" type="button">Adicionar</button>
                 </div><br>
-                <div class="input-group">
-                    <input type="text" class="form-control" required>
-                    <input type="datetime-local" class="form-control col-4" required>
+                <form class="input-group" id="formCronograma">
+                    <input type="text" class="form-control">
+                    <input type="datetime-local" class="form-control col-4">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button">Excluir</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <form class="input-group mb-3" id="formInscricao">
@@ -65,44 +65,44 @@
                         <button class="btn btn-danger ml-1" type="button" onclick="">Excluir</button>
                     </div><br>
 
-                    <select class="custom-select" id="inputGroupSelect01" name="inscricao">
+                    <select class="custom-select" id="inputGroupSelect01" name="cpf" required>
                         <option value=""></option>
                     </select><br>
                 </div>
                 <div class="col">
                     <label for="valorRecebido" class="mb-1 pt-2 pb-2">Valor Recebido</label><br>
-                    <input id="valorRecebido" class="form-control mt-4" type="number" name="valorRecebido">
+                    <input id="valorRecebido" class="form-control mt-4" type="number" name="valorRecebido" required>
 
                 </div>
                 <div class="col">
                     <label for="inputGroupSelect02" class="mb-1 pt-2 pb-2">Tipo de pagamento</label><br>
-                    <select class="custom-select mt-4" id="inputGroupSelect02" name="tipoPagamento">
+                    <select class="custom-select mt-4" id="inputGroupSelect02" name="tipoPagamento" required>
                         <option value="credito">Cartão Crédito</option>
                         <option value="debito">Cartão Débito</option>
                         <option value="dinheiro">Dinheiro</option>
                     </select><br>
                 </div>
             </div>
-        </form>
-        <div class="row mt-5">
-            <div class="col">
-                <div class="input-group-append">
-                    <span class="input-group-text">
-                        <h5>Simular Ingresso</h5>
-                    </span>
-                </div><br>
-                <label for="campoAdulto">Ingresso Adulto e Criança</label><br>
-                <form class="input-group mb-3" id="formSimulacao">
-                    <input id="campoAdulto" class="form-control" name="adulto" type="number">
-                    <input id="campoCrianca" class="form-control" name="crianca" type="number">
+            <div class="row mt-5">
+                <div class="col">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <h5>Simular Ingresso</h5>
+                        </span>
+                    </div><br>
+                    <label for="campoAdulto">Ingresso Adulto e Criança</label><br>
+                    <div class="input-group">
+                    <input id="campoAdulto" class="form-control" name="adulto" type="number" required>
+                    <input id="campoCrianca" class="form-control" name="crianca" type="number" required>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" onclick="simulaIngresso()"
                             form="formSimulacao">Calcular</button>
                         <span class="input-group-text col-6" id="resultadoSimulacao"></span>
                     </div>
-                </form>
+                </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- Modal -->
