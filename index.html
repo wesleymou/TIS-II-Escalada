@@ -26,101 +26,11 @@
     <div class="container  text-center ">
         <div class="row my-3">
             <div class="col">
-                <button id="btnFornecedor" type="button" class="btn btn-secondary" onclick="fornecedor()">Fornecedores</button>
                 <button id="btnEvento" type="button" class="btn btn-secondary" onclick="evento()">Eventos</button>
                 <button id="btnCliente" type="button" class="btn btn-secondary" onclick="cliente()">Clientes</button>
+                <button id="btnFornecedor" type="button" class="btn btn-secondary"
+                    onclick="fornecedor()">Fornecedores</button>
             </div>
-        </div>
-
-        <div id="fornecedor" style="display:none">
-            <form id="formFornecedor" class="form-group">
-                <div class="row">
-                    <div class="col">
-                        <h2>Fornecedor</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input id="formFornecedorCreate" type="radio" name="funcao" value="create"
-                            onchange="habilitaForm(this.checked, 'create', 'Fornecedor')">
-                        <label for="formFornecedorCreate">Cadastrar</label>
-                        <input id="formFornecedorRead" type="radio" name="funcao" value="read"
-                            onchange="habilitaForm(this.checked, 'read', 'Fornecedor')">
-                        <label for="formFornecedorRead">Consultar</label>
-                        <!-- <input id="formFornecedorUpdate" type="radio" name="funcao" value="update"
-                            onchange="habilitaForm(this.checked, 'update', 'Fornecedor')">
-                        <label for="formFornecedorUpdate">Atualizar</label>
-                        <input id="formFornecedorDelete" type="radio" name="funcao" value="delete"
-                            onchange="habilitaForm(this.checked, 'delete', 'Fornecedor')">
-                        <label for="formFornecedorDelete">Excluir</label> -->
-                    </div>
-                    <div class="col">
-                        <button class="btnAcao btn" style="display:none" type="button"></button>
-                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form=""
-                            onclick="executaXML('update','Fornecedor')">Atualizar</button>
-                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form=""
-                            onclick="executaXML('delete','Fornecedor')">Excluir</button>
-                    </div>
-                </div><br>
-
-                <div class="row">
-                    <div class="col colNome">
-                        <div class="form-group">
-                            <label for="formFornecedorCPF">CNPJ</label><br>
-                            <input id="formFornecedorCPF" class="form-control" name="cnpj" type="text" minlength="15"
-                                maxlength="15" disabled="true" required><br>
-                        </div>
-                    </div>
-                    <div class="col colNovoNome">
-                        <div class="form-group">
-                            <label for="formFornecedorNovoCNPJ" style="display:none">CNPJ</label><br>
-                            <input id="formFornecedorNovoCNPJ" style="display:none" class="form-control" name="novoCnpj"
-                                type="text" minlength="15" maxlength="15" disabled="true"><br>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFornecedorNome">Nome do fornecedor</label><br>
-                            <input id="formFornecedorNome" class="form-control" name="nome" type="text" disabled="true"
-                                required><br>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFornecedorEndereco">Endereço</label><br>
-                            <input id="formFornecedorEndereco" class="form-control" name="endereco" type="text"
-                                disabled="true" required><br>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFornecedorEmail">E-mail:</label><br>
-                            <input id="formFornecedorEmail" class="form-control" name="email" type="email" disabled="true"
-                                required><br>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFornecedorNumFone">Telefone comercial:</label><br>
-                            <input id="formFornecedorNumFone" class="form-control" name="numFone" type="tel" minlength="10"
-                                maxlength="11" disabled="true" required><br>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFornecedorServico">Serviço:</label><br>
-                            <textarea id="formFornecedorServico" class="form-control" name="servico" cols="100"
-                                rows="5" disabled="true" required></textarea><br>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
 
         <div id="evento" style="display:none">
@@ -152,7 +62,7 @@
                         <button class="btnDelete btn btn-danger" style="display:none" type="button" form=""
                             onclick="executaXML('delete','Evento')">Excluir</button>
                         <button class="btnOperacao btn btn-info" style="display:none" type="button" form=""
-                        onclick="window.location.href = 'operacoes/index.html';">Operações</button>
+                            onclick="window.location.href = 'operacoes/index.html';">Operações</button>
                     </div>
                 </div><br>
                 <div class="row">
@@ -205,8 +115,8 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formEventoDataTermino">Data de término</label><br>
-                            <input id="formEventoDataTermino" class="form-control" name="dataTermino" type="datetime-local"
-                                disabled="true" required><br>
+                            <input id="formEventoDataTermino" class="form-control" name="dataTermino"
+                                type="datetime-local" disabled="true" required><br>
                         </div>
                     </div>
                 </div>
@@ -230,8 +140,8 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formEventoOrcamentoPrevio">Orçamento prévio:</label><br>
-                            <input id="formEventoOrcamentoPrevio" class="form-control" name="orcamentoPrevio" type="number"
-                                disabled="true" required min="1" step="1"><br>
+                            <input id="formEventoOrcamentoPrevio" class="form-control" name="orcamentoPrevio"
+                                type="number" disabled="true" required min="1" step="1"><br>
                         </div>
                     </div>
 
@@ -336,15 +246,15 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formClienteNumFone1">Telefone residencial:</label><br>
-                            <input id="formClienteNumFone1" class="form-control" name="numFone1" type="tel" minlength="10"
-                                maxlength="11" disabled="true" required><br>
+                            <input id="formClienteNumFone1" class="form-control" name="numFone1" type="tel"
+                                minlength="10" maxlength="11" disabled="true" required><br>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="formClienteNumFone2">Telefone Celular:</label><br>
-                            <input id="formClienteNumFone2" class="form-control" name="numFone2" type="tel" minlength="10"
-                                maxlength="11" disabled="true" required><br>
+                            <input id="formClienteNumFone2" class="form-control" name="numFone2" type="tel"
+                                minlength="10" maxlength="11" disabled="true" required><br>
                         </div>
                     </div>
                 </div>
@@ -352,13 +262,122 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formClienteEventos">Eventos inscritos:</label><br>
-                            <textarea id="formClienteEventos" class="form-control" name="eventos" cols="100"
-                                rows="5" disabled="true" required></textarea><br>
+                            <textarea id="formClienteEventos" class="form-control" name="eventos" cols="100" rows="5"
+                                disabled="true" required></textarea><br>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
+
+        <div id="fornecedor" style="display:none">
+            <form id="formFornecedor" class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <h2>Fornecedor</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input id="formFornecedorCreate" type="radio" name="funcao" value="create"
+                            onchange="habilitaForm(this.checked, 'create', 'Fornecedor')">
+                        <label for="formFornecedorCreate">Cadastrar</label>
+                        <input id="formFornecedorRead" type="radio" name="funcao" value="read"
+                            onchange="habilitaForm(this.checked, 'read', 'Fornecedor')">
+                        <label for="formFornecedorRead">Consultar</label>
+                        <!-- <input id="formFornecedorUpdate" type="radio" name="funcao" value="update"
+                                onchange="habilitaForm(this.checked, 'update', 'Fornecedor')">
+                            <label for="formFornecedorUpdate">Atualizar</label>
+                            <input id="formFornecedorDelete" type="radio" name="funcao" value="delete"
+                                onchange="habilitaForm(this.checked, 'delete', 'Fornecedor')">
+                            <label for="formFornecedorDelete">Excluir</label> -->
+                    </div>
+                    <div class="col">
+                        <button class="btnAcao btn" style="display:none" type="button"></button>
+                        <button class="btnUpdate btn btn-success" style="display:none" type="button" form=""
+                            onclick="executaXML('update','Fornecedor')">Atualizar</button>
+                        <button class="btnDelete btn btn-danger" style="display:none" type="button" form=""
+                            onclick="executaXML('delete','Fornecedor')">Excluir</button>
+                    </div>
+                </div><br>
+
+                <div class="row">
+                    <div class="col colNome">
+                        <div class="form-group">
+                            <label for="formFornecedorCPF">CNPJ</label><br>
+                            <input id="formFornecedorCPF" class="form-control" name="cnpj" type="text" minlength="15"
+                                maxlength="15" disabled="true" required><br>
+                        </div>
+                    </div>
+                    <div class="col colNovoNome">
+                        <div class="form-group">
+                            <label for="formFornecedorNovoCNPJ" style="display:none">CNPJ</label><br>
+                            <input id="formFornecedorNovoCNPJ" style="display:none" class="form-control" name="novoCnpj"
+                                type="text" minlength="15" maxlength="15" disabled="true"><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formFornecedorNome">Nome do fornecedor</label><br>
+                            <input id="formFornecedorNome" class="form-control" name="nome" type="text" disabled="true"
+                                required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formFornecedorEndereco">Endereço</label><br>
+                            <input id="formFornecedorEndereco" class="form-control" name="endereco" type="text"
+                                disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formFornecedorEmail">E-mail:</label><br>
+                            <input id="formFornecedorEmail" class="form-control" name="email" type="email"
+                                disabled="true" required><br>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formFornecedorNumFone">Telefone comercial:</label><br>
+                            <input id="formFornecedorNumFone" class="form-control" name="numFone" type="tel"
+                                minlength="10" maxlength="11" disabled="true" required><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formFornecedorServico">Serviço:</label><br>
+                            <textarea id="formFornecedorServico" class="form-control" name="servico" cols="100" rows="5"
+                                disabled="true" required></textarea><br>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid" id="modalBody"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Javascript do Bootstrap -->

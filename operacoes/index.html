@@ -51,24 +51,39 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col" id="campoCliente">
-                <div class="input-group-append">
-                    <span class="input-group-text">
-                        <h5>Clientes</h5>
-                    </span>
-                    <button class="btn btn-info ml-1" type="button" onclick="$('#myModal').modal();">Listar</button>
-                    <button class="btn btn-success ml-1" type="button" onclick="operacoesEventos('Inscricao')">Enviar</button>
-                    <button class="btn btn-warning ml-1" type="button" onclick="">Atualizar</button>
-                    <button class="btn btn-danger ml-1" type="button" onclick="">Excluir</button>
-                </div><br>
-                <form class="input-group mb-3" id="formInscricao">
+        <form class="input-group mb-3" id="formInscricao">
+            <div class="row mt-5">
+                <div class="col" id="campoCliente">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <h5>Clientes</h5>
+                        </span>
+                        <button class="btn btn-info ml-1" type="button" onclick="$('#myModal').modal();">Listar</button>
+                        <button class="btn btn-success ml-1" type="button"
+                            onclick="operacoesEventos('Inscricao')">Enviar</button>
+                        <button class="btn btn-warning ml-1" type="button" onclick="">Atualizar</button>
+                        <button class="btn btn-danger ml-1" type="button" onclick="">Excluir</button>
+                    </div><br>
+
                     <select class="custom-select" id="inputGroupSelect01" name="inscricao">
                         <option value=""></option>
-                    </select>
-                </form>
+                    </select><br>
+                </div>
+                <div class="col">
+                    <label for="valorRecebido" class="mb-1 pt-2 pb-2">Valor Recebido</label><br>
+                    <input id="valorRecebido" class="form-control mt-4" type="number" name="valorRecebido">
+
+                </div>
+                <div class="col">
+                    <label for="inputGroupSelect02" class="mb-1 pt-2 pb-2">Tipo de pagamento</label><br>
+                    <select class="custom-select mt-4" id="inputGroupSelect02" name="tipoPagamento">
+                        <option value="credito">Cartão Crédito</option>
+                        <option value="debito">Cartão Débito</option>
+                        <option value="dinheiro">Dinheiro</option>
+                    </select><br>
+                </div>
             </div>
-        </div>
+        </form>
         <div class="row mt-5">
             <div class="col">
                 <div class="input-group-append">
@@ -78,11 +93,11 @@
                 </div><br>
                 <label for="campoAdulto">Ingresso Adulto e Criança</label><br>
                 <form class="input-group mb-3" id="formSimulacao">
-                        <input id="campoAdulto" class="form-control" name="adulto" type="number">
-                        <input id="campoCrianca" class="form-control" name="crianca" type="number">
+                    <input id="campoAdulto" class="form-control" name="adulto" type="number">
+                    <input id="campoCrianca" class="form-control" name="crianca" type="number">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button"
-                            onclick="simulaIngresso()" form="formSimulacao">Calcular</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="simulaIngresso()"
+                            form="formSimulacao">Calcular</button>
                         <span class="input-group-text col-6" id="resultadoSimulacao"></span>
                     </div>
                 </form>
@@ -91,9 +106,8 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog"
-        aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle"></h5>

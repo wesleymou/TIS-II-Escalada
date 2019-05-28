@@ -1,10 +1,11 @@
 
 import java.io.Serializable;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
 public class Evento implements Comparable<Evento>,Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String nome;
 	private String dataInicio;
 	private String dataTermino;

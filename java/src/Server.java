@@ -17,8 +17,9 @@ import org.simpleframework.transport.connect.SocketConnection;
 
 public class Server implements Container {
 
-	static EventoService eventoService = new EventoService();
-	static ClienteService clienteService = new ClienteService();
+	EventoService eventoService = new EventoService();
+	ClienteService clienteService = new ClienteService();
+	InscricaoService inscricaoService = new InscricaoService(eventoService, clienteService);
 
 	public void handle(Request request, Response response) {
 		try {
@@ -66,7 +67,7 @@ public class Server implements Container {
 				this.enviaResposta(Status.OK, response, j);
 
 			} else if (path.startsWith("/adicionarInscricao")/* && "GET".equals(method)*/) {
-				JSONObject j = eventoService.updateInscricao(request, true, clienteService.getDAO());
+				JSONObject j = inscricaoService.add(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 			} else {

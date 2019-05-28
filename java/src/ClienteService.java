@@ -58,6 +58,10 @@ public class ClienteService {
 		return listaJson;
 	}
 	
+	public Cliente getCliente(Request request) {
+		return clienteDAO.get(Long.parseLong(request.getQuery().get(CPF)));
+	}
+	
 	public JSONObject update(Request request) {
 		Query query = request.getQuery();
 		Cliente cliente = clienteDAO.get(Long.parseLong(query.get(CPF)));
@@ -79,8 +83,5 @@ public class ClienteService {
 	public JSONObject remove (Request request) {
 		return new JSONObject(clienteDAO.delete(Long.parseLong(request.getQuery().get(CPF))));
 	}
-	
-	public ClienteDAO getDAO() {
-		return clienteDAO;
-	}
+
 }

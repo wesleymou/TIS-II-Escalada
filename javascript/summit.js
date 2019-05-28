@@ -228,41 +228,41 @@ function operacoesEventos(modulo) {
     let path;
     if (modulo == "Inscricao") {
         path = serverAddress + `/adicionar${modulo}`;
-        dadosXMLHTTP["cpf"] = $('#inputGroupSelect01').val();
-        dadosXMLHTTP[$('#campoAdulto').attr("name")] = $('#campoAdulto').val();
-        dadosXMLHTTP[$('#campoCrianca').attr("name")] = $('#campoCrianca').val();
     }
     else if (modulo == "Cliente")
         path = serverAddress + `/consultar${modulo}`;
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", path, true);
-    xmlhttp.timeout = 3000;
-    xmlhttp.ontimeout = function (e) {
-        console.log("Apos timeout.");
-    }
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    if (modulo == "Cliente")
-        xmlhttp.send($(`#form${modulo}`).serialize());
-    if (modulo == "Inscricao")
-        xmlhttp.send($.param(dadosXMLHTTP));
-    console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
+    if (form.reportValidity()) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", path, true);
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-    xmlhttp.onreadystatechange = function (e) {
-        if (xmlhttp.readyState == 4) {
-            if (xmlhttp.status >= 200) {
-                console.log("requisicao OK. \n" + xmlhttp.response);
-                clientes = JSON.parse(xmlhttp.response);
-                preencheOperacoes(JSON.parse(xmlhttp.response));
-            } else {    
-                console.error("erro na requisicao. //" + xmlhttp.statusText);
+        if (modulo == "Cliente")
+            xmlhttp.send();
+        if (modulo == "Inscricao") {
+            json = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}
+            &${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}
+            &${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
+            xmlhttp.send();
+        }
+        console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
+
+        xmlhttp.onreadystatechange = function (e) {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status >= 200) {
+                    console.log("requisicao OK. \n" + xmlhttp.response);
+                    clientes = JSON.parse(xmlhttp.response);
+                    preencheOperacoes(JSON.parse(xmlhttp.response));
+                } else {
+                    console.error("erro na requisicao. //" + xmlhttp.statusText);
+                }
             }
         }
-    }
-    console.log("apos o onreadystatechange");
+        console.log("apos o onreadystatechange");
 
-    xmlhttp.onerror = function (e) {
-        console.error(xmlhttp.statusText);
+        xmlhttp.onerror = function (e) {
+            console.error(xmlhttp.statusText);
+        }
     }
 }
 

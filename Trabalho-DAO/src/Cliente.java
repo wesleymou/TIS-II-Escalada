@@ -1,21 +1,18 @@
 
 import java.io.Serializable;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
 class Cliente implements Comparable<Cliente>,Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6453360528647623074L;
-	private static final String CPF = "cpf";
-	private static final String NOME = "nome";
-	private static final String NUMFONE1 = "telRes";
-	private static final String NUMFONE2 = "telCel";
-	private static final String ENDERECO = "endereco";
-	private static final String EMAIL = "email";
-	private static final String EVENTOS = "eventosInscritos";
+//	private static final String CPF = "cpf";
+//	private static final String NOME = "nome";
+//	private static final String NUMFONE1 = "telRes";
+//	private static final String NUMFONE2 = "telCel";
+//	private static final String ENDERECO = "endereco";
+//	private static final String EMAIL = "email";
+//	private static final String EVENTOS = "eventosInscritos";
 	
 	private long cpf;
 	private String nome;
