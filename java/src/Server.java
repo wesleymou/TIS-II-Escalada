@@ -70,6 +70,10 @@ public class Server implements Container {
 				JSONObject j = inscricaoService.add(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+			} else if (path.startsWith("/excluirInscricao")/* && "GET".equals(method)*/) {
+				JSONObject j = inscricaoService.remove(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
 			} else {
 				this.naoEncontrado(response, path);
 			}

@@ -70,4 +70,14 @@ class InscricaoService {
 		}
 		return evento.toJson();
 	}
+
+	public JSONObject remove(Request request) {
+		Query query = request.getQuery();
+		Evento evento;
+		if ((evento = eventoService.getEvento(request)) != null) {
+			Set<Inscricao> lista = evento.getInscricoes();
+			return new JSONObject(lista.removeIf(t -> t.equals(Long.parseLong(query.get("cpf")))));
+		}
+		return new JSONObject("erro");
+	}
 }

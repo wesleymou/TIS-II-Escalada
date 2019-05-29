@@ -223,13 +223,14 @@ function executaXML(funcao, modulo) {
     }
 }
 
-function operacoesEventos(modulo) {
+function operacoesEventos(funcao ,modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
-    if (modulo == "Inscricao") {
+    if (modulo == "Inscricao" && funcao == "create") {
         path = serverAddress + `/adicionar${modulo}`;
-    }
-    else if (modulo == "Cliente"){
+    } else if(modulo == "Inscricao" && funcao == "delete") {
+        path = serverAddress + `/excluir${modulo}`;
+    } else if (modulo == "Cliente"){
         path = serverAddress + `/consultar${modulo}`;
         form = document.querySelector(`#formCronograma`);
     }
