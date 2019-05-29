@@ -175,8 +175,6 @@ function executaXML(funcao, modulo) {
         path = serverAddress + `/cadastrar${modulo}`;
     else if (funcao == "read")
         path = serverAddress + `/consultar${modulo}`;
-    else if (funcao == "inscrever")
-        path = serverAddress + `/adicionar${modulo}`;
     else if (funcao == "update" || funcao == "delete") {
         if (funcao == "update")
             path = serverAddress + `/atualizar${modulo}`;
@@ -223,50 +221,55 @@ function executaXML(funcao, modulo) {
     }
 }
 
-function operacoesEventos(modulo) {
+function operacoesEventos(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
-    if (modulo == "Inscricao") {
-        path = serverAddress + `/adicionar${modulo}`;
-    }
-    else if (modulo == "Cliente"){
+    if (funcao == "create")
+        path = serverAddress + `/cadastrar${modulo}`;
+    else if (funcao == "read")
         path = serverAddress + `/consultar${modulo}`;
-        form = document.querySelector(`#formCronograma`);
-    }
+    else if (funcao == "update")
+        path = serverAddress + `/atualizar${modulo}`;
+    else if (funcao == "delete")
+        path = serverAddress + `/excluir${modulo}`;
+    if (modulo == "Cliente")
+        path = serverAddress + `/consultar${modulo}`;
 
-    if (form.reportValidity()) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", path, true);
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        if (modulo == "Cliente")
-            xmlhttp.send();
-        if (modulo == "Inscricao") {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", path, true);
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    var campos;
+    if (modulo == "Cliente") {
+        campos = null;
+    }else if(funcao == "read") {
+        campos = `${$.param(dadosXMLHTTP)}`;
+    } else if (form.reportValidity()) {
+        if (funcao == "create") {
             campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}
             &${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}
             &${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
             xmlhttp.send(campos);
         }
-        console.log("Conteudo do Form: \n" + $(`#form${modulo}`).serialize());
+    }
 
-        xmlhttp.onreadystatechange = function (e) {
-            if (xmlhttp.readyState == 4) {
-                if (xmlhttp.status >= 200) {
-                    console.log("requisicao OK. \n" + xmlhttp.response);
+    console.log(`Conteudo do Form: ${campos}`);
+    xmlhttp.send(campos);
+
+    xmlhttp.onreadystatechange = function (e) {
+        if (xmlhttp.readyState == 4) {
+            if (xmlhttp.status >= 200) {
+                console.log("requisicao OK. \n" + xmlhttp.response);
+                dadosXMLHTTP = JSON.parse(xmlhttp.response);
+                if (modulo == "Cliente") {
                     clientes = JSON.parse(xmlhttp.response);
-                    if(modulo == "Cliente")
                     preencheOperacoes(JSON.parse(xmlhttp.response));
-                } else {
-                    console.error("erro na requisicao. //" + xmlhttp.statusText);
                 }
+            } else {
+                console.error("erro na requisicao. //" + xmlhttp.statusText);
             }
         }
-        console.log("apos o onreadystatechange");
-
-        xmlhttp.onerror = function (e) {
-            console.error(xmlhttp.statusText);
-        }
     }
+    console.log("apos o onreadystatechange");
 }
 
 function consultaRegistro(modulo, indice) {
@@ -368,6 +371,19 @@ function preencheOperacoes(l) {
     for (let i = 0; i < l.length; i++) {
         $('#inputGroupSelect01').append(`<option value="${clientes[i].cpf}">${clientes[i].nome}, ${clientes[i].cpf}</option>`);
     }
+}
+
+function modalOperacoes() {
+    operacoesEventos("read", "Inscricao");
+    $("#modalTitle").html(`Inscrições.`);
+    $("#modalBody").html(function () {
+            texto = "";
+            for (i = 0; i < dadosXMLHTTP.length; i++) {
+                texto += `<div><a href='#'>${dadosXMLHTTP[i].cliente.nome}, CPF: ${dadosXMLHTTP[i].cliente.cpf}</a></div>`;
+            }
+            return texto;
+        });
+        $("#myModal").modal();
 }
 
 function simulaIngresso() {
