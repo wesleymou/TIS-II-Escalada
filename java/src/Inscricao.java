@@ -36,6 +36,7 @@ public class Inscricao implements Serializable, Comparable<Inscricao>{
 	}
 
 	public JSONObject toJson() {
+//		return new JSONObject(new Gson().toJson(this));
 		JSONObject j = new JSONObject();
 		j.put("qtdAdulto", qtdAdulto);
 		j.put("qtdInfantil", qtdInfantil);

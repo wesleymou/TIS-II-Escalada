@@ -72,7 +72,11 @@ public class Server implements Container {
 				this.enviaResposta(Status.OK, response, j);
 			} else if (path.startsWith("/consultarInscricao")/* && "GET".equals(method)*/) {
 				JSONArray j = inscricaoService.get(request);
-				System.out.println(j);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+			} else if (path.startsWith("/excluirInscricao")/* && "GET".equals(method)*/) {
+				JSONObject j = inscricaoService.remove(request);
+				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 			} else {
 				this.naoEncontrado(response, path);
@@ -126,7 +130,7 @@ public class Server implements Container {
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
 
-		Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
+		//Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
 		System.out.println("Interromper o servidor? (y/n)");
 
 		Scanner ler = new Scanner(System.in);
