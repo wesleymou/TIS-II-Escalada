@@ -46,90 +46,107 @@
                     <input type="text" class="form-control">
                     <input type="datetime-local" class="form-control col-4">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Excluir</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="">Excluir</button>
                     </div>
                 </form>
             </div>
         </div>
-        <form class="input-group mb-3" id="formInscricao">
-            <div class="row mt-5">
-                <div class="col" id="campoCliente">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                            <h5>Clientes</h5>
-                        </span>
-                        <button class="btn btn-info ml-1" type="button" onclick="$('#myModal').modal();">Listar</button>
-                        <button class="btn btn-success ml-1" type="button"
-                            onclick="operacoesEventos('Inscricao')">Enviar</button>
-                        <button class="btn btn-warning ml-1" type="button" onclick="">Atualizar</button>
-                        <button class="btn btn-danger ml-1" type="button" onclick="">Excluir</button>
-                    </div><br>
 
-                    <select class="custom-select" id="inputGroupSelect01" name="cpf" required>
-                        <option value=""></option>
-                    </select><br>
-                </div>
-                <div class="col">
-                    <label for="valorRecebido" class="mb-1 pt-2 pb-2">Valor Recebido</label><br>
-                    <input id="valorRecebido" class="form-control mt-4" type="number" name="valorRecebido" required>
+        <div class="row">
+            <div class="col">
+                <form class="input-group mb-3" id="formInscricao">
+                    <div class="row mt-5">
+                        <div class="col" id="campoCliente">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <h5>Clientes</h5>
+                                </span>
+                                <button class="btn btn-info ml-1" type="button"
+                                    onclick="$('#myModal').modal();">Listar</button>
+                                <button class="btn btn-success ml-1" type="button"
+                                    onclick="operacoesEventos('Inscricao')">Enviar</button>
+                                <button class="btn btn-warning ml-1" type="button" onclick="">Atualizar</button>
+                                <button class="btn btn-danger ml-1" type="button" onclick="">Excluir</button>
+                            </div><br>
 
-                </div>
-                <div class="col">
-                    <label for="inputGroupSelect02" class="mb-1 pt-2 pb-2">Tipo de pagamento</label><br>
-                    <select class="custom-select mt-4" id="inputGroupSelect02" name="tipoPagamento" required>
-                        <option value="credito">Cartão Crédito</option>
-                        <option value="debito">Cartão Débito</option>
-                        <option value="dinheiro">Dinheiro</option>
-                    </select><br>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col">
-                    <div class="input-group-append">
-                        <span class="input-group-text">
-                            <h5>Simular Ingresso</h5>
-                        </span>
-                    </div><br>
-                    <label for="campoAdulto">Ingresso Adulto e Criança</label><br>
-                    <div class="input-group">
-                    <input id="campoAdulto" class="form-control" name="adulto" type="number" required>
-                    <input id="campoCrianca" class="form-control" name="crianca" type="number" required>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="simulaIngresso()"
-                            form="formSimulacao">Calcular</button>
-                        <span class="input-group-text col-6" id="resultadoSimulacao"></span>
+                            <select class="custom-select" id="inputGroupSelect01" name="cpf" required>
+                                <option value=""></option>
+                            </select><br>
+                        </div>
+                        <div class="col">
+                            <label for="valorRecebido" class="mb-1 pt-2 pb-2">Valor Recebido</label><br>
+                            <input id="valorRecebido" class="form-control mt-4" type="number" name="valorRecebido"
+                                required>
+
+                        </div>
+                        <div class="col">
+                            <label for="inputGroupSelect02" class="mb-1 pt-2 pb-2">Tipo de pagamento</label><br>
+                            <select class="custom-select mt-4" id="inputGroupSelect02" name="tipoPagamento" required>
+                                <option value="credito">Cartão Crédito</option>
+                                <option value="debito">Cartão Débito</option>
+                                <option value="dinheiro">Dinheiro</option>
+                            </select><br>
+                        </div>
                     </div>
-                </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid" id="modalBody"></div>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col">
+                <form class="input-group mb-3" id="formSimulacao">
+                    <div class="row mt-5">
+                        <div class="col">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <h5>Orçar Inscrição</h5>
+                                </span>
+                            </div><br>
+                            <div class="input-group">
+                                <div>
+                                    <label for="campoAdulto">Adulto</label><br>
+                                    <input id="campoAdulto" class="form-control" name="adulto" type="number" required style="border-bottom-right-radius: 0; border-top-right-radius: 0">
+                                </div>
+                                <div style="margin-left: -1px">
+                                    <label for="campoAdulto">Criança</label><br>
+                                    <input id="campoCrianca" class="form-control" name="crianca" type="number" required style="border-radius: 0">
+                                </div>
+                                <div class="input-group-append" style="align-items: flex-end; margin-left: -1px">
+                                    <button style="height:38px" class="btn btn-outline-secondary" type="button"
+                                        onclick="simulaIngresso()">Calcular</button>
+                                    <span class="input-group-text col-6" id="resultadoSimulacao" style="height:38px"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid" id="modalBody"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-    <!-- Javascript do Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+            <!-- Javascript do Bootstrap -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
 
 </body>
 
