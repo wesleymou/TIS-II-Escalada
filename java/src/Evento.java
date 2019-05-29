@@ -1,8 +1,10 @@
 
 import java.io.Serializable;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONObject;
+
 
 public class Evento implements Comparable<Evento>, Serializable{
 
@@ -20,7 +22,7 @@ public class Evento implements Comparable<Evento>, Serializable{
 	//	private Map <Array,Array> cronograma = new HashMap<Array,Array>();
 	private String cronograma;
 	//	private int convenio[];
-	private TreeSet<Inscricao> inscricoes = new TreeSet<Inscricao>();
+	private Set<Inscricao> inscricoes = new HashSet<Inscricao>();
 	private String status;
 
 	public Evento(String nome, String inicio, String termino, String local, int capacidade, int quorum,
@@ -169,11 +171,11 @@ public class Evento implements Comparable<Evento>, Serializable{
 		this.status = status;
 	}
 
-	public TreeSet<Inscricao> getInscricoes() {
+	public Set<Inscricao> getInscricoes() {
 		return inscricoes;
 	}
 
-	public void setInscricoes(TreeSet<Inscricao> inscricoes) {
+	public void setInscricoes(Set<Inscricao> inscricoes) {
 		this.inscricoes.addAll(inscricoes);
 	}
 

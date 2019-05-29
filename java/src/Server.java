@@ -70,6 +70,11 @@ public class Server implements Container {
 				JSONObject j = inscricaoService.add(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+			} else if (path.startsWith("/consultarInscricao")/* && "GET".equals(method)*/) {
+				JSONArray j = inscricaoService.get(request);
+				System.out.println(j);
+				this.enviaResposta(Status.OK, response, j);
+
 			} else {
 				this.naoEncontrado(response, path);
 			}

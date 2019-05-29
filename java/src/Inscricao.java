@@ -5,8 +5,6 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-
 public class Inscricao implements Serializable, Comparable<Inscricao>{
 
 	private static final long serialVersionUID = 1L;
@@ -38,7 +36,15 @@ public class Inscricao implements Serializable, Comparable<Inscricao>{
 	}
 
 	public JSONObject toJson() {
-		return new JSONObject(new Gson().toJson(this));
+		JSONObject j = new JSONObject();
+		j.put("qtdAdulto", qtdAdulto);
+		j.put("qtdInfantil", qtdInfantil);
+		j.put("valorTotal", valorTotal);
+		j.put("valorRecebido", valorRecebido);
+		j.put("cliente", cliente);
+		j.put("evento", evento);
+		j.put("tipoPagamento", tipoPagamento);
+		return j;
 	}
 	
 	public void geraRecibo(double valor) throws IOException {
