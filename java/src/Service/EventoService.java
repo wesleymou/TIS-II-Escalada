@@ -1,7 +1,5 @@
 package Service;
 
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -60,15 +58,9 @@ public final class EventoService {
 	}
 
 	public JSONArray get(Request request) {
-		Set<Evento> lista = eventoDAO.getLista();
 		JSONArray listaJson = new JSONArray();
-		if(!lista.isEmpty()){
-			for(Evento e : lista) {
-				listaJson.put(e.toJson());
-			}
-		}else {
-			listaJson.put(0, "null");
-		}
+		eventoDAO.getLista().stream()
+		.forEach(e -> listaJson.put(e.toJson()));
 		return listaJson;
 	}
 	

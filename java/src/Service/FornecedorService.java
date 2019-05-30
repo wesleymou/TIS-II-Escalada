@@ -1,7 +1,5 @@
 package Service;
 
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -49,15 +47,9 @@ public final class FornecedorService {
 	}
 	
 	public JSONArray get(Request request) {
-		Set<Fornecedor> lista = fornecedorDAO.getLista();
 		JSONArray listaJSON = new JSONArray();
-		if(!lista.isEmpty()) {
-			for(Fornecedor f : lista) {
-				listaJSON.put(f.toJson());
-			}
-		} else {
-			listaJSON.put(0, "null");
-		}
+		fornecedorDAO.getLista().stream()
+		.forEach(f -> listaJSON.put(f.toJson()));
 		return listaJSON;
 	}
 

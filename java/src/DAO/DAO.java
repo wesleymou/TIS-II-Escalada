@@ -32,11 +32,10 @@ public abstract class DAO<T,K> {
 
 	@SuppressWarnings("unlikely-arg-type")
 	public T get(K chave) {
-		for(T t:lista) {
-			if(t.equals(chave))
-				return t;
-		}
-		return null;
+		return lista.stream()
+		.filter(t -> t.equals(chave))
+		.findAny()
+		.orElse(null);
 	}
 
 	//TODO
