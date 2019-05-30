@@ -89,10 +89,10 @@ function operacoesEventos(funcao, modulo) {
         if (xmlhttp.readyState == 4) {
             if (xmlhttp.status >= 200) {
                 console.log("requisicao OK. \n" + xmlhttp.response);
-                if(modulo == "Inscricao")
-                inscricao = JSON.parse(xmlhttp.response);
+                if (modulo == "Inscricao")
+                    inscricao = JSON.parse(xmlhttp.response);
                 else
-                dadosXMLHTTP = JSON.parse(xmlhttp.response);
+                    dadosXMLHTTP = JSON.parse(xmlhttp.response);
                 if (modulo == "Cliente") {
                     clientes = JSON.parse(xmlhttp.response);
                     preencheOperacoes(JSON.parse(xmlhttp.response));
@@ -150,7 +150,7 @@ function populate(form, json, indice) {
 
 function mostrarPainel(modulo, dados) {
     $("#modalTitle").html(`${modulo}.`);
-    if (dados[0] == "null") {
+    if (dados.length == 0) {
         $("#modalBody").html("Lista vazia.");
         $("#myModal").modal();
     } else if (modulo == "Evento") {
@@ -195,14 +195,19 @@ function preencheInscricao(l) {
 
 function modalOperacoes() {
     operacoesEventos("read", "Inscricao");
+    $("#modalTitle").html(`Inscrições.`);
+
     setTimeout(function () {
-        $("#modalTitle").html(`Inscrições.`);
         $("#modalBody").html(function () {
-            texto = "";
-            for (i = 0; i < inscricao.length; i++) {
-                texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${inscricao[i].cliente.nome}, CPF: ${inscricao[i].cliente.cpf}</a></div>`;
+            if (inscricao == undefined || inscricao.length == 0) {
+                return "Lista Vazia.";
+            } else {
+                texto = "";
+                for (i = 0; i < inscricao.length; i++) {
+                    texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${inscricao[i].cliente.nome}, CPF: ${inscricao[i].cliente.cpf}</a></div>`;
+                }
+                return texto;
             }
-            return texto;
         });
         $("#myModal").modal();
     }, 500);

@@ -1,3 +1,5 @@
+package Main;
+
 import java.awt.Desktop;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
@@ -14,6 +16,8 @@ import org.simpleframework.http.core.Container;
 import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
+
+import Service.*;
 
 public class Server implements Container {
 
@@ -134,7 +138,7 @@ public class Server implements Container {
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
 
-		//Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
+		Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
 		System.out.println("Interromper o servidor? (y/n)");
 
 		Scanner ler = new Scanner(System.in);
