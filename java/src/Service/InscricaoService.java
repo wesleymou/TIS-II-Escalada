@@ -1,3 +1,4 @@
+package Service;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -7,7 +8,11 @@ import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
 
-class InscricaoService {
+import Main.Cliente;
+import Main.Evento;
+import Main.Inscricao;
+
+public class InscricaoService {
 
 	private EventoService eventoService;
 	private ClienteService clienteService;

@@ -1,3 +1,5 @@
+package DAO;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,7 +9,12 @@ import java.io.ObjectOutputStream;
 import java.util.Set;
 import java.util.TreeSet;
 
-abstract class DAO<T,K> {
+import Main.Cliente;
+import Main.Inscricao;
+
+public abstract class DAO<T,K> {
+	protected Inscricao inscricao;
+	protected Cliente cliente;
 
 	protected Set<T> lista;
 	String nomeArquivo;

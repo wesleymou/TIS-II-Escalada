@@ -1,7 +1,11 @@
+package Main;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.json.JSONObject;
 
@@ -19,14 +23,13 @@ public class Evento implements Comparable<Evento>, Serializable{
 	private int quorum;
 	private double orcamentoPrevio;
 	private double valorIngresso;
-	//	private Map <Array,Array> cronograma = new HashMap<Array,Array>();
-	private String cronograma;
+	private Map<LocalDateTime, String> cronograma = new TreeMap<LocalDateTime, String>();
 	//	private int convenio[];
 	private Set<Inscricao> inscricoes = new HashSet<Inscricao>();
 	private String status;
 
 	public Evento(String nome, String inicio, String termino, String local, int capacidade, int quorum,
-			double orcamentoPrevio, double valorIngresso, String cronograma, String status) {
+			double orcamentoPrevio, double valorIngresso, String status) {
 		setNome(nome);
 		setDataInicio(inicio);
 		setDataTermino(termino);
@@ -35,7 +38,6 @@ public class Evento implements Comparable<Evento>, Serializable{
 		setQuorum(quorum);
 		setOrcamentoPrevio(orcamentoPrevio);
 		setValorIngresso(valorIngresso);
-		setCronograma(cronograma);
 		setStatus(status);
 	}
 
@@ -139,12 +141,8 @@ public class Evento implements Comparable<Evento>, Serializable{
 		this.valorIngresso = valorIngresso;
 	}
 
-	public String getCronograma() {
+	public Map<LocalDateTime, String> getCronograma() {
 		return cronograma;
-	}
-
-	public void setCronograma(String cronograma) {
-		this.cronograma = cronograma;
 	}
 
 	//		public Map <Array,Array> getCronograma() {

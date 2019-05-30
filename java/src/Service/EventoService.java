@@ -1,8 +1,14 @@
+package Service;
+
 import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
+
+import DAO.EventoDAO;
+import Main.Evento;;
 
 public final class EventoService {
 	private static final String NOME = "nome";
@@ -13,7 +19,6 @@ public final class EventoService {
 	private static final String QUORUM = "quorum";
 	private static final String ORCAMENTOPREVIO = "orcamentoPrevio";
 	private static final String VALORINGRESSO = "valorIngresso";
-	private static final String CRONOGRAMA = "cronograma";
 	//	private static final String CONVENIO = "convenios";
 	private static final String STATUS = "status";
 	private static final String NOVONOME = "novoNome";
@@ -37,7 +42,6 @@ public final class EventoService {
 		int quorum = query.getInteger(QUORUM);
 		double orcamentoPrevio = query.getFloat(ORCAMENTOPREVIO);
 		double valorIngresso = query.getFloat(VALORINGRESSO);
-		String cronograma = query.get(CRONOGRAMA);
 		String status = query.get(STATUS);
 
 		Evento evento = new Evento(
@@ -49,7 +53,6 @@ public final class EventoService {
 				quorum,
 				orcamentoPrevio,
 				valorIngresso,
-				cronograma,
 				status);
 
 		this.eventoDAO.add(evento);
@@ -88,7 +91,6 @@ public final class EventoService {
 		evento.setQuorum(query.getInteger(QUORUM));
 		evento.setOrcamentoPrevio(query.getFloat(ORCAMENTOPREVIO));
 		evento.setValorIngresso(query.getFloat(VALORINGRESSO));
-		evento.setCronograma(query.get(CRONOGRAMA));
 		evento.setStatus(query.get(STATUS));
 
 		eventoDAO.update(evento);

@@ -1,9 +1,14 @@
+package Service;
 
 import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
+
+import DAO.FornecedorDAO;
+import Main.Fornecedor;
 
 public final class FornecedorService {	
 
@@ -56,7 +61,7 @@ public final class FornecedorService {
 		return listaJSON;
 	}
 
-	public JSONObject update (Request request, int option, Inscricao inscricao) {
+	public JSONObject update (Request request) {
 		Query query = request.getQuery();
 		Fornecedor fornecedor = fornecedorDAO.get(request.getQuery().get(NOME));
 

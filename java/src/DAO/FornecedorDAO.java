@@ -1,3 +1,6 @@
+package DAO;
+
+import Main.Fornecedor;
 
 public class FornecedorDAO extends DAO<Fornecedor, String> {
 	
