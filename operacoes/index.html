@@ -58,11 +58,10 @@
                         <span class="input-group-text">
                             <h5>Clientes</h5>
                         </span>
-                        <button class="btn btn-info ml-1" type="button" onclick="$('#myModal').modal();">Listar</button>
-                        <button class="btn btn-success ml-1" type="button"
-                            onclick="operacoesEventos('create','Inscricao')">Enviar</button>
-                        <button class="btn btn-warning ml-1" type="button" onclick="">Atualizar</button>
-                        <button class="btn btn-danger ml-1" type="button" onclick="operacoesEventos('delete','Inscricao')">Excluir</button>
+                        <button class="btn btn-info ml-1" type="button" onclick="modalOperacoes()">Listar</button>
+                        <button class="btn btn-success ml-1" type="submit" onclick="operacoesEventos('create','Inscricao')">Enviar</button>
+                        <button class="btn btn-warning ml-1" type="submit" onclick="operacoesEventos('update','Inscricao')">Atualizar</button>
+                        <button class="btn btn-danger ml-1" type="submit" onclick="operacoesEventos('delete','Inscricao')">Excluir</button>
                     </div><br>
 
                     <select class="custom-select" id="inputGroupSelect01" name="cpf" required>
@@ -92,8 +91,8 @@
                     </div><br>
                     <label for="campoAdulto">Ingresso Adulto e Criança</label><br>
                     <div class="input-group">
-                    <input id="campoAdulto" class="form-control" name="adulto" type="number" required>
-                    <input id="campoCrianca" class="form-control" name="crianca" type="number" required>
+                    <input id="campoAdulto" class="form-control" name="qtdAdulto" type="number" required>
+                    <input id="campoCrianca" class="form-control" name="qtdInfantil" type="number" required>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" onclick="simulaIngresso()"
                             form="formSimulacao">Calcular</button>

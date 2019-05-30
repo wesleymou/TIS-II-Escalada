@@ -1,4 +1,5 @@
 
+import java.util.Iterator;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -23,8 +24,8 @@ class InscricaoService {
 			evento.getInscricoes().add(new Inscricao(
 					clienteService.getCliente(request),
 					evento,
-					query.getInteger("adulto"),
-					query.getInteger("crianca"),
+					query.getInteger("qtdAdulto"),
+					query.getInteger("qtdInfantil"),
 					query.getFloat("valorRecebido"),
 					query.get("tipoPagamento")));
 		}
@@ -45,7 +46,6 @@ class InscricaoService {
 		return json;
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	public JSONObject update(Request request) {
 		Query query = request.getQuery();
 		Evento evento;
@@ -53,22 +53,41 @@ class InscricaoService {
 		if ((evento = eventoService.getEvento(request)) != null &&
 				(cliente = clienteService.getCliente(request)) != null) {
 			Set<Inscricao> lista = evento.getInscricoes();
-			Inscricao inscricaoLocal = null;
-			for (Inscricao inscricao : lista) {
-				if (inscricao.equals(cliente.getCpf()))
-					inscricaoLocal = inscricao;
-			}
-			if (inscricaoLocal != null) {
-				inscricaoLocal = new Inscricao(
-						clienteService.getCliente(request),
-						evento,
-						query.getInteger("adulto"),
-						query.getInteger("crianca"),
-						query.getFloat("valorRecebido"),
-						query.get("tipoPagamento"));
-			}
+			Iterator<Inscricao> it = lista.iterator();
+					while (it.hasNext()) {
+						Inscricao inscricao = (Inscricao) it.next();
+						if (inscricao.equals(cliente.getCpf())) {
+							it.remove();
+						lista.add(new Inscricao(
+								clienteService.getCliente(request),
+								evento,
+								query.getInteger("qtdAdulto"),
+								query.getInteger("qtdInfantil"),
+								query.getFloat("valorRecebido"),
+								query.get("tipoPagamento")));
+						}
+					}
+					//			if (inscricaoLocal != null) {
+					//				inscricaoLocal = new Inscricao(
+					//						clienteService.getCliente(request),
+					//						evento,
+					//						query.getInteger("qtdAdulto"),
+					//						query.getInteger("qtdInfantil"),
+					//						query.getFloat("valorRecebido"),
+					//						query.get("tipoPagamento"));
+					//			}
 		}
-		return evento.toJson();
+		return eventoService.update(request);
+	}
+
+	public JSONObject remove(Request request) {
+		Query query = request.getQuery();
+		Evento evento;
+		if ((evento = eventoService.getEvento(request)) != null) {
+			Set<Inscricao> lista = evento.getInscricoes();
+			return new JSONObject(lista.removeIf(t -> t.equals(Long.parseLong(query.get("cpf")))));
+		}
+		return new JSONObject("erro");
 	}
 
 	public JSONObject remove(Request request) {
