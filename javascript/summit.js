@@ -1,6 +1,7 @@
 var serverAddress = "http://127.0.0.1:880";
 var dadosXMLHTTP;
 var clientes;
+var inscricao;
 
 function executaXML(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
@@ -88,6 +89,9 @@ function operacoesEventos(funcao, modulo) {
         if (xmlhttp.readyState == 4) {
             if (xmlhttp.status >= 200) {
                 console.log("requisicao OK. \n" + xmlhttp.response);
+                if(modulo == "Inscricao")
+                inscricao = JSON.parse(xmlhttp.response);
+                else
                 dadosXMLHTTP = JSON.parse(xmlhttp.response);
                 if (modulo == "Cliente") {
                     clientes = JSON.parse(xmlhttp.response);
@@ -181,7 +185,12 @@ function preencheOperacoes(l) {
 }
 
 function preencheInscricao(l) {
-    populate("formInscricao", dadosXMLHTTP, l)
+    form = $('#formInscricao');
+    $.each(inscricao[l], function (key, value) {
+        $('[name=' + key + ']', form).val(value);
+    });
+    $('#inputGroupSelect01').val(inscricao[l].cliente.cpf);
+    $("#myModal").modal("toggle");
 }
 
 function modalOperacoes() {
@@ -190,8 +199,8 @@ function modalOperacoes() {
         $("#modalTitle").html(`Inscrições.`);
         $("#modalBody").html(function () {
             texto = "";
-            for (i = 0; i < dadosXMLHTTP.length; i++) {
-                texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${dadosXMLHTTP[i].cliente.nome}, CPF: ${dadosXMLHTTP[i].cliente.cpf}</a></div>`;
+            for (i = 0; i < inscricao.length; i++) {
+                texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${inscricao[i].cliente.nome}, CPF: ${inscricao[i].cliente.cpf}</a></div>`;
             }
             return texto;
         });

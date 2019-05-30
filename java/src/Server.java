@@ -74,6 +74,10 @@ public class Server implements Container {
 				JSONArray j = inscricaoService.get(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+			} else if (path.startsWith("/atualizarInscricao")/* && "GET".equals(method)*/) {
+				JSONObject j = inscricaoService.update(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
 			} else if (path.startsWith("/excluirInscricao")/* && "GET".equals(method)*/) {
 				JSONObject j = inscricaoService.remove(request);
 				System.out.println("Response: " + j);
