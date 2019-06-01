@@ -42,7 +42,7 @@ public class Inscricao implements Serializable, Comparable<Inscricao>{
 		j.put("qtdInfantil", qtdInfantil);
 		j.put("valorTotal", valorTotal);
 		j.put("valorRecebido", valorRecebido);
-		j.put("cliente", cliente);
+		j.put("cliente", cliente.toJson());
 		j.put("evento", evento);
 		j.put("tipoPagamento", tipoPagamento);
 		return j;

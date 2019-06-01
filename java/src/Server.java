@@ -66,8 +66,16 @@ public class Server implements Container {
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/adicionarInscricao")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/cadastrarInscricao")/* && "GET".equals(method)*/) {
 				JSONObject j = inscricaoService.add(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+			} else if (path.startsWith("/consultarInscricao")/* && "GET".equals(method)*/) {
+				JSONArray j = inscricaoService.get(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+			} else if (path.startsWith("/atualizarInscricao")/* && "GET".equals(method)*/) {
+				JSONObject j = inscricaoService.update(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 			} else if (path.startsWith("/excluirInscricao")/* && "GET".equals(method)*/) {
@@ -126,7 +134,7 @@ public class Server implements Container {
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
 
-		Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
+		//Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
 		System.out.println("Interromper o servidor? (y/n)");
 
 		Scanner ler = new Scanner(System.in);
