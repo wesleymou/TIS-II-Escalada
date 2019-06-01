@@ -1,3 +1,4 @@
+package Main;
 
 import java.io.Serializable;
 
@@ -5,7 +6,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
-class Cliente implements Comparable<Cliente>,Serializable{
+public class Cliente implements Comparable<Cliente>,Serializable{
 
 	private static final long serialVersionUID = 1L;
 //	private static final String CPF = "cpf";
@@ -22,17 +23,16 @@ class Cliente implements Comparable<Cliente>,Serializable{
 	private long numFone2;
 	private String endereco;
 	private String email;
-	private String eventos;
+//	private String eventos;
 //	private Evento[] eventos;
 	
-	Cliente(long cpf, String nome, long numFone1, long numFone2, String endereco, String email, String eventos){
+	public Cliente(long cpf, String nome, long numFone1, long numFone2, String endereco, String email){
 		setCpf(cpf);
 		setNome(nome);
 		setNumFone1(numFone1);
 		setNumFone2(numFone2);
 		setEndereco(endereco);
 		setEmail(email);
-		setEventos(eventos);
 	}
 	
 	@Override
@@ -108,15 +108,5 @@ class Cliente implements Comparable<Cliente>,Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getEventos() {
-//	public Evento[] getEventos() {
-		return eventos;
-	}
-
-	public void setEventos(String eventos) {
-//	public void setEventos(Evento[] eventos) {
-		this.eventos = eventos;
 	}
 }

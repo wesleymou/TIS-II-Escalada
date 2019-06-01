@@ -1,8 +1,12 @@
-import java.util.Set;
+package Service;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
 import org.simpleframework.http.Request;
+
+import DAO.ClienteDAO;
+import Main.Cliente;
 
 public class ClienteService {
 	
@@ -12,7 +16,6 @@ public class ClienteService {
 	private static final String NUNFONE2 = "numFone2";
 	private static final String ENDERECO = "endereco";
 	private static final String EMAIL = "email";
-	private static final String EVENTOS = "eventos";
 	private static final String NOVOCPF = "novoCpf";
 		
 	private ClienteDAO clienteDAO;
@@ -30,7 +33,6 @@ public class ClienteService {
 		long nunFone2 = Long.parseLong(query.get(NUNFONE2));
 		String endereco = query.get(ENDERECO);
 		String email = query.get(EMAIL);
-		String eventos = query.get(EVENTOS);
 		
 		Cliente cliente = new Cliente(
 				cpf,
@@ -38,23 +40,16 @@ public class ClienteService {
 				nunFone1,
 				nunFone2,
 				endereco,
-				email,
-				eventos);
+				email);
 		
 		this.clienteDAO.add(cliente);
 		return cliente.toJson();
 	}
 	
 	public JSONArray get(Request request) {
-		Set<Cliente> lista = clienteDAO.getLista();
 		JSONArray listaJson = new JSONArray();
-		if(!lista.isEmpty()){
-			for(Cliente c : lista) {
-				listaJson.put(c.toJson());
-			}
-		}else {
-			listaJson.put(0, "null");
-		}
+		clienteDAO.getLista().stream()
+		.forEach(c -> listaJson.put(c.toJson()));
 		return listaJson;
 	}
 	
@@ -75,7 +70,6 @@ public class ClienteService {
 		cliente.setNumFone2(Long.parseLong(query.get(NUNFONE2)));
 		cliente.setEndereco(query.get(ENDERECO));
 		cliente.setEmail(query.get(EMAIL));
-		cliente.setEventos(query.get(EVENTOS));
 		
 		clienteDAO.update(cliente);
 		return cliente.toJson();
