@@ -27,9 +27,9 @@ public final class FornecedorService {
 	public JSONObject add(Request request) {
 		Query query = request.getQuery();
 
-		long cnpj = query.getInteger(CNPJ);
+		long cnpj = Long.parseLong(query.get(CNPJ));
 		String nome = query.get(NOME);
-		long telefone = query.getInteger(TELEFONE);
+		long telefone = Long.parseLong(query.get(TELEFONE));
 		String endereco = query.get(ENDERECO);
 		String email = query.get(EMAIL);
 		String servico = query.get(SERVICO);
@@ -49,7 +49,7 @@ public final class FornecedorService {
 	public JSONArray get(Request request) {
 		JSONArray listaJSON = new JSONArray();
 		fornecedorDAO.getLista().stream()
-		.forEach(f -> listaJSON.put(f.toJson()));
+		.forEach(e -> listaJSON.put(e.toJson()));
 		return listaJSON;
 	}
 
@@ -60,7 +60,7 @@ public final class FornecedorService {
 		String novoNome = query.get(NOVONOME);
 		if(novoNome != "")
 			fornecedor.setNome(novoNome);
-		fornecedor.setTelefone(query.getInteger(TELEFONE));
+		fornecedor.setTelefone(Long.parseLong(query.get(TELEFONE)));
 		fornecedor.setEndereco(query.get(ENDERECO));
 		fornecedor.setEmail(query.get(EMAIL));
 		fornecedor.setServico(query.get(SERVICO));
@@ -68,7 +68,6 @@ public final class FornecedorService {
 		fornecedorDAO.update(fornecedor);
 		return fornecedor.toJson();		
 	}
-	
 
 	public JSONObject remove (Request request) { 
 		return new JSONObject(fornecedorDAO.delete(request.getQuery().get(NOME)));
