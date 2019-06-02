@@ -23,6 +23,7 @@ public class Server implements Container {
 
 	EventoService eventoService = new EventoService();
 	ClienteService clienteService = new ClienteService();
+	FornecedorService fornecedorService = new FornecedorService();
 	InscricaoService inscricaoService = new InscricaoService(eventoService, clienteService);
 
 	public void handle(Request request, Response response) {
@@ -30,6 +31,7 @@ public class Server implements Container {
 			String path = request.getPath().getPath();
 			//			String method = request.getMethod();
 			System.out.println("Request: " + request.getQuery().toString());
+
 			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
 				JSONObject j = eventoService.add(request);
 				System.out.println(j);
@@ -49,6 +51,8 @@ public class Server implements Container {
 				JSONObject j = eventoService.remove(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
+
+
 
 			} else if (path.startsWith("/cadastrarCliente")/* && "POST".equals(method)*/) {
 				JSONObject j = clienteService.add(request);
@@ -70,22 +74,50 @@ public class Server implements Container {
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
+
+
+			} else if (path.startsWith("/cadastrarFornecedor")/* && "GET".equals(method)*/) {
+				JSONObject j = fornecedorService.add(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
+			} else if (path.startsWith("/consultarFornecedor")/* && "GET".equals(method)*/) {
+				JSONArray j = fornecedorService.get(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
+			} else if (path.startsWith("/atualizarFornecedor")/* && "GET".equals(method)*/) {
+				JSONObject j = fornecedorService.update(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
+			} else if (path.startsWith("/excluirFornecedor")/* && "GET".equals(method)*/) {
+				JSONObject j = fornecedorService.remove(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
+
+			
 			} else if (path.startsWith("/cadastrarInscricao")/* && "GET".equals(method)*/) {
 				JSONObject j = inscricaoService.add(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+
 			} else if (path.startsWith("/consultarInscricao")/* && "GET".equals(method)*/) {
 				JSONArray j = inscricaoService.get(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+
 			} else if (path.startsWith("/atualizarInscricao")/* && "GET".equals(method)*/) {
 				JSONObject j = inscricaoService.update(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+				
 			} else if (path.startsWith("/excluirInscricao")/* && "GET".equals(method)*/) {
 				JSONObject j = inscricaoService.remove(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+
 			} else {
 				this.naoEncontrado(response, path);
 			}

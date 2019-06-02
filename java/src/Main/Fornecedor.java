@@ -1,33 +1,49 @@
 package Main;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 public class Fornecedor implements Comparable<Fornecedor>, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private long cnpj, telefone;
 	private String nome, endereco, email, servico;
+
+	private Set<Fornecedor> fornecedores = new HashSet<Fornecedor>();
 	
 	public Fornecedor (long cnpj, String nome) {
 		this.cnpj = cnpj;
 		this.nome = nome;		
 	}
 	
-	public Fornecedor (long cnpj, String nome, long telefone, String endereco, String email, String servico ) {
-		this.cnpj = cnpj;
+	public Fornecedor (long cnpj2, String nome, long telefone2, String endereco, String email, String servico ) {
+		this.cnpj = cnpj2;
 		this.nome = nome;
-		this.telefone = telefone;
+		this.telefone = telefone2;
 		this.endereco = endereco;
 		this.email = email;
 		this.servico = servico;		
 	}
 	
 	public JSONObject toJson() {
-		return new JSONObject(new Gson().toJson(this));
+		//return new JSONObject(new Gson().toJson(this));
+
+		JSONObject j = new JSONObject();
+		j.put("cnpj", cnpj);
+	    j.put("nome", nome);
+	    j.put("telefone", telefone);
+	    j.put("endereco", endereco);
+	    j.put("email", email);
+	    j.put("servico", servico);
+	    for (Fornecedor fornecedor : this.fornecedores) {
+			j.put("fornecedor",fornecedor.toJson());
+		}
+		return j;
 	}
 	
 	@Override
@@ -39,7 +55,7 @@ public class Fornecedor implements Comparable<Fornecedor>, Serializable{
 	public boolean equals(Object o) {
 		if(o instanceof Fornecedor && this.getNome().equalsIgnoreCase(((Fornecedor)o).getNome()))
 			return true;
-		if(o instanceof Long && this.getCnpj() == (Long)o)
+		if(o instanceof String && this.getNome().equalsIgnoreCase((String)o))
 			return true;
 		return false;
 	}
