@@ -34,7 +34,7 @@ public class Inscricao implements Serializable, Comparable<Inscricao>{
 	}
 
 	public boolean estaPago() {
-		return valorTotal == valorRecebido;
+		return valorTotal <= valorRecebido;
 	}
 
 	public JSONObject toJson() {
