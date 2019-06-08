@@ -23,6 +23,7 @@ public class IndicadorService {
 	}
 
 	
+	//************ Porcentagem de inscritos em relação à capacidade total do evento ***************//
 	
 	public double porcInsc(Request request) {
 		Evento evento;
@@ -32,7 +33,7 @@ public class IndicadorService {
 		return 0;
 	}
 	
-	
+	//************ Porcentagem de inscritos que pagaram parcialmente em relação à quantidade total de inscritos ***************//
 	
 	public double pagouParcial(Request request) {
 		Evento evento;
@@ -48,7 +49,7 @@ public class IndicadorService {
 		return 0;
 	}
 	
-
+	//************ Porcentagem de inscritos que pagaram totalmente em relação à quantidade total de inscritos ***************//
 	
 	public double pagouTotal(Request request) {
 		Evento evento;
@@ -64,6 +65,8 @@ public class IndicadorService {
 		return 0;
 	}
 	
+	
+	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no DÉBITO ou DINHEIRO ***************//
 	
 	
 	public double pagouDebito(Request request) {
@@ -81,7 +84,7 @@ public class IndicadorService {
 	}
 	
 	
-	
+	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no CRÉDITO ou CHEQUE ***************//
 	
 	
 	public double pagouCredito(Request request) {
