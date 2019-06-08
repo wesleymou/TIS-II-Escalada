@@ -8,22 +8,16 @@
     <title>Document</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
 
     <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 
     <!-- Javascript interno -->
     <script src="../javascript/summit.js"></script>
 
-    <script>
-        $(function () {
-            operacoesEventos('read','Cliente');
-        });
-    </script>
 </head>
 
 
@@ -40,13 +34,17 @@
                     <span class="input-group-text">
                         <h5>Cronograma</h5>
                     </span>
-                    <button class="btn btn-success ml-1" type="button">Adicionar</button>
+                    <button class="btn btn-info ml-1" id="bttEnviaCampoCronograma" type="button">Enviar</button>
+                    <button class="btn btn-success ml-1" id="bttAddCampoCronograma" type="button">Adicionar</button>
+                    <button class="btn btn-warning ml-1" id="bttListarCronograma" type="button">Listar</button>
                 </div><br>
-                <form class="input-group" id="formCronograma">
-                    <input type="text" class="form-control">
-                    <input type="datetime-local" class="form-control col-4">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Excluir</button>
+                <form id="formCronograma">
+                    <div class="input-group">
+                        <input type="text" class="form-control" required>
+                        <input type="datetime-local" class="form-control col-4" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="excluirCampoCronograma(this)">Excluir</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -91,14 +89,13 @@
                     </div><br>
                     <label for="campoAdulto">Ingresso Adulto e Criança</label><br>
                     <div class="input-group">
-                    <input id="campoAdulto" class="form-control" name="qtdAdulto" type="number" required>
-                    <input id="campoCrianca" class="form-control" name="qtdInfantil" type="number" required>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" onclick="simulaIngresso()"
-                            form="formSimulacao">Calcular</button>
-                        <span class="input-group-text col-6" id="resultadoSimulacao"></span>
+                        <input id="campoAdulto" class="form-control" name="qtdAdulto" type="number" required>
+                        <input id="campoCrianca" class="form-control" name="qtdInfantil" type="number" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" onclick="simulaIngresso()" form="formSimulacao">Calcular</button>
+                            <span class="input-group-text col-6" id="resultadoSimulacao"></span>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </form>
@@ -123,12 +120,19 @@
 
 
     <!-- Javascript do Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            operacoesEventos('read', 'Cliente');
+        });
+        $("#bttAddCampoCronograma").click(function () { addCampoCronograma(); });
+        $("#bttEnviaCampoCronograma").click(() => enviaCronograma());
+        $("#bttListarCronograma").click(() => listarCronograma());
+    </script>
 
 </body>
 

@@ -3,6 +3,30 @@ var dadosXMLHTTP;
 var clientes;
 var inscricao;
 
+function sendXML(path, dadosXML) {
+    var xmlhttp = new XMLHttpRequest();
+    console.log(dadosXML);
+
+    return new Promise((resolve, reject) => {
+
+        xmlhttp.onreadystatechange = (e) => {
+            if (xmlhttp.readyState !== 4) {
+                return;
+            }
+
+            if (xmlhttp.status >= 200) {
+                console.log(JSON.parse(xmlhttp.response));
+                resolve(JSON.parse(xmlhttp.responseText));
+            } else {
+                console.warn('request_error');
+            }
+        };
+        xmlhttp.open("POST", serverAddress + path, true);
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send(dadosXML);
+    });
+}
+
 function executaXML(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
@@ -209,27 +233,78 @@ function preencheInscricao(l) {
 }
 
 function modalOperacoes() {
-    operacoesEventos("read", "Inscricao");
-    $("#modalTitle").html(`Inscrições.`);
-
-    setTimeout(function () {
+    sendXML("/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
+        inscricao = res;
+        $("#modalTitle").html(`Inscrições.`);
         $("#modalBody").html(function () {
-            if (inscricao == undefined || inscricao.length == 0) {
+            if (res == undefined || res.length == 0) {
                 return "Lista Vazia.";
             } else {
                 texto = "";
-                for (i = 0; i < inscricao.length; i++) {
-                    texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${inscricao[i].cliente.nome}, CPF: ${inscricao[i].cliente.cpf}</a></div>`;
+                for (i = 0; i < res.length; i++) {
+                    texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${res[i].cliente.nome}, CPF: ${res[i].cliente.cpf}</a></div>`;
                 }
                 return texto;
             }
         });
         $("#myModal").modal();
-    }, 500);
+    });
 }
 
 function simulaIngresso() {
     $('campoAdulto').value
     soma = ($('#campoAdulto').val() * dadosXMLHTTP.valorIngresso) + ($('#campoCrianca').val() * dadosXMLHTTP.valorIngresso / 2);
     $("#resultadoSimulacao").html(`R$ ${soma}`);
+}
+
+function addCampoCronograma() {
+    $('#formCronograma').append(`
+    <div class="input-group">
+        <input type="text" class="form-control" required>
+        <input type="datetime-local" class="form-control col-4" required>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="excluirCampoCronograma(this)">Excluir</button>
+        </div>
+    </div>
+    `);
+}
+
+function enviaCronograma() {
+    form = $('#formCronograma')[0];
+    if (form.reportValidity()) {
+        map = new Map();
+        for (var i = 0; i < form.length; i += 3) {
+            map.set(form[i + 1].value, form[i].value);
+        }
+        json = $.param(Array.from(map).reduce((obj, [key, value]) => {
+            obj[key] = value;
+            return obj;
+        }, {}));
+        sendXML("/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
+    }
+}
+
+function listarCronograma() {
+    form = $('#formCronograma')[0];
+    sendXML("/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
+        indice = Object.keys(res);
+        for (let i = 0; i < res.length; i++) {
+            form[(i * 3)].value = res[indice[i]];
+            form[((i * 3) + 1)].value = indice[i];
+            if (i != 0) addCampoCronograma((i * 3));
+        }
+    });
+}
+
+function excluirCampoCronograma(element) {
+    form = $('#formCronograma')[0];
+    indice = null;
+    for (var i = 2; i < form.length; i += 3) {
+        if (form[i] == element) {
+            $('#formCronograma')[0][i - 2].remove();
+            $('#formCronograma')[0][i - 2].remove();
+            $('#formCronograma')[0][i - 2].remove();
+            break;
+        }
+    }
 }
