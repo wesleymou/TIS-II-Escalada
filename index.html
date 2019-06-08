@@ -80,7 +80,6 @@
                                 type="text" disabled="true"><br>
                         </div>
                     </div>
-
                     <div class="col">
                         <div class="form-group">
                             <label for="formEventoStatus">Status</label><br>
@@ -209,6 +208,18 @@
                                 required><br>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteStatus">Status</label><br>
+                            <select id="formClienteStatus" class="custom-select" name="status" disabled="true">
+                                <option selected></option>
+                                <option value="Inscricao confirmada">Inscrição confirmada</option>
+                                <option value="Inscricao cancelada">Inscrição cancelada</option>
+                                <option value="Confirmacao pendente">Confirmação pendente</option>
+                            </select>
+                            <br>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col">
@@ -328,7 +339,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formFornecedorServico">Serviço:</label><br>
-                            <textarea id="formFornecedorServico" class="form-control" name="servico" cols="100" rows="5"
+                            <textarea id="formFornecedorServico" class="form-control" name="servico" cols="100" rows="1"
                                 disabled="true" required></textarea><br>
                         </div>
                     </div>
@@ -353,6 +364,11 @@
             </div>
         </div>
 
+        <div class="row my-1">
+            <div class="col">
+                <button id="btnIndic" type="button" class="btn btn-idle" onclick="IndicadorService()">Indicadores de desempenho</button>
+            </div>
+        </div>
     </div>
 
     <!-- Javascript do Bootstrap -->

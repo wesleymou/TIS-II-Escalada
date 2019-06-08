@@ -16,6 +16,7 @@ public class ClienteService {
 	private static final String NUNFONE2 = "numFone2";
 	private static final String ENDERECO = "endereco";
 	private static final String EMAIL = "email";
+	private static final String STATUS = "status";
 	private static final String NOVOCPF = "novoCpf";
 		
 	private ClienteDAO clienteDAO;
@@ -33,6 +34,7 @@ public class ClienteService {
 		long nunFone2 = Long.parseLong(query.get(NUNFONE2));
 		String endereco = query.get(ENDERECO);
 		String email = query.get(EMAIL);
+		String status = query.get(STATUS);
 		
 		Cliente cliente = new Cliente(
 				cpf,
@@ -40,7 +42,8 @@ public class ClienteService {
 				nunFone1,
 				nunFone2,
 				endereco,
-				email);
+				email,
+				status);
 		
 		this.clienteDAO.add(cliente);
 		return cliente.toJson();
@@ -70,6 +73,7 @@ public class ClienteService {
 		cliente.setNumFone2(Long.parseLong(query.get(NUNFONE2)));
 		cliente.setEndereco(query.get(ENDERECO));
 		cliente.setEmail(query.get(EMAIL));
+		Cliente.setStatus(query.get(STATUS));
 		
 		clienteDAO.update(cliente);
 		return cliente.toJson();
