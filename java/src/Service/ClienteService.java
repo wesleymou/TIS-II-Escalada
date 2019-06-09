@@ -73,7 +73,7 @@ public class ClienteService {
 		cliente.setNumFone2(Long.parseLong(query.get(NUNFONE2)));
 		cliente.setEndereco(query.get(ENDERECO));
 		cliente.setEmail(query.get(EMAIL));
-		Cliente.setStatus(query.get(STATUS));
+		cliente.setStatus(query.get(STATUS));
 		
 		clienteDAO.update(cliente);
 		return cliente.toJson();

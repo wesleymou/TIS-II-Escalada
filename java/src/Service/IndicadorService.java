@@ -21,10 +21,10 @@ public class IndicadorService {
 	public IndicadorService(EventoService eventoService) {
 		this.eventoService = eventoService;
 	}
+	
 
-	
 	//************ Porcentagem de inscritos em relação à capacidade total do evento ***************//
-	
+
 	public double porcInsc(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
@@ -33,6 +33,7 @@ public class IndicadorService {
 		return 0;
 	}
 	
+
 	//************ Porcentagem de inscritos que pagaram parcialmente em relação à quantidade total de inscritos ***************//
 	
 	public double pagouParcial(Request request) {
@@ -49,6 +50,7 @@ public class IndicadorService {
 		return 0;
 	}
 	
+
 	//************ Porcentagem de inscritos que pagaram totalmente em relação à quantidade total de inscritos ***************//
 	
 	public double pagouTotal(Request request) {
@@ -68,7 +70,6 @@ public class IndicadorService {
 	
 	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no DÉBITO ou DINHEIRO ***************//
 	
-	
 	public double pagouDebito(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
@@ -86,7 +87,6 @@ public class IndicadorService {
 	
 	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no CRÉDITO ou CHEQUE ***************//
 	
-	
 	public double pagouCredito(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
@@ -100,4 +100,11 @@ public class IndicadorService {
 		}
 		return 0;
 	}
+	
+    public void TabelaIndicadores() {
+        // Remove todas as linhas do corpo da tabela    
+        // Popular a tabela com os dados calculados
+        
+    }
+
 }
