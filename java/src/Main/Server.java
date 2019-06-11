@@ -170,7 +170,9 @@ public class Server implements Container {
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
 
-		//Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
+		//Desktop.getDesktop().browse(new URI("C:/Users/619352/Desktop/git/TIS-II_Escalada/index.html"));
+		Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
+
 		System.out.println("Interromper o servidor? (y/n)");
 
 		Scanner ler = new Scanner(System.in);

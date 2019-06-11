@@ -7,23 +7,24 @@ import Main.Inscricao;
 
 /* Falta: 
  * 
- * Percentual do número de desistentes em relação ao número total de inscritos
- * Percentual do número de participantes confirmados em relação ao número de inscrições
+ * Percentual do nÃºmero de desistentes em relaÃ§Ã£o ao nÃºmero total de inscritos
+ * Percentual do nÃºmero de participantes confirmados em relaÃ§Ã£o ao nÃºmero de inscriÃ§Ãµes
  * 
- * Necessário campo para definir status de confirmação para então definir os parametros de indicador
+ * NecessÃ¡rio campo para definir status de confirmaÃ§Ã£o para entÃ£o definir os parametros de indicador
  */
 
 
 public class IndicadorService {
 	
 	private EventoService eventoService;
-
+	
 	public IndicadorService(EventoService eventoService) {
 		this.eventoService = eventoService;
 	}
+	
 
-	
-	
+	//************ Porcentagem de inscritos em relaÃ§Ã£o Ã  capacidade total do evento ***************//
+
 	public double porcInsc(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
@@ -32,69 +33,78 @@ public class IndicadorService {
 		return 0;
 	}
 	
-	
+
+	//************ Porcentagem de inscritos que pagaram parcialmente em relaÃ§Ã£o Ã  quantidade total de inscritos ***************//
 	
 	public double pagouParcial(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
-			double i=0;
+			int i=0;
 			for(Inscricao in: evento.getInscricoes()) {
 				if(!in.estaPago()) {
 					i++;
 				}
 			}
-			return i/evento.getInscricoes().size()*100;
+			return i*1.0/evento.getInscricoes().size()*100;
 		}
 		return 0;
 	}
 	
 
+	//************ Porcentagem de inscritos que pagaram totalmente em relaÃ§Ã£o Ã  quantidade total de inscritos ***************//
 	
 	public double pagouTotal(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
-			double i=0;
+			int i=0;
 			for(Inscricao in: evento.getInscricoes()) {
 				if(in.estaPago()) {
 					i++;
 				}
 			}
-			return i/evento.getInscricoes().size()*100;
+			return i*1.0/evento.getInscricoes().size()*100;
 		}
 		return 0;
 	}
 	
 	
+	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no DÃ‰BITO ou DINHEIRO ***************//
 	
 	public double pagouDebito(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
-			double i=0;
+			int i=0;
 			for(Inscricao in: evento.getInscricoes()) {
-				if(in.getTipoPagamento() == "Débito" || in.getTipoPagamento() == "Dinheiro") {
+				if(in.getTipoPagamento() == "DÃ©bito" || in.getTipoPagamento() == "Dinheiro") {
 					i++;
 				}
 			}
-			return i/evento.getInscricoes().size()*100;
+			return i*1.0/evento.getInscricoes().size()*100;
 		}
 		return 0;
 	}
 	
 	
-	
-	
+	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no CRÃ‰DITO ou CHEQUE ***************//
 	
 	public double pagouCredito(Request request) {
 		Evento evento;
 		if ((evento = eventoService.getEvento(request)) != null) {
-			double i=0;
+			int i=0;
 			for(Inscricao in: evento.getInscricoes()) {
-				if(in.getTipoPagamento() == "Crédito" || in.getTipoPagamento() == "Cheque") {
+				if(in.getTipoPagamento() == "CrÃ©dito" || in.getTipoPagamento() == "Cheque") {
 					i++;
 				}
 			}
-			return i/evento.getInscricoes().size()*100;
+			return i*1.0/evento.getInscricoes().size()*100;
 		}
 		return 0;
 	}
+	
+    public void TabelaIndicadores() {
+        // Remove todas as linhas do corpo da tabela    
+        // Popular a tabela com os dados calculados
+        
+    }
+
 }
