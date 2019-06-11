@@ -21,7 +21,7 @@ function sendXML(path, dadosXML) {
                 console.warn('request_error');
             }
         };
-        xmlhttp.open("POST", serverAddress + path, true);
+        xmlhttp.open("POST", path, true);
         xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlhttp.send(dadosXML);
     });
@@ -83,50 +83,34 @@ function executaXML(funcao, modulo) {
 function operacoesEventos(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
-    if (funcao == "create")
+    var campos;
+    if (funcao == "create") {
         path = serverAddress + `/cadastrar${modulo}`;
-    else if (funcao == "read")
+        if (modulo == "Inscricao" && form.reportValidity())
+            campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}&${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}&${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
+    }
+    else if (funcao == "read") {
         path = serverAddress + `/consultar${modulo}`;
+        if (modulo == "Inscricao")
+            campos = `${$.param(dadosXMLHTTP)}`;
+        if (modulo == "Cliente")
+            campos = null;
+    }
     else if (funcao == "update")
         path = serverAddress + `/atualizar${modulo}`;
     else if (funcao == "delete")
         path = serverAddress + `/excluir${modulo}`;
-    if (modulo == "Cliente")
-        path = serverAddress + `/consultar${modulo}`;
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", path, true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    var campos;
+sendXML(path, campos).then(res => {
+    if (modulo == "Inscricao")
+        inscricao = JSON.parse(res);
+    else
+        dadosXMLHTTP = res;
     if (modulo == "Cliente") {
-        campos = null;
-        xmlhttp.send(campos);
-    } else if (funcao == "read") {
-        campos = `${$.param(dadosXMLHTTP)}`;
-        xmlhttp.send(campos);
-    } else if (form.reportValidity()) {
-        campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}&${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}&${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
-        xmlhttp.send(campos);
+        clientes = res;
+        preencheOperacoes(res);
     }
-
-    xmlhttp.onreadystatechange = function (e) {
-        if (xmlhttp.readyState == 4) {
-            if (xmlhttp.status >= 200) {
-                console.log("requisicao OK. \n" + xmlhttp.response);
-                if (modulo == "Inscricao")
-                    inscricao = JSON.parse(xmlhttp.response);
-                else
-                    dadosXMLHTTP = JSON.parse(xmlhttp.response);
-                if (modulo == "Cliente") {
-                    clientes = JSON.parse(xmlhttp.response);
-                    preencheOperacoes(JSON.parse(xmlhttp.response));
-                }
-            } else {
-                console.error("erro na requisicao. //" + xmlhttp.statusText);
-            }
-        }
-    }
-    console.log("apos o onreadystatechange");
+});
 }
 
 function consultaRegistro(modulo, indice) {
@@ -233,7 +217,7 @@ function preencheInscricao(l) {
 }
 
 function modalOperacoes() {
-    sendXML("/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
+    sendXML(serverAddress+"/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
         inscricao = res;
         $("#modalTitle").html(`Inscrições.`);
         $("#modalBody").html(function () {
@@ -280,13 +264,13 @@ function enviaCronograma() {
             obj[key] = value;
             return obj;
         }, {}));
-        sendXML("/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
+        sendXML(serverAddress+"/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
     }
 }
 
 function listarCronograma() {
     form = $('#formCronograma')[0];
-    sendXML("/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
+    sendXML(serverAddress+"/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
         indice = Object.keys(res);
         for (let i = 0; i < res.length; i++) {
             form[(i * 3)].value = res[indice[i]];
