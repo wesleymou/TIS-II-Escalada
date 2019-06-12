@@ -23,16 +23,18 @@ public class Cliente implements Comparable<Cliente>,Serializable{
 	private long numFone2;
 	private String endereco;
 	private String email;
+	private String status;
 //	private String eventos;
 //	private Evento[] eventos;
 	
-	public Cliente(long cpf, String nome, long numFone1, long numFone2, String endereco, String email){
+	public Cliente(long cpf, String nome, long numFone1, long numFone2, String endereco, String email, String status){
 		setCpf(cpf);
 		setNome(nome);
 		setNumFone1(numFone1);
 		setNumFone2(numFone2);
 		setEndereco(endereco);
 		setEmail(email);
+		setStatus(status);
 	}
 	
 	@Override
@@ -108,5 +110,13 @@ public class Cliente implements Comparable<Cliente>,Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

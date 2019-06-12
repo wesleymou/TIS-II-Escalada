@@ -108,14 +108,18 @@ function operacoesEventos(funcao, modulo) {
 function consultaRegistro(modulo, indice) {
     $("#myModal").modal('toggle');
     let form = document.querySelector(`#form${modulo}`);
-    let indiceForm;
+    let indiceForm = indice;
     if (modulo == "Evento") {
         evento();
-        indiceForm = 0;
+        //indiceForm = 0;
     }
     else if (modulo == "Cliente") {
         cliente();
-        indiceForm = 1;
+        //indiceForm = 1;
+    }
+    else if (modulo == "Fornecedor") {
+        fornecedor();
+        //indiceForm = 2;
     }
     form[1].checked = true;
     habilitaForm(true, "update", modulo);
@@ -144,6 +148,7 @@ function populate(form, json, indice) {
     })
     $("#formEventoNovoNome").val(json[indice].nome);
     $("#formClienteNovoCPF").val(json[indice].cpf);
+    $("#formFornecedorNovoCNPJ").val(json[indice].cnpj);
     dadosXMLHTTP = json[indice];
     sessionStorage.setItem("dadosXMLHTTP", JSON.stringify(json[indice]));
 }
@@ -169,6 +174,16 @@ function mostrarPainel(modulo, dados) {
             texto = "";
             for (i = 0; i < dados.length; i++) {
                 texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome} - CPF: ${dados[i].cpf}</a></div>`;
+            }
+            return texto;
+        });
+        $("#myModal").modal();
+
+    } else if (modulo == "Fornecedor") {
+        $("#modalBody").html(function () {
+            texto = "";
+            for (i = 0; i < dados.length; i++) {
+                texto += `<div><a href='#' onclick='consultaRegistro("${modulo}",${i})'>${dados[i].nome} - CNPJ: ${dados[i].cnpj}</a></div>`;
             }
             return texto;
         });

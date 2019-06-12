@@ -46,7 +46,6 @@ public class InscricaoService {
 		return json;
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	public JSONObject update(Request request) {
 		Query query = request.getQuery();
 		Evento evento;

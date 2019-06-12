@@ -80,7 +80,6 @@
                                 type="text" disabled="true"><br>
                         </div>
                     </div>
-
                     <div class="col">
                         <div class="form-group">
                             <label for="formEventoStatus">Status</label><br>
@@ -209,6 +208,18 @@
                                 required><br>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="formClienteStatus">Status</label><br>
+                            <select id="formClienteStatus" class="custom-select" name="status" disabled="true">
+                                <option selected></option>
+                                <option value="Inscricao confirmada">Inscrição confirmada</option>
+                                <option value="Inscricao cancelada">Inscrição cancelada</option>
+                                <option value="Confirmacao pendente">Confirmação pendente</option>
+                            </select>
+                            <br>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col">
@@ -279,8 +290,8 @@
                 <div class="row">
                     <div class="col colNome">
                         <div class="form-group">
-                            <label for="formFornecedorCPF">CNPJ</label><br>
-                            <input id="formFornecedorCPF" class="form-control" name="cnpj" type="text" minlength="15"
+                            <label for="formFornecedorCNPJ">CNPJ</label><br>
+                            <input id="formFornecedorCNPJ" class="form-control" name="cnpj" type="text" minlength="15"
                                 maxlength="15" disabled="true" required><br>
                         </div>
                     </div>
@@ -312,14 +323,14 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formFornecedorEmail">E-mail:</label><br>
-                            <input id="formFornecedorEmail" class="form-control" name="email" type="email"
+                            <input id="formFornecedorEmail" class="form-control" name="email" type="text"
                                 disabled="true" required><br>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="formFornecedorNumFone">Telefone comercial:</label><br>
-                            <input id="formFornecedorNumFone" class="form-control" name="numFone" type="tel"
+                            <label for="formFornecedorTelefone">Telefone comercial:</label><br>
+                            <input id="formFornecedorTelefone" class="form-control" name="telefone" type="text"
                                 minlength="10" maxlength="11" disabled="true" required><br>
                         </div>
                     </div>
@@ -328,7 +339,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="formFornecedorServico">Serviço:</label><br>
-                            <textarea id="formFornecedorServico" class="form-control" name="servico" cols="100" rows="5"
+                            <textarea id="formFornecedorServico" class="form-control" name="servico" cols="100" rows="1"
                                 disabled="true" required></textarea><br>
                         </div>
                     </div>
@@ -353,6 +364,12 @@
             </div>
         </div>
 
+        <div class="row my-1">
+            <div class="col">
+                <button id="btnIndic" type="button" class="btn btn-idle"
+                        onclick="window.location.href = 'operacoes/indicadores.html';">Indicadores de desempenho</button>
+            </div>
+        </div>
     </div>
 
     <!-- Javascript do Bootstrap -->
