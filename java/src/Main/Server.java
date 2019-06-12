@@ -30,90 +30,90 @@ public class Server implements Container {
 	public void handle(Request request, Response response) {
 		try {
 			String path = request.getPath().getPath();
-			//			String method = request.getMethod();
+			//	String method = request.getMethod();
 			System.out.println("Request: " + request.getQuery().toString());
 
-			if (path.startsWith("/cadastrarEvento")/* && "POST".equals(method)*/) {
+			if (path.startsWith("/cadastrarEvento")) {
 				JSONObject j = eventoService.add(request);
 				System.out.println(j);
 				this.enviaResposta(Status.CREATED, response, j);
 
-			} else if (path.startsWith("/consultarEvento")/* && "POST".equals(method)*/) {
+			} else if (path.startsWith("/consultarEvento")) {
 				JSONArray j = eventoService.get(request);
 				System.out.println("consultar: "+j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/atualizarEvento")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/atualizarEvento")) {
 				JSONObject j = eventoService.update(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/excluirEvento")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/excluirEvento")) {
 				JSONObject j = eventoService.remove(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
 
 
-			} else if (path.startsWith("/cadastrarCliente")/* && "POST".equals(method)*/) {
+			} else if (path.startsWith("/cadastrarCliente")) {
 				JSONObject j = clienteService.add(request);
 				System.out.println(j);
 				this.enviaResposta(Status.CREATED, response, j);
 
-			} else if (path.startsWith("/consultarCliente")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/consultarCliente")) {
 				JSONArray j = clienteService.get(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/atualizarCliente")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/atualizarCliente")) {
 				JSONObject j = clienteService.update(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/excluirCliente")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/excluirCliente")) {
 				JSONObject j = clienteService.remove(request);
 				System.out.println(j);
 				this.enviaResposta(Status.OK, response, j);
 
 
 
-			} else if (path.startsWith("/cadastrarFornecedor")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/cadastrarFornecedor")) {
 				JSONObject j = fornecedorService.add(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/consultarFornecedor")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/consultarFornecedor")) {
 				JSONArray j = fornecedorService.get(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/atualizarFornecedor")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/atualizarFornecedor")) {
 				JSONObject j = fornecedorService.update(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/excluirFornecedor")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/excluirFornecedor")) {
 				JSONObject j = fornecedorService.remove(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
 
 			
-			} else if (path.startsWith("/cadastrarInscricao")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/cadastrarInscricao")) {
 				JSONObject j = inscricaoService.add(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
-			} else if (path.startsWith("/consultarInscricao")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/consultarInscricao")) {
 				JSONArray j = inscricaoService.get(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
-			} else if (path.startsWith("/atualizarInscricao")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/atualizarInscricao")) {
 				JSONObject j = inscricaoService.update(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 				
-			} else if (path.startsWith("/excluirInscricao")/* && "GET".equals(method)*/) {
+			} else if (path.startsWith("/excluirInscricao")) {
 				JSONObject j = inscricaoService.remove(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
@@ -147,7 +147,7 @@ public class Server implements Container {
 
 	private void naoEncontrado(Response response, String path) throws Exception {
 		JSONObject error = new JSONObject();
-		error.put("error", "N�o encontrado.");
+		error.put("error", "Nao encontrado.");
 		error.put("path", path);
 		enviaResposta(Status.OK, response, error);
 	}
@@ -199,9 +199,9 @@ public class Server implements Container {
 		while (!a.equals("y")) {
 			a = ler.next();
 			if (a.equals("n"))
-				System.out.println("Ent�o n�o.");
+				System.out.println("Entao nao.");
 			else if (!a.equals("y") && !a.equals("n"))
-				System.out.println("Sem tempo irm�o.");
+				System.out.println("Sem tempo irmao.");
 		}
 		ler.close();
 		conexao.close();
