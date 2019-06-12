@@ -18,12 +18,6 @@
 
     <!-- Javascript interno -->
     <script src="../javascript/summit.js"></script>
-
-    <script>
-        $(function () {
-            TabelaIndicadores();
-        });
-    </script>
 </head>
 
 
@@ -45,25 +39,21 @@
                     <thead>
                         <tr>
                             <th scope="col">Nome Evento</th>
-                            <th scope="col">% Inscrições / Vagas</th>
-                            <th scope="col">% Confirmados / Inscrições</th>
-                            <th scope="col">% Pagamentos parciais</th>
-                            <th scope="col">% Pagamentos totais</th>
-                            <th scope="col">% Pagamentos Débito/Dinheiro</th>
-                            <th scope="col">% Pagamentos Crédito/Cheque</th>
-                            <th scope="col">% Desistentes / Inscritos</th>
+                            <th scope="col">Inscrições / Vagas</th>
+                            <th scope="col">Pagamentos à vista</th>
+                            <th scope="col">Pagamentos à prazo</th>
+                            <th scope="col">Pagamentos parciais</th>
+                            <th scope="col">Pagamentos totais</th>
                         </tr>
                     </thead>
                     <tbody id="table-indicadores">
                         <tr>
-                            <td scope="row">1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td id="nome" scope="row"></td>
+                            <td id="porcInsc"></td>
+                            <td id="pagouDebito"></td>
+                            <td id="pagouCredito"></td>
+                            <td id="pagouParcial"></td>
+                            <td id="pagouTotal"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -78,6 +68,11 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
 
+            <script>
+                $(function () {
+                    tabelaIndicadores();
+                });
+            </script>
 </body>
 
 </html>

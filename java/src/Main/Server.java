@@ -25,6 +25,7 @@ public class Server implements Container {
 	ClienteService clienteService = new ClienteService();
 	FornecedorService fornecedorService = new FornecedorService();
 	InscricaoService inscricaoService = new InscricaoService(eventoService, clienteService);
+	IndicadorService indicadorService = new IndicadorService(eventoService);
 
 	public void handle(Request request, Response response) {
 		try {
@@ -118,6 +119,11 @@ public class Server implements Container {
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
+			} else if (path.startsWith("/consultarIndicadores")) {
+				JSONArray j = indicadorService.getAll(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
 			} else {
 				this.naoEncontrado(response, path);
 			}
@@ -171,7 +177,7 @@ public class Server implements Container {
 		conexao.connect(endereco);
 
 		//Desktop.getDesktop().browse(new URI("C:/Users/619352/Desktop/git/TIS-II_Escalada/index.html"));
-		Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
+		//Desktop.getDesktop().browse(new URI("https://pucweb-wesley-mouraria.azurewebsites.net/"));
 
 		System.out.println("Interromper o servidor? (y/n)");
 

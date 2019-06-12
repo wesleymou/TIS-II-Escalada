@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -63,8 +65,8 @@ public final class EventoService {
 		.forEach(e -> listaJson.put(e.toJson()));
 		return listaJson;
 	}
-	
-	
+
+
 	public Evento getEvento(Request request) {
 		return eventoDAO.get(request.getQuery().get(NOME));
 	}
@@ -89,8 +91,12 @@ public final class EventoService {
 		return evento.toJson();
 	}
 
-		public JSONObject remove (Request request) { 
-			return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
-		}
-
+	public JSONObject remove (Request request) { 
+		return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
 	}
+	
+	public Set<Evento> getAllEventos() {
+		return eventoDAO.getAllEventos();
+	}
+
+}

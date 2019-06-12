@@ -30,6 +30,7 @@ function evento() {
     if (document.getElementById('evento').style.display == "none") {
         $("#formEvento")[0].reset();
         document.getElementsByClassName("btnAcao")[0].style.display = "none";
+        document.getElementsByClassName("btnIndicadores")[0].style.display = "none";
         document.getElementsByClassName("btnUpdate")[0].style.display = "none";
         document.getElementsByClassName("btnDelete")[0].style.display = "none";
         document.getElementsByClassName("btnOperacao")[0].style.display = "none";
@@ -94,6 +95,7 @@ function habilitaForm(status, funcao, modulo) {
     let btnAcao = document.getElementsByClassName("btnAcao")[indiceForm];
     if (status == true) {
         btnAcao.style.display = "";
+        document.getElementsByClassName("btnIndicadores")[0].style.display = "none";
         document.getElementsByClassName("btnUpdate")[indiceForm].style.display = "none";
         document.getElementsByClassName("btnDelete")[indiceForm].style.display = "none";
         document.getElementsByClassName("btnOperacao")[0].style.display = "none";
@@ -122,6 +124,7 @@ function habilitaForm(status, funcao, modulo) {
         else if (funcao == "read") {
             btnAcao.textContent = "Consultar";
             btnAcao.className = "btnAcao btn btn-info";
+            document.getElementsByClassName("btnIndicadores")[indiceForm].style.display = "";
             // btnAcao.setAttribute("formaction", serverAddress + "/consultarEvento");
             // btnAcao.setAttribute("formmethod", "GET");
             form[3].value = "";
@@ -132,6 +135,7 @@ function habilitaForm(status, funcao, modulo) {
                 jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
                 form[i].style.display = "none";
             }
+            
         }
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";

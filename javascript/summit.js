@@ -292,3 +292,9 @@ function excluirCampoCronograma(element) {
         }
     }
 }
+
+function tabelaIndicadores(){
+    sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
+        
+    });
+}
