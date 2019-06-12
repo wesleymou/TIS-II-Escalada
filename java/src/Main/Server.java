@@ -119,10 +119,24 @@ public class Server implements Container {
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
 
+				
+								
 			} else if (path.startsWith("/consultarIndicadores")) {
 				JSONArray j = indicadorService.getAll(request);
 				System.out.println("Response: " + j);
 				this.enviaResposta(Status.OK, response, j);
+
+			} else if (path.startsWith("/cadastrarCronograma")) {
+				JSONObject j = eventoService.receberCronograma(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
+			} else if (path.startsWith("/consultarCronograma")) {
+				JSONObject j = eventoService.getAllCronograma(request);
+				System.out.println("Response: " + j);
+				this.enviaResposta(Status.OK, response, j);
+
+
 
 			} else {
 				this.naoEncontrado(response, path);

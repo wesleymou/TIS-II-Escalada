@@ -101,16 +101,17 @@ function operacoesEventos(funcao, modulo) {
     else if (funcao == "delete")
         path = serverAddress + `/excluir${modulo}`;
 
-sendXML(path, campos).then(res => {
-    if (modulo == "Inscricao")
-        inscricao = JSON.parse(res);
-    else
-        dadosXMLHTTP = res;
-    if (modulo == "Cliente") {
-        clientes = res;
-        preencheOperacoes(res);
-    }
-});
+    sendXML(path, campos).then(res => {
+        if (modulo == "Inscricao")
+            inscricao = JSON.parse(res);
+        else
+            dadosXMLHTTP = res;
+        if (modulo == "Cliente") {
+            clientes = res;
+            preencheOperacoes(res);
+            listarCronograma();
+        }
+    });
 }
 
 function consultaRegistro(modulo, indice) {
@@ -217,7 +218,7 @@ function preencheInscricao(l) {
 }
 
 function modalOperacoes() {
-    sendXML(serverAddress+"/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
+    sendXML(serverAddress + "/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
         inscricao = res;
         $("#modalTitle").html(`Inscrições.`);
         $("#modalBody").html(function () {
@@ -264,20 +265,24 @@ function enviaCronograma() {
             obj[key] = value;
             return obj;
         }, {}));
-        sendXML(serverAddress+"/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
+        sendXML(serverAddress + "/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
     }
 }
 
 function listarCronograma() {
     form = $('#formCronograma')[0];
-    sendXML(serverAddress+"/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
+    sendXML(serverAddress + "/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
         indice = Object.keys(res);
-        for (let i = 0; i < res.length; i++) {
-            form[(i * 3)].value = res[indice[i]];
-            form[((i * 3) + 1)].value = indice[i];
+        for (let i = 0; i < indice.length; i++) {
             if (i != 0) addCampoCronograma((i * 3));
+            form[(i * 3)].value = res[indice[i]];
+            form[((i * 3) + 1)].value = getDateFromFormat(indice[i]);
         }
     });
+}
+
+function getDateFromFormat(C) {
+    return C[0] + C[1] + C[2] + C[3] + C[4] + C[5] + C[6] + C[7] + C[8] + C[9] + "T" + C[11] + C[12] + C[13] + C[14] + C[15];
 }
 
 function excluirCampoCronograma(element) {
@@ -293,8 +298,8 @@ function excluirCampoCronograma(element) {
     }
 }
 
-function tabelaIndicadores(){
+function tabelaIndicadores() {
     sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
-        
+
     });
 }
