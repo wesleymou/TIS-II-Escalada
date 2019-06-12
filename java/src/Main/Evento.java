@@ -145,22 +145,6 @@ public class Evento implements Comparable<Evento>, Serializable{
 		return cronograma;
 	}
 
-	//		public Map <Array,Array> getCronograma() {
-	//			return cronograma;
-	//		}
-	//		
-	//		public void setCronograma(Map <Array,Array> cronograma) {
-	//			this.cronograma = cronograma;
-	//		}
-	//		
-	//		public int[] getConvenio() {
-	//			return convenio;
-	//		}
-	//		
-	//		public void setConvenio(int[] convenio) {
-	//			this.convenio = convenio;
-	//		}
-
 	public String getStatus() {
 		return status;
 	}

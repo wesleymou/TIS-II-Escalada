@@ -3,6 +3,30 @@ var dadosXMLHTTP;
 var clientes;
 var inscricao;
 
+function sendXML(path, dadosXML) {
+    var xmlhttp = new XMLHttpRequest();
+    console.log(dadosXML);
+
+    return new Promise((resolve, reject) => {
+
+        xmlhttp.onreadystatechange = (e) => {
+            if (xmlhttp.readyState !== 4) {
+                return;
+            }
+
+            if (xmlhttp.status >= 200) {
+                console.log(JSON.parse(xmlhttp.response));
+                resolve(JSON.parse(xmlhttp.responseText));
+            } else {
+                console.warn('request_error');
+            }
+        };
+        xmlhttp.open("POST", path, true);
+        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlhttp.send(dadosXML);
+    });
+}
+
 function executaXML(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
@@ -59,50 +83,35 @@ function executaXML(funcao, modulo) {
 function operacoesEventos(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
-    if (funcao == "create")
+    var campos;
+    if (funcao == "create") {
         path = serverAddress + `/cadastrar${modulo}`;
-    else if (funcao == "read")
+        if (modulo == "Inscricao" && form.reportValidity())
+            campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}&${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}&${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
+    }
+    else if (funcao == "read") {
         path = serverAddress + `/consultar${modulo}`;
+        if (modulo == "Inscricao")
+            campos = `${$.param(dadosXMLHTTP)}`;
+        if (modulo == "Cliente")
+            campos = null;
+    }
     else if (funcao == "update")
         path = serverAddress + `/atualizar${modulo}`;
     else if (funcao == "delete")
         path = serverAddress + `/excluir${modulo}`;
-    if (modulo == "Cliente")
-        path = serverAddress + `/consultar${modulo}`;
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", path, true);
-    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    var campos;
-    if (modulo == "Cliente") {
-        campos = null;
-        xmlhttp.send(campos);
-    } else if (funcao == "read") {
-        campos = `${$.param(dadosXMLHTTP)}`;
-        xmlhttp.send(campos);
-    } else if (form.reportValidity()) {
-        campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}&${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}&${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
-        xmlhttp.send(campos);
-    }
-
-    xmlhttp.onreadystatechange = function (e) {
-        if (xmlhttp.readyState == 4) {
-            if (xmlhttp.status >= 200) {
-                console.log("requisicao OK. \n" + xmlhttp.response);
-                if (modulo == "Inscricao")
-                    inscricao = JSON.parse(xmlhttp.response);
-                else
-                    dadosXMLHTTP = JSON.parse(xmlhttp.response);
-                if (modulo == "Cliente") {
-                    clientes = JSON.parse(xmlhttp.response);
-                    preencheOperacoes(JSON.parse(xmlhttp.response));
-                }
-            } else {
-                console.error("erro na requisicao. //" + xmlhttp.statusText);
-            }
+    sendXML(path, campos).then(res => {
+        if (modulo == "Inscricao")
+            inscricao = JSON.parse(res);
+        else
+            dadosXMLHTTP = res;
+        if (modulo == "Cliente") {
+            clientes = res;
+            preencheOperacoes(res);
+            listarCronograma();
         }
-    }
-    console.log("apos o onreadystatechange");
+    });
 }
 
 function consultaRegistro(modulo, indice) {
@@ -209,27 +218,88 @@ function preencheInscricao(l) {
 }
 
 function modalOperacoes() {
-    operacoesEventos("read", "Inscricao");
-    $("#modalTitle").html(`Inscrições.`);
-
-    setTimeout(function () {
+    sendXML(serverAddress + "/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
+        inscricao = res;
+        $("#modalTitle").html(`Inscrições.`);
         $("#modalBody").html(function () {
-            if (inscricao == undefined || inscricao.length == 0) {
+            if (res == undefined || res.length == 0) {
                 return "Lista Vazia.";
             } else {
                 texto = "";
-                for (i = 0; i < inscricao.length; i++) {
-                    texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${inscricao[i].cliente.nome}, CPF: ${inscricao[i].cliente.cpf}</a></div>`;
+                for (i = 0; i < res.length; i++) {
+                    texto += `<div><a href='#' onclick='preencheInscricao(${i})'>${res[i].cliente.nome}, CPF: ${res[i].cliente.cpf}</a></div>`;
                 }
                 return texto;
             }
         });
         $("#myModal").modal();
-    }, 500);
+    });
 }
 
 function simulaIngresso() {
     $('campoAdulto').value
     soma = ($('#campoAdulto').val() * dadosXMLHTTP.valorIngresso) + ($('#campoCrianca').val() * dadosXMLHTTP.valorIngresso / 2);
     $("#resultadoSimulacao").html(`R$ ${soma}`);
+}
+
+function addCampoCronograma() {
+    $('#formCronograma').append(`
+    <div class="input-group">
+        <input type="text" class="form-control" required>
+        <input type="datetime-local" class="form-control col-4" required>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="excluirCampoCronograma(this)">Excluir</button>
+        </div>
+    </div>
+    `);
+}
+
+function enviaCronograma() {
+    form = $('#formCronograma')[0];
+    if (form.reportValidity()) {
+        map = new Map();
+        for (var i = 0; i < form.length; i += 3) {
+            map.set(form[i + 1].value, form[i].value);
+        }
+        json = $.param(Array.from(map).reduce((obj, [key, value]) => {
+            obj[key] = value;
+            return obj;
+        }, {}));
+        sendXML(serverAddress + "/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
+    }
+}
+
+function listarCronograma() {
+    form = $('#formCronograma')[0];
+    sendXML(serverAddress + "/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
+        indice = Object.keys(res);
+        for (let i = 0; i < indice.length; i++) {
+            if (i != 0) addCampoCronograma((i * 3));
+            form[(i * 3)].value = res[indice[i]];
+            form[((i * 3) + 1)].value = getDateFromFormat(indice[i]);
+        }
+    });
+}
+
+function getDateFromFormat(C) {
+    return C[0] + C[1] + C[2] + C[3] + C[4] + C[5] + C[6] + C[7] + C[8] + C[9] + "T" + C[11] + C[12] + C[13] + C[14] + C[15];
+}
+
+function excluirCampoCronograma(element) {
+    form = $('#formCronograma')[0];
+    indice = null;
+    for (var i = 2; i < form.length; i += 3) {
+        if (form[i] == element) {
+            $('#formCronograma')[0][i - 2].remove();
+            $('#formCronograma')[0][i - 2].remove();
+            $('#formCronograma')[0][i - 2].remove();
+            break;
+        }
+    }
+}
+
+function tabelaIndicadores() {
+    sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
+
+    });
 }

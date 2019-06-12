@@ -1,5 +1,10 @@
 package Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -63,8 +68,8 @@ public final class EventoService {
 		.forEach(e -> listaJson.put(e.toJson()));
 		return listaJson;
 	}
-	
-	
+
+
 	public Evento getEvento(Request request) {
 		return eventoDAO.get(request.getQuery().get(NOME));
 	}
@@ -89,8 +94,32 @@ public final class EventoService {
 		return evento.toJson();
 	}
 
-		public JSONObject remove (Request request) { 
-			return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
-		}
-
+	public JSONObject remove (Request request) { 
+		return new JSONObject(eventoDAO.delete(request.getQuery().get(NOME)));
 	}
+	
+	public Set<Evento> getAllEventos() {
+		return eventoDAO.getAllEventos();
+	}
+	
+	public JSONObject getAllCronograma(Request request) {
+		JSONObject jsonObject = new JSONObject();
+		Evento evento;
+		if ((evento = getEvento(request)) != null) {
+			Map<LocalDateTime, String> cronograma = evento.getCronograma();
+				cronograma.forEach((k,v) -> jsonObject.put(k.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), v));
+		}
+		return jsonObject;
+	}
+	
+	public JSONObject receberCronograma(Request request) {
+		Evento evento;
+		if ((evento = getEvento(request)) != null) {
+			Map<LocalDateTime, String> cronograma = evento.getCronograma();
+			cronograma.clear();
+			request.getQuery().remove("nome");
+			request.getQuery().forEach((x,y) -> cronograma.put(LocalDateTime.parse(x), y));
+		}
+		return new JSONObject(true);
+	}
+}
