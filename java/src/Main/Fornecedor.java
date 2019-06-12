@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.json.JSONObject;
 
-//import com.google.gson.Gson;
 
 public class Fornecedor implements Comparable<Fornecedor>, Serializable{
 
@@ -31,7 +30,6 @@ public class Fornecedor implements Comparable<Fornecedor>, Serializable{
 	}
 	
 	public JSONObject toJson() {
-		//return new JSONObject(new Gson().toJson(this));
 
 		JSONObject j = new JSONObject();
 		j.put("cnpj", cnpj);
