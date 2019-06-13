@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Service;
 
 import org.json.JSONArray;
@@ -8,6 +15,8 @@ import org.simpleframework.http.Request;
 import DAO.FornecedorDAO;
 import Main.Fornecedor;
 
+//Criação da classe FornecedorService, seu construtor, variáveis e métodos,
+//utilizado como uma "interface" entre os campos da página e os dados de um fornecedor no servidor
 public final class FornecedorService {	
 
 	private static final String CNPJ = "cnpj";

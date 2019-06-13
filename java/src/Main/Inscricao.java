@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Main;
 
 import java.io.FileWriter;
@@ -7,7 +14,9 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
-public class Inscricao implements Serializable, Comparable<Inscricao>{
+//Criação da classe Inscrição, seu construtor, variáveis e métodos,
+//implementando as interfaces Comparable e Serializable para ordenação dos objetos
+public class Inscricao implements Comparable<Inscricao>, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private int qtdAdulto;

@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Service;
 
 import java.util.Set;
@@ -9,6 +16,8 @@ import org.simpleframework.http.Request;
 import Main.Evento;
 import Main.Inscricao;
 
+//Criação da classe IndicadorService, seu construtor, variáveis e métodos,
+//utilizado como uma "interface" entre os campos da página e os dados de um fornecedor no servidor, além dos cálculos requisitados
 public class IndicadorService {
 
 	private EventoService eventoService;
@@ -58,7 +67,7 @@ public class IndicadorService {
 	public JSONObject pagouDebito(Evento evento) {
 			int i=0;
 			for(Inscricao inscricao: evento.getInscricoes())
-				if(inscricao.getTipoPagamento() == "D�bito" || inscricao.getTipoPagamento() == "Dinheiro")
+				if(inscricao.getTipoPagamento() == "D�bito" || inscricao.getTipoPagamento() == "Dinheiro")
 					i++;
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("pagouDebito", i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
@@ -71,7 +80,7 @@ public class IndicadorService {
 	public JSONObject pagouCredito(Evento evento) {
 			int i=0;
 			for(Inscricao inscricao: evento.getInscricoes())
-				if(inscricao.getTipoPagamento() == "Cr�dito" || inscricao.getTipoPagamento() == "Cheque")
+				if(inscricao.getTipoPagamento() == "Cr�dito" || inscricao.getTipoPagamento() == "Cheque")
 					i++;
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("pagouCredito", i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");

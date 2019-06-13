@@ -1,5 +1,14 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Main;
 
+//Criação da classe Inscrição, seus construtores, variáveis e métodos,
+//implementando as interfaces Comparable e Serializable para ordenação dos objetos
 public class Processo{
 	private int numero;
 	private String status, dados;

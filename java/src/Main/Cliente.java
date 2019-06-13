@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Main;
 
 import java.io.Serializable;
@@ -6,6 +13,8 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+//Criação da classe Cliente, seu construtor, variáveis e métodos,
+//implementando as interfaces Comparable e Serializable para ordenação dos objetos
 public class Cliente implements Comparable<Cliente>,Serializable{
 
 	private static final long serialVersionUID = 1L;

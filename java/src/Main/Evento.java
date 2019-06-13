@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Main;
 
 import java.io.Serializable;
@@ -9,7 +16,8 @@ import java.util.TreeMap;
 
 import org.json.JSONObject;
 
-
+//Criação da classe Evento, seu construtor, variáveis e métodos,
+//implementando as interfaces Comparable e Serializable para ordenação dos objetos
 public class Evento implements Comparable<Evento>, Serializable{
 
 	private static final long serialVersionUID = 1L;

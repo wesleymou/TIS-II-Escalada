@@ -1,8 +1,16 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 var serverAddress = "http://127.0.0.1:880";
 var dadosXMLHTTP;
 var clientes;
 var inscricao;
 
+//Função que concatena e prepara o XML para ser enviado
 function sendXML(path, dadosXML) {
     var xmlhttp = new XMLHttpRequest();
     console.log(dadosXML);
@@ -27,6 +35,7 @@ function sendXML(path, dadosXML) {
     });
 }
 
+//Função que executa determinada função dada ao XML
 function executaXML(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
@@ -80,6 +89,7 @@ function executaXML(funcao, modulo) {
     }
 }
 
+//Função que trata das operações de criação, leitura, atualização e delete dos eventos e clientes inscritos
 function operacoesEventos(funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let path;
@@ -114,6 +124,7 @@ function operacoesEventos(funcao, modulo) {
     });
 }
 
+//Função que consulta do servidor os dados de um evento, cliente ou fornecedor e os exibe nos campos da tela
 function consultaRegistro(modulo, indice) {
     $("#myModal").modal('toggle');
     let form = document.querySelector(`#form${modulo}`);
@@ -140,6 +151,7 @@ function consultaRegistro(modulo, indice) {
 
 }
 
+//Função para gerar feedback ao usuário sobre a atualização que foi requisitada
 function alerta(funcao, modulo) {
     $(`#form${modulo}`)[0].reset();
     document.getElementById(modulo.toLowerCase()).style.display = "none";
@@ -151,6 +163,7 @@ function alerta(funcao, modulo) {
         alert(`${modulo} excluído com sucesso!`);
 }
 
+//Função que exibe nos campos os dados de um cliente ou fornecedor
 function populate(form, json, indice) {
     $.each(json[indice], function (key, value) {
         $('[name=' + key + ']', form).val(value);
@@ -162,6 +175,7 @@ function populate(form, json, indice) {
     sessionStorage.setItem("dadosXMLHTTP", JSON.stringify(json[indice]));
 }
 
+//Função que preenche um modal com uma lista clicável de eventos, clientes ou fornecedores cadastrados
 function mostrarPainel(modulo, dados) {
     $("#modalTitle").html(`${modulo}.`);
     if (dados.length == 0) {
@@ -200,6 +214,7 @@ function mostrarPainel(modulo, dados) {
     }
 }
 
+// Função para preencher uma lista de clientes inscritos em um evento
 function preencheOperacoes(l) {
     dadosXMLHTTP = JSON.parse(sessionStorage.getItem("dadosXMLHTTP"));
     $("#nomeEvento").html(`Evento: ${dadosXMLHTTP.nome}`);
@@ -208,6 +223,7 @@ function preencheOperacoes(l) {
     }
 }
 
+//Função para preencher um campo com os cpfs inscritos no evento
 function preencheInscricao(l) {
     form = $('#formInscricao');
     $.each(inscricao[l], function (key, value) {
@@ -217,6 +233,7 @@ function preencheInscricao(l) {
     $("#myModal").modal("toggle");
 }
 
+//Função para preencher o modal com os dados da inscrição
 function modalOperacoes() {
     sendXML(serverAddress + "/consultarInscricao", $.param(dadosXMLHTTP)).then(res => {
         inscricao = res;
@@ -236,12 +253,14 @@ function modalOperacoes() {
     });
 }
 
+//Função para calcular o valor do ingresso (adulto+infantil) de determinado evento
 function simulaIngresso() {
     $('campoAdulto').value
     soma = ($('#campoAdulto').val() * dadosXMLHTTP.valorIngresso) + ($('#campoCrianca').val() * dadosXMLHTTP.valorIngresso / 2);
     $("#resultadoSimulacao").html(`R$ ${soma}`);
 }
 
+//Função para adicionar uma novo linha de preenchimento de cronograma do evento
 function addCampoCronograma() {
     $('#formCronograma').append(`
     <div class="input-group">
@@ -254,6 +273,7 @@ function addCampoCronograma() {
     `);
 }
 
+//Função para enviar para o servidor o cronograma atual
 function enviaCronograma() {
     form = $('#formCronograma')[0];
     if (form.reportValidity()) {
@@ -269,6 +289,7 @@ function enviaCronograma() {
     }
 }
 
+//Função que chama e exibe na tela o cronograma atual
 function listarCronograma() {
     form = $('#formCronograma')[0];
     sendXML(serverAddress + "/consultarCronograma", $.param(dadosXMLHTTP)).then(res => {
@@ -281,10 +302,12 @@ function listarCronograma() {
     });
 }
 
+//Função apenas para formatação de data
 function getDateFromFormat(C) {
     return C[0] + C[1] + C[2] + C[3] + C[4] + C[5] + C[6] + C[7] + C[8] + C[9] + "T" + C[11] + C[12] + C[13] + C[14] + C[15];
 }
 
+//Função que apaga uma linha qualquer do cronograma
 function excluirCampoCronograma(element) {
     form = $('#formCronograma')[0];
     indice = null;
@@ -298,6 +321,7 @@ function excluirCampoCronograma(element) {
     }
 }
 
+//Função apara exibir numa tabela os indicadores de desempenho dos eventos cadastrados
 function tabelaIndicadores() {
     sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
 

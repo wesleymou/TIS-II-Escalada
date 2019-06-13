@@ -1,6 +1,14 @@
+<!-- Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+     Membros:
+     Filipe Iannarelli Caldeira
+     Gabriel Vinicius Ramos da Silva
+     Paulo Angelo Dias Barbosa
+     Wesley Mouraria Pereira
+ -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
+<!-- Cabeçalho com links de templates do Bootstrap utilizados na página -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +29,7 @@
     <link href="css/freelancer.min.css" rel="stylesheet">
 </head>
 
+<!-- Criação de um form para cada funcionalidade (Evento, Cliente ou Fornecedor), que é exibido ao escolher a opção -->
 <body>
     <div class="container  text-center ">
         <div class="row my-3">
@@ -31,6 +40,7 @@
             </div>
         </div>
 
+        <!-- Form de exibição de evento, seus campos de informaçãoes e botões para cadastro, consulta e edição -->
         <div id="evento" style="display:none">
             <form id="formEvento" class="form-group">
                 <div class="row">
@@ -149,6 +159,7 @@
             </form>
         </div>
 
+        <!-- Form de exibição de cliente, seus campos de informaçãoes e botões para cadastro, consulta e edição -->
         <div id="cliente" style="display:none">
             <form id="formCliente" class="form-group">
                 <div class="row">
@@ -246,6 +257,7 @@
             </form>
         </div>
 
+        <!-- Form de exibição de fornecedor, seus campos de informaçãoes e botões para cadastro, consulta e edição -->
         <div id="fornecedor" style="display:none">
             <form id="formFornecedor" class="form-group">
                 <div class="row">
@@ -333,7 +345,7 @@
             </form>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal utilizado para exibir uma lista de clientes, eventos ou fornecedores -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

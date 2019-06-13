@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +20,8 @@ import org.simpleframework.http.Request;
 import DAO.EventoDAO;
 import Main.Evento;;
 
+//Criação da classe EventoService, seu construtor, variáveis e métodos,
+//utilizado como uma "interface" entre os campos da página e os dados de um evento no servidor
 public final class EventoService {
 	private static final String NOME = "nome";
 	private static final String DATAINICIO = "dataInicio";

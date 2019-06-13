@@ -1,3 +1,10 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 package Service;
 
 import java.util.Set;
@@ -11,6 +18,8 @@ import Main.Cliente;
 import Main.Evento;
 import Main.Inscricao;
 
+//Criação da classe InscricaoService, seu construtor, variáveis e métodos,
+//utilizado como uma "interface" entre os campos da página e os dados da inscrição de um cliente em um evento no servidor
 public class InscricaoService {
 
 	private EventoService eventoService;

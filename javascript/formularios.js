@@ -1,4 +1,12 @@
+/* Pontifícia Universidade Católica de Minas Gerais || Trabalho Interdisciplinar de Software - 2º período
+    Membros:
+    Filipe Iannarelli Caldeira
+    Gabriel Vinicius Ramos da Silva
+    Paulo Angelo Dias Barbosa
+    Wesley Mouraria Pereira
+*/
 
+//Função que coleta os dados de determinado fornecedor e preenche na tela seus respectivos campos
 function fornecedor() {
     if (document.getElementById('fornecedor').style.display == "none") {
         $("#formFornecedor")[0].reset();
@@ -26,6 +34,7 @@ function fornecedor() {
     }
 }
 
+//Função que coleta os dados de determinado evento e preenche na tela seus respectivos campos
 function evento() {
     if (document.getElementById('evento').style.display == "none") {
         $("#formEvento")[0].reset();
@@ -53,6 +62,7 @@ function evento() {
     }
 }
 
+//Função que coleta os dados de determinado cliente e preenche na tela seus respectivos campos
 function cliente() {
     if (document.getElementById('cliente').style.display == "none") {
         $("#formCliente")[0].reset();
@@ -80,6 +90,7 @@ function cliente() {
     }
 }
 
+//Função que habilita o form para cadastro, consulta ou atualização de determinado evento, cliente ou fornecedor
 function habilitaForm(status, funcao, modulo) {
     let form = document.querySelector(`#form${modulo}`);
     let indiceForm;
