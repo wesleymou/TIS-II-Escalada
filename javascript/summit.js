@@ -323,7 +323,23 @@ function excluirCampoCronograma(element) {
 
 //Função apara exibir numa tabela os indicadores de desempenho dos eventos cadastrados
 function tabelaIndicadores() {
-    sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
 
+    sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
+        inscricao = res;
+        if (res == undefined || res.length == 0) {
+            return "Lista Vazia.";
+        } else {
+            $("#table-indicadores").html("");
+
+            for (i = 0; i < res.length; i++) {
+                $("#table-indicadores").append(`<tr><td id="nome" scope="row">${res[i].nome}</td>
+                                                    <td id="porcInsc">${res[i].porcInsc}</td>
+                                                    <td id="pagouDebito">${res[i].pagouDebito}</td>
+                                                    <td id="pagouCredito">${res[i].pagouCredito}</td>
+                                                    <td id="pagouParcial">${res[i].pagouParcial}</td>
+                                                    <td id="pagouTotal">${res[i].pagouTotal}</td>
+                                                </td></tr>`);
+            }
+        }
     });
 }
