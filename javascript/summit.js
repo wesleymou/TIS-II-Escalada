@@ -86,7 +86,7 @@ function operacoesEventos(funcao, modulo) {
     var campos;
     if (funcao == "create") {
         path = serverAddress + `/cadastrar${modulo}`;
-        if (modulo == "Inscricao" && !form.reportValidity())
+        if (modulo == "Inscricao" && form.reportValidity())
             campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}&${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}&${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
     }
     else if (funcao == "read") {
@@ -306,6 +306,17 @@ function excluirCampoCronograma(element) {
 
 function tabelaIndicadores() {
     sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
-
+        for (i = 0; i < res.length; i++) {
+            $('#table-indicadores').append(`
+            <tr>
+                <td scope="row">${res[i][0]}</td>
+                <td>${res[i][1]}</td>
+                <td>${res[i][2]}</td>
+                <td>${res[i][3]}</td>
+                <td>${res[i][4]}</td>
+                <td>${res[i][5]}</td>
+            </tr>
+            `);
+        }
     });
 }

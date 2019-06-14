@@ -20,62 +20,52 @@ public class IndicadorService {
 
 	//************ Porcentagem de inscritos em relação à capacidade total do evento ***************//
 
-	public JSONObject porcInsc(Evento evento) {
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("porcInsc", evento.getInscricoes().size() + "/" + evento.getCapacidade() + " (" + (evento.getInscricoes().size() / evento.getCapacidade()) * 100 + "%)");
-		return jsonObject;
+	public String porcInsc(Evento evento) {
+		return evento.getInscricoes().size() + "/" + evento.getCapacidade() + " (" + (evento.getInscricoes().size() / evento.getCapacidade()) * 100 + "%)";
 	}
 
 
 	//************ Porcentagem de inscritos que pagaram parcialmente em relação à quantidade total de inscritos ***************//
 
-	public JSONObject pagouParcial(Evento evento) {
+	public String pagouParcial(Evento evento) {
 		int i=0;
 		for(Inscricao inscricao: evento.getInscricoes())
 			if(!inscricao.estaPago())
 				i++;
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pagouParcial", i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
-		return jsonObject;
+		return i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)";
 	}
 
 
 	//************ Porcentagem de inscritos que pagaram totalmente em relação à quantidade total de inscritos ***************//
 
-	public JSONObject pagouTotal(Evento evento) {
+	public String pagouTotal(Evento evento) {
 		int i=0;
 		for(Inscricao inscricao: evento.getInscricoes())
 			if(inscricao.estaPago())
 				i++;
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pagouTotal", i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
-		return jsonObject;
+		return (i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
 	}
 
 
 	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no DÉBITO ou DINHEIRO ***************//
 
-	public JSONObject pagouDebito(Evento evento) {
+	public String pagouDebito(Evento evento) {
 			int i=0;
 			for(Inscricao inscricao: evento.getInscricoes())
-				if(inscricao.getTipoPagamento() == "D�bito" || inscricao.getTipoPagamento() == "Dinheiro")
+				if(inscricao.getTipoPagamento().equals("debito") || inscricao.getTipoPagamento().equals("dinheiro"))
 					i++;
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("pagouDebito", i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
-			return jsonObject;
+			return (i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
 	}
 
 
 	//************ Porcentagem de inscritos que pagaram totalmente ou parcialmente no CRÉDITO ou CHEQUE ***************//
 
-	public JSONObject pagouCredito(Evento evento) {
+	public String pagouCredito(Evento evento) {
 			int i=0;
 			for(Inscricao inscricao: evento.getInscricoes())
-				if(inscricao.getTipoPagamento() == "Cr�dito" || inscricao.getTipoPagamento() == "Cheque")
+				if(inscricao.getTipoPagamento().equals("credito") || inscricao.getTipoPagamento().equals("cheque"))
 					i++;
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("pagouCredito", i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
-			return jsonObject;
+			return (i + "/" + evento.getInscricoes().size() + " (" + (i*1.0/evento.getInscricoes().size()) * 100 + "%)");
 	}
 
 
@@ -85,15 +75,13 @@ public class IndicadorService {
 		JSONArray lista = new JSONArray();
 		for (Evento evento : eventos) {
 			JSONArray jsonArray = new JSONArray();
+			jsonArray.put(evento.getNome());
 			jsonArray.put(porcInsc(evento));
 			jsonArray.put(pagouDebito(evento));
 			jsonArray.put(pagouCredito(evento));
 			jsonArray.put(pagouParcial(evento));
 			jsonArray.put(pagouTotal(evento));
-
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put(evento.getNome(), jsonArray);
-			lista.put(jsonObject);
+			lista.put(jsonArray);
 		}
 		return lista;
 	}
