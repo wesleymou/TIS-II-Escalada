@@ -9,12 +9,7 @@ import java.io.ObjectOutputStream;
 import java.util.Set;
 import java.util.TreeSet;
 
-import Main.Cliente;
-import Main.Inscricao;
-
 public abstract class DAO<T,K> {
-	protected Inscricao inscricao;
-	protected Cliente cliente;
 
 	protected Set<T> lista;
 	String nomeArquivo;
@@ -38,7 +33,6 @@ public abstract class DAO<T,K> {
 		.orElse(null);
 	}
 
-	//TODO
 	public boolean update(T t) {
 		boolean foiAtualizado = false;
 		if(this.lista.removeIf(x -> x.equals(t)))
@@ -46,7 +40,6 @@ public abstract class DAO<T,K> {
 		return foiAtualizado;
 	}
 
-	//TODO
 	@SuppressWarnings("unlikely-arg-type")
 	public boolean delete(K chave) {
 		boolean foiRemovido = false;
@@ -69,11 +62,9 @@ public abstract class DAO<T,K> {
 			System.out.println("Classe lida no arquivo " + this.nomeArquivo +" não encontrada.");
 			e.printStackTrace();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			System.out.println("Arquivo " + this.nomeArquivo + " vazio!");
-//			e1.printStackTrace();
 		}
 		return lista;
 	}
@@ -83,7 +74,6 @@ public abstract class DAO<T,K> {
 			saida.writeObject(this.lista);
 			saida.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

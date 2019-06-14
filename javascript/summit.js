@@ -111,17 +111,22 @@ function operacoesEventos(funcao, modulo) {
     else if (funcao == "delete")
         path = serverAddress + `/excluir${modulo}`;
 
-    sendXML(path, campos).then(res => {
-        if (modulo == "Inscricao")
-            inscricao = JSON.parse(res);
-        else
+    if (modulo == "Inscricao") {
+        if (form.reportValidity())
+            sendXML(path, campos).then(res => {
+                if (modulo == "Inscricao")
+                    inscricao = JSON.parse(res);
+            });
+    }
+    else
+        sendXML(path, campos).then(res => {
             dadosXMLHTTP = res;
-        if (modulo == "Cliente") {
-            clientes = res;
-            preencheOperacoes(res);
-            listarCronograma();
-        }
-    });
+            if (modulo == "Cliente") {
+                clientes = res;
+                preencheOperacoes(res);
+                listarCronograma();
+            }
+        });
 }
 
 //Função que consulta do servidor os dados de um evento, cliente ou fornecedor e os exibe nos campos da tela
@@ -286,6 +291,7 @@ function enviaCronograma() {
             return obj;
         }, {}));
         sendXML(serverAddress + "/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
+        location.reload();
     }
 }
 
@@ -325,21 +331,17 @@ function excluirCampoCronograma(element) {
 function tabelaIndicadores() {
 
     sendXML(serverAddress + "/consultarIndicadores", null).then(res => {
-        inscricao = res;
-        if (res == undefined || res.length == 0) {
-            return "Lista Vazia.";
-        } else {
-            $("#table-indicadores").html("");
-
-            for (i = 0; i < res.length; i++) {
-                $("#table-indicadores").append(`<tr><td id="nome" scope="row">${res[i].nome}</td>
-                                                    <td id="porcInsc">${res[i].porcInsc}</td>
-                                                    <td id="pagouDebito">${res[i].pagouDebito}</td>
-                                                    <td id="pagouCredito">${res[i].pagouCredito}</td>
-                                                    <td id="pagouParcial">${res[i].pagouParcial}</td>
-                                                    <td id="pagouTotal">${res[i].pagouTotal}</td>
-                                                </td></tr>`);
-            }
+        for (i = 0; i < res.length; i++) {
+            $('#table-indicadores').append(`
+            <tr>
+                <td scope="row">${res[i][0]}</td>
+                <td>${res[i][1]}</td>
+                <td>${res[i][2]}</td>
+                <td>${res[i][3]}</td>
+                <td>${res[i][4]}</td>
+                <td>${res[i][5]}</td>
+            </tr>
+            `);
         }
     });
 }
