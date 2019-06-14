@@ -119,6 +119,7 @@ public final class EventoService {
 			cronograma.clear();
 			request.getQuery().remove("nome");
 			request.getQuery().forEach((x,y) -> cronograma.put(LocalDateTime.parse(x), y));
+			eventoDAO.update(evento);
 		}
 		return new JSONObject(true);
 	}

@@ -16,8 +16,6 @@ public class Evento implements Comparable<Evento>, Serializable{
 	private String nome;
 	private String dataInicio;
 	private String dataTermino;
-	//	private LocalDateTime dataInicio;
-	//	private LocalDateTime dataTermino;
 	private String local;
 	private int capacidade;
 	private int quorum;
@@ -82,22 +80,18 @@ public class Evento implements Comparable<Evento>, Serializable{
 	}
 
 	public String getDataInicio() {
-		//		public LocalDateTime getDataInicio() {
 		return dataInicio;
 	}
 
 	public void setDataInicio(String dataInicio) {
-		//		public void setDataInicio(LocalDateTime dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
 	public String getDataTermino() {
-		//		public LocalDateTime getDataTermino() {
 		return dataTermino;
 	}
 
 	public void setDataTermino(String dataTermino) {
-		//		public void setDataTermino(LocalDateTime dataTermino) {
 		this.dataTermino = dataTermino;
 	}
 

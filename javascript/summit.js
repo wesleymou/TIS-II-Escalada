@@ -86,7 +86,7 @@ function operacoesEventos(funcao, modulo) {
     var campos;
     if (funcao == "create") {
         path = serverAddress + `/cadastrar${modulo}`;
-        if (modulo == "Inscricao" && form.reportValidity())
+        if (modulo == "Inscricao" && !form.reportValidity())
             campos = `${$('#formInscricao').serialize()}&${$.param(dadosXMLHTTP)}&${$('#campoAdulto').attr("name")}=${$('#campoAdulto').val()}&${$('#campoCrianca').attr("name")}=${$('#campoCrianca').val()}`;
     }
     else if (funcao == "read") {
@@ -101,17 +101,22 @@ function operacoesEventos(funcao, modulo) {
     else if (funcao == "delete")
         path = serverAddress + `/excluir${modulo}`;
 
-    sendXML(path, campos).then(res => {
-        if (modulo == "Inscricao")
-            inscricao = JSON.parse(res);
-        else
+    if (modulo == "Inscricao") {
+        if (form.reportValidity())
+            sendXML(path, campos).then(res => {
+                if (modulo == "Inscricao")
+                    inscricao = JSON.parse(res);
+            });
+    }
+    else
+        sendXML(path, campos).then(res => {
             dadosXMLHTTP = res;
-        if (modulo == "Cliente") {
-            clientes = res;
-            preencheOperacoes(res);
-            listarCronograma();
-        }
-    });
+            if (modulo == "Cliente") {
+                clientes = res;
+                preencheOperacoes(res);
+                listarCronograma();
+            }
+        });
 }
 
 function consultaRegistro(modulo, indice) {
@@ -266,6 +271,7 @@ function enviaCronograma() {
             return obj;
         }, {}));
         sendXML(serverAddress + "/cadastrarCronograma", `nome=${dadosXMLHTTP.nome}&${json}`);
+        location.reload();
     }
 }
 
