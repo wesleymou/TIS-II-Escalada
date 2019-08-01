@@ -31,7 +31,6 @@ public final class EventoService {
 	private static final String QUORUM = "quorum";
 	private static final String ORCAMENTOPREVIO = "orcamentoPrevio";
 	private static final String VALORINGRESSO = "valorIngresso";
-	//	private static final String CONVENIO = "convenios";
 	private static final String STATUS = "status";
 	private static final String NOVONOME = "novoNome";
 
@@ -45,8 +44,6 @@ public final class EventoService {
 		Query query = request.getQuery();
 
 		String nome = query.get(NOME);
-		// LocalDateTime dataInicio = LocalDateTime.parse(query.get(DATAINICIO));
-		// LocalDateTime dataTermino = LocalDateTime.parse(query.get(DATATERMINO));
 		String dataInicio = query.get(DATAINICIO);
 		String dataTermino = query.get(DATATERMINO);
 		String local = query.get(LOCAL);
