@@ -116,7 +116,6 @@ function habilitaForm(status, funcao, modulo) {
 
             btnAcao.textContent = "Cadastrar";
             btnAcao.className = "btnAcao btn btn-primary";
-            //btnAcao.setAttribute("formaction", serverAddress + "/cadastrarEvento");
             for (i = 3; i < form.length; i++) {
                 if (i != 4) {
                     form[i].value = "";
@@ -136,8 +135,6 @@ function habilitaForm(status, funcao, modulo) {
             btnAcao.textContent = "Consultar";
             btnAcao.className = "btnAcao btn btn-info";
             document.getElementsByClassName("btnIndicadores")[indiceForm].style.display = "";
-            // btnAcao.setAttribute("formaction", serverAddress + "/consultarEvento");
-            // btnAcao.setAttribute("formmethod", "GET");
             form[3].value = "";
             form[3].disabled = false;
             for (i = 3; i < form.length; i++) {
@@ -151,8 +148,6 @@ function habilitaForm(status, funcao, modulo) {
         else if (funcao == "update") {
             btnAcao.textContent = "Atualizar";
             btnAcao.className = "btnAcao btn btn-primary";
-            // btnAcao.setAttribute("formaction", serverAddress + "/atualizarEvento");
-            // btnAcao.setAttribute("formmethod", "GET");
             for (i = 3; i < form.length; i++) {
                 form[i].value = "";
                 form[i].disabled = false;
@@ -163,19 +158,6 @@ function habilitaForm(status, funcao, modulo) {
             $(".colNome").addClass("d-none");
 
         }
-        // else if (funcao == "delete") {
-        //     btnAcao.textContent = "Excluir";
-        //     btnAcao.className = "btnAcao btn btn-danger";
-        //     // btnAcao.setAttribute("formaction", serverAddress + "/excluirEvento");
-        //     // btnAcao.setAttribute("formmethod", "GET");
-        //     form[3].value = "";
-        //     form[3].disabled = false;
-        //     for (i = 4; i < form.length; i++) {
-        //         form[i].value = "";
-        //         form[i].disabled = true;
-        //         jQuery("label[for=" + form[i].getAttribute("id") + "]")[0].style.display = "none";
-        //         form[i].style.display = "none";
-        //     }
-        // }
+        
     }
 }
