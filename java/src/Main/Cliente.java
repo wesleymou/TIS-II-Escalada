@@ -18,13 +18,7 @@ import com.google.gson.Gson;
 public class Cliente implements Comparable<Cliente>,Serializable{
 
 	private static final long serialVersionUID = 1L;
-//	private static final String CPF = "cpf";
-//	private static final String NOME = "nome";
-//	private static final String NUMFONE1 = "telRes";
-//	private static final String NUMFONE2 = "telCel";
-//	private static final String ENDERECO = "endereco";
-//	private static final String EMAIL = "email";
-//	private static final String EVENTOS = "eventosInscritos";
+
 	
 	private long cpf;
 	private String nome;
@@ -33,8 +27,6 @@ public class Cliente implements Comparable<Cliente>,Serializable{
 	private String endereco;
 	private String email;
 	private String status;
-//	private String eventos;
-//	private Evento[] eventos;
 	
 	public Cliente(long cpf, String nome, long numFone1, long numFone2, String endereco, String email, String status){
 		setCpf(cpf);
@@ -62,15 +54,7 @@ public class Cliente implements Comparable<Cliente>,Serializable{
 	
 	public JSONObject toJson() {
 		return new JSONObject(new Gson().toJson(this));
-//		JSONObject clienteJson = new JSONObject();
-//		clienteJson.put(CPF, this.cpf);
-//		clienteJson.put(NOME, this.nome);
-//		clienteJson.put(NUMFONE1, this.numFone1);
-//		clienteJson.put(NUMFONE2, this.numFone2);
-//		clienteJson.put(ENDERECO, this.endereco);
-//		clienteJson.put(EMAIL, this.email);
-//		clienteJson.put(EVENTOS, this.eventos);
-//		return clienteJson;
+
 	}
 
 	public long getCpf() {
