@@ -30,7 +30,6 @@ public class Server implements Container {
 	public void handle(Request request, Response response) {
 		try {
 			String path = request.getPath().getPath();
-			//	String method = request.getMethod();
 			System.out.println("Request: " + request.getQuery().toString());
 
 			if (path.startsWith("/cadastrarEvento")) {
